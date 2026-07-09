@@ -32,7 +32,7 @@ const softwareProducts: SoftwareProduct[] = [
     repoUrl: "https://github.com/Dragoland/bom-apettite",
     icon: <Coffee className="w-8 h-8 text-[#1793D1]" />,
   },
-  // Aquí puedes añadir más productos en el futuro
+  // Aquí ppodemos añadir más productos en el futuro
 ];
 
 export default function SoftwareStore() {
