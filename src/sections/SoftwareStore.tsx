@@ -19,7 +19,7 @@ const softwareProducts: SoftwareProduct[] = [
     description: "Sistema de gestión de pedidos para restaurantes mediante códigos QR",
     longDescription:
       "Permite a los clientes ordenar directamente desde sus dispositivos móviles, eliminando la necesidad de menús físicos y optimizando el proceso de toma de pedidos. Ideal para restaurantes, cafeterías y bares que quieran modernizar su servicio.",
-    price: "Desde 5,000 CUP",
+    price: "Desde 100,00 USD",
     features: [
       "Menú digital interactivo optimizado para móviles",
       "Gestión ilimitada de mesas con códigos QR únicos",
