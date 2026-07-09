@@ -23,7 +23,7 @@ export default function LaVallita() {
           </p>
 
           <a
-            href="https://wa.me/5355406632?text=Hola%20La%20Vallita%2C%20vi%20el%20sitio%20de%20BitCriollo%20y%20me%20interesan%20sus%20plantas"
+            href="https://wa.me/5355406632?text=Hola%20Dragoland%2C%20vi%20el%20sitio%20de%20BitCriollo%20y%20me%20interesan%20sus%20plantas"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#2A9D8F] text-[#0B0F17] font-semibold text-sm px-7 py-3.5 rounded-md hover:brightness-110 hover:-translate-y-0.5 transition-all duration-200"
