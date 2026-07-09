@@ -37,7 +37,7 @@ const softwareProducts: SoftwareProduct[] = [
 
 export default function SoftwareStore() {
   const handleWhatsApp = (productName: string) => {
-    const message = `Hola BitCriollo! Me interesa adquirir el software "${productName}". Quisiera más información sobre precios y personalización.`;
+    const message = `Hola Dragoland! Me interesa adquirir el software "${productName}". Quisiera más información sobre precios y personalización.`;
     window.open(`https://wa.me/5356418463?text=${encodeURIComponent(message)}`, "_blank");
   };
 
@@ -125,7 +125,7 @@ export default function SoftwareStore() {
                       className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-[#1793D1] text-[#0B0F17] font-semibold text-sm px-6 py-2 rounded-md hover:brightness-110 transition-all duration-200"
                     >
                       <ShoppingCart className="w-4 h-4" />
-                      Comprar ahora
+                      Comprar
                     </button>
                   </div>
                 </div>
