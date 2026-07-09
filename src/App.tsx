@@ -9,6 +9,7 @@ import Stack from "./sections/Stack";
 import LaVallita from "./sections/LaVallita";
 import Contacto from "./sections/Contacto";
 import Footer from "./sections/Footer";
+import SoftwareStore from "./sections/SoftwareStore"; 
 import CustomCursor from "./components/CustomCursor";
 import { initScrollAnimations } from "./hooks/useScrollAnimations";
 
@@ -27,6 +28,7 @@ function App() {
       <Cotizador />
       <Proceso />
       <Stack />
+      <SoftwareStore />
       <LaVallita />
       <Contacto />
       <Footer />
