@@ -5,11 +5,12 @@ import { useState } from 'react'
 
 const navItems = [
   { label: 'Inicio', to: '/' },
-{ label: 'Servicios', to: '/#servicios' },
-{ label: 'Proceso', to: '/#proceso' },
-{ label: 'Stack', to: '/#stack' },
-{ label: 'Contacto', to: '/#contacto' },
 { label: 'Perfil', to: '/perfil' },
+{ label: 'Servicios', to: '/servicios' },
+{ label: 'Proceso', to: '/proceso' },
+{ label: 'Stack', to: '/stack' },
+{ label: 'Software' to '/software'},
+{ label: 'Contacto', to: '/contacto' },
 { label: 'Blog', to: '/blog' },
 ]
 
