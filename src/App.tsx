@@ -7,7 +7,7 @@ import Proceso from './pages/Proceso'
 import Stack from './pages/Stack'
 import Contacto from './pages/Contacto'
 import Software from './pages/Software'
-import Cotizador from './pages/Cotizador'
+import CotizadorPage from './pages/Cotizador'
 import { Blog } from './pages/Blog'
 import { BlogPost } from './pages/BlogPost'
 
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: 'stack', element: <Stack /> },
       { path: 'contacto', element: <Contacto /> },
       { path: 'software', element: <Software /> },
-      { path: 'cotizador', element: <Cotizador /> },
+      { path: 'cotizador', element: <CotizadorPage /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/:slug', element: <BlogPost /> },
     ]
