@@ -1,4 +1,4 @@
-import { Proceso } from '../sections/Proceso'
+import Proceso from '../sections/Proceso'
 
 export const ProcesoPage = () => {
   return (
