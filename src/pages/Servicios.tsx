@@ -1,4 +1,4 @@
-import { Servicios } from '../sections/Servicios'
+import Servicios from '../sections/Servicios'
 
 export const ServiciosPage = () => {
   return (
