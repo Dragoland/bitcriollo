@@ -1,15 +1,15 @@
-import { useState, useMemo } from "react";
-import { Calculator, Check } from "lucide-react";
+import { useState, useMemo, useEffect } from "react"
+import { useSearchParams } from 'react-router'
+import { Calculator, Check } from "lucide-react"
 
 interface ServiceOption {
-  id: string;
-  name: string;
-  basePrice: number;
-  category: "software" | "design" | "media" | "remote";
+  id: string
+  name: string
+  basePrice: number
+  category: "software" | "design" | "media" | "remote"
 }
 
 const serviceOptions: ServiceOption[] = [
-  // Software
   { id: "virus", name: "Limpieza de virus/malware", basePrice: 500, category: "software" },
   { id: "optimizar", name: "Optimización y aceleración", basePrice: 400, category: "software" },
   { id: "formateo", name: "Formateo e instalación (Windows/Linux)", basePrice: 1500, category: "software" },
@@ -29,60 +29,71 @@ const serviceOptions: ServiceOption[] = [
   { id: "pendrive", name: "Pendrive booteable (con Arch, Windows, etc.)", basePrice: 200, category: "software" },
   { id: "digitalizar", name: "Digitalización de documentos", basePrice: 200, category: "software" },
   { id: "servidor", name: "Configuración de servidor local / NAS", basePrice: 800, category: "software" },
-  // Diseño
   { id: "diseno", name: "Diseño gráfico (flyers, logos, etc.)", basePrice: 300, category: "design" },
   { id: "fotos", name: "Edición y retoque de fotos", basePrice: 250, category: "design" },
   { id: "cv", name: "Creación de CV digital", basePrice: 300, category: "design" },
-  // Multimedia
   { id: "video", name: "Conversión y compresión de video", basePrice: 200, category: "media" },
   { id: "emuladores", name: "Instalación de emuladores y juegos retro", basePrice: 300, category: "media" },
-  // Remoto y automatización
   { id: "scripts", name: "Scripts/automatización (Python, Bash)", basePrice: 600, category: "remote" },
   { id: "remoto", name: "Soporte técnico remoto", basePrice: 400, category: "remote" },
-];
+]
 
-const complexityMultipliers = [1, 1.5, 2];
-const complexityLabels = ["Simple", "Moderado", "Complejo"];
+const complexityMultipliers = [1, 1.5, 2]
+const complexityLabels = ["Simple", "Moderado", "Complejo"]
 
 export default function Cotizador() {
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [complexity, setComplexity] = useState(0);
-  const [urgent, setUrgent] = useState(false);
+  const [searchParams] = useSearchParams()
+  const preselected = searchParams.get('servicio')
+
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [complexity, setComplexity] = useState(0)
+  const [urgent, setUrgent] = useState(false)
+
+  // Pre-seleccionar servicio desde URL
+  useEffect(() => {
+    if (preselected) {
+      setSelected(prev => {
+        if (prev.has(preselected)) return prev
+        const next = new Set(prev)
+        next.add(preselected)
+        return next
+      })
+    }
+  }, [preselected])
 
   const toggleService = (id: string) => {
     setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
 
   const total = useMemo(() => {
-    let sum = 0;
+    let sum = 0
     selected.forEach((id) => {
-      const svc = serviceOptions.find((s) => s.id === id);
-      if (svc) sum += svc.basePrice;
-    });
-    sum *= complexityMultipliers[complexity];
-    if (urgent) sum *= 1.25;
-    return Math.round(sum);
-  }, [selected, complexity, urgent]);
+      const svc = serviceOptions.find((s) => s.id === id)
+      if (svc) sum += svc.basePrice
+    })
+    sum *= complexityMultipliers[complexity]
+    if (urgent) sum *= 1.25
+    return Math.round(sum)
+  }, [selected, complexity, urgent])
 
-  const selectedServicesList = serviceOptions.filter((s) => selected.has(s.id));
+  const selectedServicesList = serviceOptions.filter((s) => selected.has(s.id))
 
   const buildWhatsAppMessage = () => {
-    const services = selectedServicesList.map((s) => `- ${s.name}`).join("%0A");
-    const complexityText = complexityLabels[complexity];
-    const urgentText = urgent ? "%0AUrgente: Sí (+25%)" : "";
-    return `https://wa.me/5356418463?text=Hola%20Dragoland!%0A%0AQuiero%20cotizar%20los%20siguientes%20servicios:%0A${services}%0A%0AComplejidad:%20${complexityText}${urgentText}%0A%0AEstimado:%20~$${total}%20CUP`;
-  };
+    const services = selectedServicesList.map((s) => `- ${s.name}`).join("%0A")
+    const complexityText = complexityLabels[complexity]
+    const urgentText = urgent ? "%0AUrgente: Sí (+25%)" : ""
+    return `https://wa.me/5356418463?text=Hola%20Dragoland!%0A%0AQuiero%20cotizar%20los%20siguientes%20servicios:%0A${services}%0A%0AComplejidad:%20${complexityText}${urgentText}%0A%0AEstimado:%20~$${total}%20CUP`
+  }
 
   return (
     <section id="cotizar" className="bg-[#121820] border-y border-[#1E2D3D]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw] py-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Calculator */}
           <div className="animate-fade-up">
             <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#64748B] mb-4 flex items-center gap-2">
               <span className="text-[#1793D1]">//</span> CALCULAR_PRECIO
@@ -95,10 +106,9 @@ export default function Cotizador() {
               precio final puede variar segun complejidad.
             </p>
 
-            {/* Service selector grid */}
             <div className="grid sm:grid-cols-2 gap-3 mb-8 max-h-[360px] overflow-y-auto pr-2 custom-scrollbar">
               {serviceOptions.map((svc) => {
-                const isSelected = selected.has(svc.id);
+                const isSelected = selected.has(svc.id)
                 return (
                   <button
                     key={svc.id}
@@ -109,28 +119,19 @@ export default function Cotizador() {
                         : "border-[#1E2D3D] bg-[#0B0F17] hover:border-[#2a3a4d]"
                     }`}
                   >
-                    <div
-                      className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-colors ${
-                        isSelected
-                          ? "bg-[#1793D1] border-[#1793D1]"
-                          : "border-[#64748B]"
-                      }`}
-                    >
+                    <div className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-colors ${
+                      isSelected ? "bg-[#1793D1] border-[#1793D1]" : "border-[#64748B]"
+                    }`}>
                       {isSelected && <Check className="w-3 h-3 text-[#0B0F17]" />}
                     </div>
-                    <span
-                      className={`text-sm font-mono ${
-                        isSelected ? "text-[#E2E8F0]" : "text-[#94A3B8]"
-                      }`}
-                    >
+                    <span className={`text-sm font-mono ${isSelected ? "text-[#E2E8F0]" : "text-[#94A3B8]"}`}>
                       {svc.name}
                     </span>
                   </button>
-                );
+                )
               })}
             </div>
 
-            {/* Complexity slider */}
             <div className="mb-6">
               <label className="text-sm font-mono text-[#94A3B8] mb-3 block">
                 Complejidad del problema
@@ -152,7 +153,6 @@ export default function Cotizador() {
               </div>
             </div>
 
-            {/* Urgency toggle */}
             <button
               onClick={() => setUrgent(!urgent)}
               className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 mb-8 ${
@@ -161,23 +161,16 @@ export default function Cotizador() {
                   : "border-[#1E2D3D] bg-[#0B0F17] hover:border-[#2a3a4d]"
               }`}
             >
-              <div
-                className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-colors ${
-                  urgent ? "bg-[#E63946] border-[#E63946]" : "border-[#64748B]"
-                }`}
-              >
+              <div className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-colors ${
+                urgent ? "bg-[#E63946] border-[#E63946]" : "border-[#64748B]"
+              }`}>
                 {urgent && <Check className="w-3 h-3 text-white" />}
               </div>
-              <span
-                className={`text-sm font-mono ${
-                  urgent ? "text-[#E63946]" : "text-[#94A3B8]"
-                }`}
-              >
+              <span className={`text-sm font-mono ${urgent ? "text-[#E63946]" : "text-[#94A3B8]"}`}>
                 Es urgente (+25%)
               </span>
             </button>
 
-            {/* Price display */}
             <div className="bg-[#0B0F17] border border-[#1E2D3D] rounded-xl p-6">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="font-code text-5xl font-bold text-[#1793D1]">
@@ -201,7 +194,6 @@ export default function Cotizador() {
             </div>
           </div>
 
-          {/* Visual / Summary */}
           <div className="hidden lg:flex flex-col items-center justify-center animate-fade-up">
             <div className="relative">
               <Calculator className="w-48 h-48 text-[#1793D1] opacity-10" />
@@ -227,14 +219,9 @@ export default function Cotizador() {
                 </p>
                 <div className="space-y-2">
                   {selectedServicesList.map((svc) => (
-                    <div
-                      key={svc.id}
-                      className="flex justify-between text-sm font-mono"
-                    >
+                    <div key={svc.id} className="flex justify-between text-sm font-mono">
                       <span className="text-[#94A3B8]">{svc.name}</span>
-                      <span className="text-[#E2E8F0]">
-                        ${svc.basePrice}
-                      </span>
+                      <span className="text-[#E2E8F0]">${svc.basePrice}</span>
                     </div>
                   ))}
                   <div className="border-t border-[#1E2D3D] pt-2 mt-2">
@@ -260,5 +247,5 @@ export default function Cotizador() {
         </div>
       </div>
     </section>
-  );
+  )
 }
