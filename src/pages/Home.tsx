@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Hero } from '../sections/Hero'
-import { Perfil } from '../sections/Perfil'
-import { Servicios } from '../sections/Servicios'
-import { Cotizador } from '../sections/Cotizador'
-import { Proceso } from '../sections/Proceso'
-import { Stack } from '../sections/Stack'
-import { LaVallita } from '../sections/LaVallita'
-import { Contacto } from '../sections/Contacto'
+import Hero from '../sections/Hero'
+import Perfil from '../sections/Perfil'
+import Servicios from '../sections/Servicios'
+import Cotizador from '../sections/Cotizador'
+import Proceso from '../sections/Proceso'
+import Stack from '../sections/Stack'
+import LaVallita from '../sections/LaVallita'
+import Contacto from '../sections/Contacto'
 
 export const Home = () => {
   const location = useLocation()
