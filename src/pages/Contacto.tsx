@@ -1,9 +1,9 @@
-import Stack from '../sections/Stack'
+import Contacto from '../sections/Contacto'
 
-export const StackPage = () => {
+export const ContactoPage = () => {
   return (
     <div className="container mx-auto px-4 py-12">
-      <Stack />
+      <Contacto />
     </div>
   )
 }
