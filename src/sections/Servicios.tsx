@@ -82,7 +82,7 @@ export default function Servicios() {
             return (
               <Link
                 key={service.id}
-                to={`/cotiza?servicio=${service.id}`}
+                to={`/cotizador?servicio=${service.id}`}
                 className="group bg-[#121820] border border-[#1E2D3D] rounded-xl p-8 hover:border-[rgba(23,147,209,0.3)] hover:shadow-glow transition-all duration-250 cursor-pointer relative overflow-hidden block"
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#1793D1] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
