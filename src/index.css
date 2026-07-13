@@ -4,6 +4,39 @@
 
 @layer base {
   :root {
+    /* TEMA CLARO */
+    --background: 210 20% 98%;
+    --foreground: 216 30% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 216 30% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 216 30% 10%;
+    --primary: 197 80% 46%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 216 30% 10%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 20% 96%;
+    --accent-foreground: 216 30% 10%;
+    --destructive: 355 78% 56%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 24% 88%;
+    --input: 214 24% 88%;
+    --ring: 197 80% 46%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 216 30% 10%;
+    --sidebar-primary: 197 80% 46%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 96%;
+    --sidebar-accent-foreground: 216 30% 10%;
+    --sidebar-border: 214 24% 88%;
+    --sidebar-ring: 197 80% 46%;
+  }
+
+  .dark {
+    /* TEMA OSCURO (tu v1.0) */
     --background: 216 30% 5%;
     --foreground: 210 40% 93%;
     --card: 216 25% 8%;
@@ -60,6 +93,57 @@
   }
 }
 
+/* Prose styles para el blog (sin @tailwindcss/typography) */
+@layer components {
+  .prose {
+    @apply text-foreground;
+  }
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    @apply font-bold text-foreground mt-8 mb-4;
+  }
+  .prose h1 { @apply text-3xl; }
+  .prose h2 { @apply text-2xl; }
+  .prose h3 { @apply text-xl; }
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+  .prose ul, .prose ol {
+    @apply pl-6 mb-4;
+  }
+  .prose ul { @apply list-disc; }
+  .prose ol { @apply list-decimal; }
+  .prose li {
+    @apply mb-1;
+  }
+  .prose a {
+    @apply text-primary underline;
+  }
+  .prose code {
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+  .prose pre {
+    @apply bg-card border border-border rounded-lg p-4 overflow-x-auto mb-4;
+  }
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+  .prose blockquote {
+    @apply border-l-4 border-primary pl-4 italic text-muted-foreground;
+  }
+  .prose hr {
+    @apply border-border my-8;
+  }
+  .prose table {
+    @apply w-full border-collapse mb-4;
+  }
+  .prose th, .prose td {
+    @apply border border-border px-3 py-2 text-left;
+  }
+  .prose th {
+    @apply bg-muted font-semibold;
+  }
+}
+
 @layer utilities {
   .text-gradient {
     background: linear-gradient(135deg, #1793D1, #F4A261);
@@ -70,16 +154,16 @@
 
   .bg-grid-pattern {
     background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
     background-size: 50px 50px;
   }
 
   .bg-gradient-mesh {
     background:
-      radial-gradient(circle at 20% 50%, rgba(23,147,209,0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 30%, rgba(244,162,97,0.06) 0%, transparent 50%),
-      radial-gradient(circle at 50% 80%, rgba(233,196,106,0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(23,147,209,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(244,162,97,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(233,196,106,0.05) 0%, transparent 50%);
   }
 
   .bg-gradient-warm {
@@ -92,6 +176,32 @@
 
   .font-code {
     font-family: 'Fira Code', monospace;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  .animate-stagger > * {
+    animation: fade-up 0.6s ease-out forwards;
+    opacity: 0;
+  }
+  .animate-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+  .animate-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+  .animate-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+  .animate-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+  .animate-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+  .animate-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

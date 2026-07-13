@@ -1,9 +1,5 @@
-import Perfil from '../sections/Perfil'
+import PerfilSection from '../sections/Perfil';
 
-export const PerfilPage = () => {
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <Perfil />
-    </div>
-  )
+export default function Perfil() {
+  return <PerfilSection />;
 }
