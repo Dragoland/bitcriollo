@@ -1,5 +1,5 @@
 import CotizadorSection from '../sections/Cotizador'
 
-export default function Cotizador() {
-  return <Cotizador />
+export default function CotizadorPage() {
+  return <CotizadorPage />
 }
