@@ -139,11 +139,9 @@ export default function SoftwareStore() {
         <div className="mt-12 text-center">
           <p className="font-body text-sm text-[#64748B]">
             ¿Buscas un software personalizado?{" "}
-            <a
-              <Link to="/contacto" className="text-[#1793D1] hover:text-[#5BC0DE] transition-colors">
-                Contáctame
-              </Link>
-            </a>{" "}
+            <Link to="/contacto" className="text-[#1793D1] hover:text-[#5BC0DE] transition-colors">
+              Contáctame
+            </Link>{" "}
             y construyamos algo a tu medida.
           </p>
         </div>
