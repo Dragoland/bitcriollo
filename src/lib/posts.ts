@@ -1,6 +1,11 @@
 import matter from 'gray-matter'
 
-const modules = import.meta.glob('../content/blog/*.md', { eager: true, query: '?raw' })
+// Vite 7: import: 'default' + query: '?raw' devuelve el string directamente
+const modules = import.meta.glob('../content/blog/*.md', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+})
 
 export interface PostMeta {
   slug: string
@@ -17,8 +22,12 @@ export interface Post extends PostMeta {
 export function getAllPosts(): Post[] {
   const posts: Post[] = []
 
-  for (const [path, mod] of Object.entries(modules)) {
-    const raw = (mod as { default: string }).default ?? (mod as string)
+  for (const [path, raw] of Object.entries(modules)) {
+    if (typeof raw !== 'string') {
+      console.warn(`No se pudo leer ${path}:`, raw)
+      continue
+    }
+
     const { data, content } = matter(raw)
     const slug = path.split('/').pop()?.replace(/\.md$/, '') || ''
 
