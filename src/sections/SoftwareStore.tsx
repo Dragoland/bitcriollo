@@ -1,4 +1,5 @@
 import { Package, ShoppingCart, Zap, Coffee, Users } from "lucide-react";
+import { Link } from 'react-router'
 
 interface SoftwareProduct {
   id: string;
@@ -139,10 +140,9 @@ export default function SoftwareStore() {
           <p className="font-body text-sm text-[#64748B]">
             ¿Buscas un software personalizado?{" "}
             <a
-              href="#contacto"
-              className="text-[#1793D1] hover:text-[#5BC0DE] transition-colors"
-            >
-              Contáctame
+              <Link to="/contacto" className="text-[#1793D1] hover:text-[#5BC0DE] transition-colors">
+                Contáctame
+              </Link>
             </a>{" "}
             y construyamos algo a tu medida.
           </p>
