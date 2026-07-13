@@ -1,7 +1,6 @@
 import Hero from '../sections/Hero';
 import Perfil from '../sections/Perfil';
 import Servicios from '../sections/Servicios';
-import Cotizador from '../sections/Cotizador';
 import SoftwareStore from '../sections/SoftwareStore';
 import Proceso from '../sections/Proceso';
 import Stack from '../sections/Stack';
@@ -14,7 +13,6 @@ export default function Home() {
     <Hero />
     <Perfil />
     <Servicios />
-    <Cotizador />
     <SoftwareStore />
     <Proceso />
     <Stack />
