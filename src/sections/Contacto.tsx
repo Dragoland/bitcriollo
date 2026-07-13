@@ -6,7 +6,7 @@ const contactMethods = [
     icon: MessageCircle,
     label: "WhatsApp",
     value: "+53 5 6418463",
-    href: "https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20una%20duda%20sobre%20mi%20equipo",
+    href: "https://wa.me/5356418463?text=Hola%20BitCriollo%2C%20tengo%20una%20duda%20sobre%20mi%20equipo",
     description: "Respuesta rapida, atencion directa",
   },
   {

@@ -1,39 +1,29 @@
-import { useEffect } from "react";
-import Navigation from "./sections/Navigation";
-import Hero from "./sections/Hero";
-import Perfil from "./sections/Perfil";
-import Servicios from "./sections/Servicios";
-import Cotizador from "./sections/Cotizador";
-import Proceso from "./sections/Proceso";
-import Stack from "./sections/Stack";
-import LaVallita from "./sections/LaVallita";
-import Contacto from "./sections/Contacto";
-import Footer from "./sections/Footer";
-import SoftwareStore from "./sections/SoftwareStore"; 
-import CustomCursor from "./components/CustomCursor";
-import { initScrollAnimations } from "./hooks/useScrollAnimations";
+import { Routes, Route } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { Home } from './pages/Home'
+import { ServiciosPage } from './pages/Servicios'
+import { ProcesoPage } from './pages/Proceso'
+import { StackPage } from './pages/Stack'
+import { ContactoPage } from './pages/Contacto'
+import { PerfilPage } from './pages/Perfil'
+import { Blog } from './pages/Blog'
+import { BlogPost } from './pages/BlogPost'
 
 function App() {
-  useEffect(() => {
-    initScrollAnimations();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-[#E2E8F0] font-mono">
-      <CustomCursor />
-      <Navigation />
-      <Hero />
-      <Perfil />
-      <Servicios />
-      <Cotizador />
-      <Proceso />
-      <Stack />
-      <SoftwareStore />
-      <LaVallita />
-      <Contacto />
-      <Footer />
-    </div>
-  );
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="servicios" element={<ServiciosPage />} />
+        <Route path="proceso" element={<ProcesoPage />} />
+        <Route path="stack" element={<StackPage />} />
+        <Route path="contacto" element={<ContactoPage />} />
+        <Route path="perfil" element={<PerfilPage />} />
+        <Route path="blog" element={<Blog />} />
+        <Route path="blog/:slug" element={<BlogPost />} />
+      </Route>
+    </Routes>
+  )
 }
 
-export default App;
+export default App
