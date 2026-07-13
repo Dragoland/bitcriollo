@@ -7,6 +7,8 @@
 
 **BitCriollo** es el sitio web profesional de **Norland Chávez**, técnico informático independiente en Falcón, Placetas, Villa Clara. Es un espacio que combina la oferta de servicios técnicos con un blog personal (**DIUA** — *Diario de un Informático Universitario y Artista*), reflejando la fusión entre tecnología, arte y la realidad cubana.
 
+![BitCriollo Screenshot](./screenshot.png)
+
 ✨ **Live Demo**: [bitcriollo.pages.dev](https://bitcriollo.pages.dev)
 
 ---
