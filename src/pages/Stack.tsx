@@ -1,4 +1,4 @@
-import { Stack } from '../sections/Stack'
+import Stack from '../sections/Stack'
 
 export const StackPage = () => {
   return (
