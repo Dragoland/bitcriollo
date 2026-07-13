@@ -1,165 +1,152 @@
-# BitCriollo — Soluciones Digitales con Sabor
+# BitCriollo 🖥️
 
-> Sitio web profesional para servicios informáticos y tecnológicos en Falcón, Placetas, Villa Clara.
+[![Deploy to Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare&logoColor=white)](https://bitcriollo.pages.dev)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-![BitCriollo](https://img.shields.io/badge/React-19-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue) ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-cyan) ![Vite](https://img.shields.io/badge/Vite-7.2-purple) ![Cloudflare Pages](https://img.shields.io/badge/Cloudflare_Pages-deployed-orange)
+**BitCriollo** es el sitio web profesional de **Norland Chávez**, técnico informático independiente en Falcón, Placetas, Villa Clara. Es un espacio que combina la oferta de servicios técnicos con un blog personal (**DIUA** — *Diario de un Informático Universitario y Artista*), reflejando la fusión entre tecnología, arte y la realidad cubana.
 
-## 📖 Descripción
+✨ **Live Demo**: [bitcriollo.pages.dev](https://bitcriollo.pages.dev)
 
-**BitCriollo** es el sitio web de un técnico informático independiente que ofrece servicios de software a la comunidad de Falcón, Placetas, y de forma remota. El proyecto combina un diseño moderno y atractivo con una experiencia de usuario clara y funcional, destacando la cercanía y el trato personal.
+---
 
-El sitio incluye:
+## 🚀 Características
 
-- **Landing page** con terminal interactiva que simula la personalidad del desarrollador.
-- **Perfil profesional** con biografía, habilidades técnicas y proyectos personales.
-- **Listado de servicios** categorizados (software, diseño, multimedia, remoto).
-- **Cotizador interactivo** que calcula un presupuesto estimado en CUP según los servicios seleccionados.
-- **Proceso de trabajo** explicado paso a paso.
-- **Stack tecnológico** mostrando las herramientas utilizadas.
-- **Sección de contacto** con métodos directos (WhatsApp, Telegram, Email) y formulario.
-- **Menú de navegación** fijo y responsive.
-- **Pie de página** con enlaces, redes sociales y copyright.
+### Core del sitio
+- **Landing Page** con terminal interactiva y diseño moderno.
+- **Cotizador de servicios** en CUP (Pesos Cubanos).
+- **Secciones informativas**: Perfil, Servicios, Proceso de trabajo, Stack tecnológico.
+- **Formulario de contacto** integrado con métodos directos (WhatsApp, Telegram, Email).
 
-## 🚀 Tecnologías
+### Novedades v1.1 (Actual)
+- 🌗 **Tema claro/oscuro**: Cambio dinámico con persistencia en `localStorage` y respeto por las preferencias del sistema.
+- 🧭 **Enrutamiento completo**: Navegación entre páginas independientes (`/servicios`, `/blog`, `/perfil`, etc.) usando React Router.
+- 📝 **Blog DIUA integrado**: Artículos cargados desde archivos **Markdown** (`src/content/blog/`). Soporte para etiquetas, fechas y vista de lectura optimizada.
+- 🎨 **Diseño consistente**: Interfaz unificada con tipografías `JetBrains Mono` e `Inter`, y animaciones suaves.
 
-- **React 19** con Hooks y componentes funcionales.
-- **TypeScript** para tipado estático.
-- **Vite** como bundler y servidor de desarrollo.
-- **Tailwind CSS 3.4** con tema personalizado (colores, fuentes, animaciones).
-- **shadcn/ui** como base para componentes UI (40+ componentes disponibles).
-- **GSAP** y **ScrollTrigger** para animaciones al hacer scroll.
-- **Lucide React** para iconos.
-- **Cloudflare Pages** para alojamiento y despliegue continuo.
+---
 
-## 📁 Estructura del Proyecto
+## 🛠️ Stack Tecnológico
+
+| Tecnología | Propósito |
+|------------|-----------|
+| **React 19** | Biblioteca principal para la UI. |
+| **TypeScript** | Tipado estático para un código más robusto. |
+| **Vite** | Bundler ultrarrápido y servidor de desarrollo. |
+| **React Router v6** | Manejo de rutas y navegación SPA. |
+| **Tailwind CSS 3.4** | Estilizado con clases utilitarias y tema personalizado. |
+| **shadcn/ui** | Base para componentes UI accesibles. |
+| **GSAP + ScrollTrigger** | Animaciones avanzadas al hacer scroll. |
+| **react-markdown + remark-gfm** | Renderizado de los posts del blog desde Markdown. |
+| **gray-matter** | Parseo del frontmatter de los archivos .md. |
+| **Lucide React** | Iconografía ligera y consistente. |
+| **Cloudflare Pages** | Alojamiento y despliegue continuo (CI/CD). |
+
+---
+
+## 📂 Estructura del Proyecto (v1.1)
 
 ```
-/
-├── public/                 # Archivos estáticos (imágenes, favicon, etc.)
-├── src/
-│   ├── components/         # Componentes reutilizables (CustomCursor, etc.)
-│   ├── hooks/              # Hooks personalizados (useScrollAnimations, use-mobile)
-│   ├── lib/                # Utilidades (cn)
-│   ├── sections/           # Secciones principales de la página
-│   │   ├── Navigation.tsx
-│   │   ├── Hero.tsx
-│   │   ├── Perfil.tsx
-│   │   ├── Servicios.tsx
-│   │   ├── Cotizador.tsx
-│   │   ├── Proceso.tsx
-│   │   ├── Stack.tsx
-│   │   ├── LaVallita.tsx
-│   │   ├── Contacto.tsx
-│   │   └── Footer.tsx
-│   ├── App.tsx             # Componente raíz
-│   ├── main.tsx            # Punto de entrada
-│   ├── index.css           # Estilos globales (Tailwind + custom)
-│   └── App.css             # Estilos específicos (poco usado)
-├── index.html              # HTML principal
-├── package.json
-├── package-lock.json
-├── tsconfig.json           # Configuración TypeScript (referencias)
-├── tsconfig.app.json
-├── tsconfig.node.json
-├── vite.config.ts
-├── tailwind.config.js
-├── postcss.config.js
-├── eslint.config.js
-├── components.json         # Configuración de shadcn/ui
-├── .npmrc                  # (opcional) legacy-peer-deps
-├── .nvmrc                  # (opcional) versión de Node.js
-└── README.md
+src/
+├── components/
+│   ├── Layout.tsx           # Layout principal (Nav + Footer)
+│   ├── Navigation.tsx       # Menú responsive con enlaces y ThemeToggle
+│   ├── Footer.tsx           # Pie de página con enlaces sociales
+│   └── ThemeToggle.tsx      # Botón de cambio de tema
+├── context/
+│   └── ThemeContext.tsx     # Proveedor de tema claro/oscuro
+├── content/
+│   └── blog/                # 📝 Archivos .md del blog DIUA
+│       └── bienvenida.md    # Post de ejemplo
+├── lib/
+│   └── posts.ts             # Utilidades para leer y parsear los posts
+├── pages/                   # 🧭 Páginas independientes
+│   ├── Home.tsx
+│   ├── Servicios.tsx
+│   ├── Proceso.tsx
+│   ├── Stack.tsx
+│   ├── Contacto.tsx
+│   ├── Perfil.tsx
+│   ├── Blog.tsx             # Listado de entradas
+│   └── BlogPost.tsx         # Vista de artículo individual
+├── sections/                # Secciones reutilizables (sin cambios)
+│   ├── Hero.tsx
+│   ├── Perfil.tsx
+│   ├── Servicios.tsx
+│   ├── Cotizador.tsx
+│   ├── Proceso.tsx
+│   ├── Stack.tsx
+│   ├── LaVallita.tsx
+│   └── Contacto.tsx
+├── App.tsx                  # Definición de rutas
+├── main.tsx                 # Punto de entrada con providers
+├── index.css                # Estilos globales y variables CSS
+└── vite-env.d.ts            # Declaraciones de tipos
 ```
 
-## 🛠️ Instalación y Desarrollo Local
+---
 
-### Requisitos
+## 🏁 Instalación y Desarrollo
 
-- Node.js 20+ (recomendado) o 22+
-- npm 10+
-
-### Pasos
+Sigue estos pasos para ejecutar el proyecto localmente:
 
 ```bash
-# Clonar el repositorio
+# 1. Clonar el repositorio
 git clone https://github.com/Dragoland/bitcriollo.git
 cd bitcriollo
 
-# Instalar dependencias
+# 2. Instalar dependencias (incluye las nuevas de v1.1)
 npm install
 
-# Ejecutar en modo desarrollo
-npm run dev
+# 3. (Opcional) Si usas el script de actualización automática:
+chmod +x setup.sh
+./setup.sh
 
-# Abrir http://localhost:3000
+# 4. Iniciar el servidor de desarrollo
+npm run dev
 ```
 
-### Scripts disponibles
-
-| Comando | Descripción |
-|---------|-------------|
-| `npm run dev` | Inicia servidor de desarrollo con HMR |
-| `npm run build` | Genera la build de producción (solo Vite, sin verificación de tipos) |
-| `npm run preview` | Previsualiza la build localmente |
-| `npm run lint` | Ejecuta ESLint para revisar el código |
-
-## 🌐 Despliegue en Cloudflare Pages
-
-El proyecto está configurado para desplegarse en Cloudflare Pages mediante conexión con GitHub.
-
-### Configuración recomendada
-
-- **Framework preset**: Vite
-- **Build command**: `npm install && npm run build`
-- **Build output directory**: `dist`
-- **Node.js version**: 20 (definida en `.nvmrc`)
-
-### Archivos de configuración adicionales
-
-- `.npmrc` → `legacy-peer-deps=true` (evita conflictos de dependencias)
-- `.nvmrc` → `20` (fija la versión de Node)
-
-### Variables de entorno (opcional)
-
-Si necesitas añadir claves de API u otros secretos, configúralos en el panel de Cloudflare Pages → Settings → Environment Variables.
-
-## 📦 Dependencias principales
-
-| Paquete | Versión | Uso |
-|---------|---------|-----|
-| react | 19.2.0 | UI |
-| react-dom | 19.2.0 | Renderizado |
-| tailwindcss | 3.4.19 | Estilos |
-| gsap | 3.15.0 | Animaciones |
-| lucide-react | 0.562.0 | Iconos |
-| @radix-ui/* | varios | Componentes accesibles |
-| react-hook-form | 7.70.0 | Manejo de formularios |
-| sonner | 2.0.7 | Toast notifications |
-
-## 🧑‍💻 Contribución
-
-Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir los cambios.
-
-1. Haz un fork del repositorio.
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza tus cambios y haz commit (`git commit -m 'Añadir nueva funcionalidad'`).
-4. Sube tu rama (`git push origin feature/nueva-funcionalidad`).
-5. Abre un Pull Request.
-
-## 📄 Licencia
-
-Este proyecto es de código abierto y se distribuye bajo la licencia **MIT**. Puedes usarlo, modificarlo y distribuirlo libremente, siempre que se mantenga el aviso de copyright.
-
-## ✨ Créditos
-
-- **Desarrollador**: Norland Chávez (Dragoland)
-- **Diseño y contenido**: Propio del autor
-- **Frameworks y herramientas**: React, Vite, Tailwind, shadcn/ui, GSAP, Cloudflare.
+Abre `http://localhost:5173` para ver el sitio en acción.
 
 ---
 
-**Visita el sitio en producción:** [https://bitcriollo.pages.dev](https://bitcriollo.pages.dev)
+## 📝 Cómo añadir una entrada al blog (DIUA)
+
+1. Crea un archivo `.md` dentro de `src/content/blog/`.
+2. Añade el **frontmatter** al inicio del archivo:
+   ```yaml
+   ---
+   title: Título de tu post
+   date: 2026-07-15
+   tags: [linux, tutorial, python]
+   excerpt: Breve descripción del artículo (opcional)
+   ---
+
+   Contenido en **Markdown** aquí...
+   ```
+3. El blog lo detectará automáticamente y aparecerá en la lista de `/blog`.
 
 ---
 
-> *Hecho con `</>` y paciencia — Falcón, Placetas, Villa Clara, Cuba.*
+## 🤝 Contribuir
+
+Si encuentras algún bug o tienes sugerencias, no dudes en abrir un **Issue** o un **Pull Request**. Toda ayuda es bienvenida.
+
+---
+
+## 📜 Licencia
+
+Este proyecto es de código abierto bajo la licencia **MIT**.
+
+---
+
+## 📬 Contacto
+
+- **Telegram**: [@diario_del_informatico](https://t.me/diario_del_informatico)
+- **GitHub**: [@Dragoland](https://github.com/Dragoland)
+- **Web**: [bitcriollo.pages.dev](https://bitcriollo.pages.dev)
+
+---
+
+> Hecho con ❤️ y ⌨️ desde Falcón, Placetas, Villa Clara, Cuba.
