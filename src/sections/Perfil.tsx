@@ -58,7 +58,7 @@ export default function Perfil() {
               </div>
               <div className="flex justify-between">
                 <span className="text-[#64748B]">Rol:</span>
-                <span className="text-[#E2E8F0]">Técnico Informático</span>
+                <span className="text-[#E2E8F0]">Ingeniero Informático</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#64748B]">Estudios:</span>

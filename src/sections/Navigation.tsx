@@ -6,6 +6,7 @@ const navLinks = [
   { label: "Perfil", href: "#perfil" },
   { label: "Cotizar", href: "#cotizar" },
   { label: "Proceso", href: "#proceso" },
+  { label: "Software", href: "#software" },
   { label: "Contacto", href: "#contacto" },
 ];
 
@@ -78,7 +79,7 @@ export default function Navigation() {
 
           {/* Desktop CTA */}
           <a
-            href="https://wa.me/5356418463?text=Hola%20BitCriollo%2C%20tengo%20un%20problema%20con%20mi%20equipo"
+            href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden lg:inline-flex items-center gap-2 bg-[#1793D1] text-[#0B0F17] font-semibold text-sm px-5 py-2.5 rounded-md hover:brightness-110 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-200"
@@ -123,7 +124,7 @@ export default function Navigation() {
             ))}
           </ul>
           <a
-            href="https://wa.me/5356418463?text=Hola%20BitCriollo%2C%20tengo%20un%20problema%20con%20mi%20equipo"
+            href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 block text-center bg-[#1793D1] text-[#0B0F17] font-semibold text-sm px-5 py-3 rounded-md"

@@ -16,7 +16,7 @@ import {
   FileText,
   Palette,
   Image,
-  User,
+  FileUser,
   Video,
   Gamepad2,
   Code,
@@ -183,7 +183,7 @@ const services: Service[] = [
     tag: "design",
   },
   {
-    icon: User,
+    icon: FileUser,
     name: "Creación de currículums digitales",
     description:
       "CV profesional en PDF, cartas de presentación, portafolios simples. Para que te veas bien sin gastar fortuna.",

@@ -75,7 +75,7 @@ export default function Cotizador() {
     const services = selectedServicesList.map((s) => `- ${s.name}`).join("%0A");
     const complexityText = complexityLabels[complexity];
     const urgentText = urgent ? "%0AUrgente: Sí (+25%)" : "";
-    return `https://wa.me/5356418463?text=Hola%20BitCriollo!%0A%0AQuiero%20cotizar%20los%20siguientes%20servicios:%0A${services}%0A%0AComplejidad:%20${complexityText}${urgentText}%0A%0AEstimado:%20~$${total}%20CUP`;
+    return `https://wa.me/5356418463?text=Hola%20Dragoland!%0A%0AQuiero%20cotizar%20los%20siguientes%20servicios:%0A${services}%0A%0AComplejidad:%20${complexityText}${urgentText}%0A%0AEstimado:%20~$${total}%20CUP`;
   };
 
   return (
