@@ -1,4 +1,4 @@
-import { Perfil } from '../sections/Perfil'
+import Perfil from '../sections/Perfil'
 
 export const PerfilPage = () => {
   return (
