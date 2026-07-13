@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: 'stack', element: <Stack /> },
       { path: 'contacto', element: <Contacto /> },
       { path: 'software', element: <Software /> },
-      { path: 'cotiza', element: <Cotiza /> },
+      { path: 'cotizador', element: <Cotizador /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/:slug', element: <BlogPost /> },
     ]
