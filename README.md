@@ -125,7 +125,7 @@ Abre `http://localhost:5173` para ver el sitio en acción.
    excerpt: Breve descripción del artículo (opcional)
    ---
 
-   Contenido en **Markdown** aquí...
+   Contenido en **Markdown** aquí (obligatorio firma)...
    ```
 3. El blog lo detectará automáticamente y aparecerá en la lista de `/blog`.
 
