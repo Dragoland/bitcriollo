@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react"
 import { useSearchParams } from 'react-router'
 import { Calculator, Check } from "lucide-react"
+import Proceso from './src/sections/Proceso'
 
 interface ServiceOption {
   id: string
@@ -245,6 +246,9 @@ export default function Cotizador() {
             )}
           </div>
         </div>
+      </div>
+      <div className="mt-16 border-t border-gray-200 pt-12">
+        <Proceso />
       </div>
     </section>
   )
