@@ -7,8 +7,6 @@ const navItems = [
   { label: 'Inicio', to: '/' },
   { label: 'Servicios', to: '/servicios' },
   { label: 'Software', to: '/software' },
-  { label: 'Proceso', to: '/proceso' },
-  { label: 'Stack', to: '/stack' },
   { label: 'Contacto', to: '/contacto' },
   { label: 'Perfil', to: '/perfil' },
   { label: 'Blog', to: '/blog' },
