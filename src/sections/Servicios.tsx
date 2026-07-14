@@ -6,6 +6,7 @@ import {
 } from "lucide-react"
 import { Link } from 'react-router'
 import type { LucideIcon } from "lucide-react"
+import Proceso from './src/sections/Proceso' 
 
 interface Service {
   icon: LucideIcon
@@ -109,6 +110,9 @@ export default function Servicios() {
             )
           })}
         </div>
+      </div>
+      <div className="mt-16 border-t border-gray-200 pt-12">
+        <Proceso />
       </div>
     </section>
   )
