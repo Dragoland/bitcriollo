@@ -1,3 +1,5 @@
+import Stack from './Stack'
+
 const skillTags = [
   "Python",
   "Bash",
@@ -131,6 +133,11 @@ export default function Perfil() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Stack como sección interna de Perfil */}
+        <div className="mt-16">
+          <Stack />
         </div>
       </div>
     </section>
