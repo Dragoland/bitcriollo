@@ -49,9 +49,7 @@ Todo esto tomó una tarde completa. Entre descargas lentas, reinicios, y maldici
 
 📸 **EL RESULTADO**
 
-*(Imagen 1: La Dell 3310 corriendo Linux Mint, escritorio Cinnamon con el menú de aplicaciones abierto)*
-
-*(Imagen 2: La misma laptop mostrando LibreOffice Writer y el gestor de archivos, funcionando fluido)*
+*Imagenes proximamente*
 
 Ver esa máquina —que hacía 24 horas era un ladrillo glorificado— corriendo Mint, abriendo documentos, navegando, reproduciendo música... fue satisfactorio. No es rápida. No es potente. Pero ahora **es útil**.
 
