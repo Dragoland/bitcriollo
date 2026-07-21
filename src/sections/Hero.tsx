@@ -60,31 +60,31 @@ export default function Hero() {
         const text = line.text || "";
         return (
           <div key={index} className="flex items-start gap-2">
-            <span className="text-[#33D17A] font-code shrink-0">$</span>
-            <span className="text-[#E2E8F0]">{text.slice(0, typed)}</span>
+            <span className="text-emerald-500 font-code shrink-0">$</span>
+            <span className="text-foreground">{text.slice(0, typed)}</span>
             {typed < text.length && (
-              <span className="inline-block w-2 h-4 bg-[#1793D1] animate-cursor-blink ml-0.5" />
+              <span className="inline-block w-2 h-4 bg-primary animate-cursor-blink ml-0.5" />
             )}
           </div>
         );
       }
       case "output":
         return (
-          <div key={index} className="text-[#94A3B8] ml-6 font-code text-sm">
+          <div key={index} className="text-muted-foreground ml-6 font-code text-sm">
             {line.text}
           </div>
         );
       case "comment":
         return (
-          <div key={index} className="text-[#64748B] ml-0 font-code text-sm">
+          <div key={index} className="text-muted-foreground/70 ml-0 font-code text-sm">
             {line.text}
           </div>
         );
       case "cursor":
         return (
           <div key={index} className="flex items-center gap-2 mt-2">
-            <span className="text-[#33D17A] font-code">$</span>
-            <span className="inline-block w-2 h-4 bg-[#1793D1] animate-cursor-blink" />
+            <span className="text-emerald-500 font-code">$</span>
+            <span className="inline-block w-2 h-4 bg-primary animate-cursor-blink" />
           </div>
         );
       default:
@@ -111,13 +111,13 @@ export default function Hero() {
         <div className="grid lg:grid-cols-[55%_45%] gap-12 lg:gap-8 items-center">
           {/* Terminal */}
           <div className="order-2 lg:order-1">
-            <div className="bg-[#121820] border border-[#1E2D3D] rounded-xl overflow-hidden shadow-card">
+            <div className="bg-card border border-border rounded-xl overflow-hidden shadow-card">
               {/* Terminal header */}
-              <div className="bg-[#1A2332] px-4 py-3 flex items-center gap-2 border-b border-[#1E2D3D]">
-                <div className="w-3 h-3 rounded-full bg-[#E63946]" />
-                <div className="w-3 h-3 rounded-full bg-[#E9C46A]" />
-                <div className="w-3 h-3 rounded-full bg-[#2A9D8F]" />
-                <span className="ml-3 text-xs text-[#64748B] font-code">
+              <div className="bg-secondary px-4 py-3 flex items-center gap-2 border-b border-border">
+                <div className="w-3 h-3 rounded-full bg-destructive" />
+                <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                <span className="ml-3 text-xs text-muted-foreground font-code">
                   norland@bitcriollo: ~/falcon-placetas
                 </span>
               </div>
@@ -134,7 +134,7 @@ export default function Hero() {
               El vecino que{" "}
               <span className="text-gradient">entiende de esto</span>
             </h1>
-            <p className="font-body text-lg text-[#94A3B8] leading-relaxed max-w-[500px] mx-auto lg:mx-0 mb-8">
+            <p className="font-body text-lg text-muted-foreground leading-relaxed max-w-[500px] mx-auto lg:mx-0 mb-8">
               PCs lentas, virus, celulares locos, cuentas bloqueadas... Es de
               hablar con alguien que te responde en criollo y no te cobra como
               si vivieras en La Habana.
@@ -144,13 +144,13 @@ export default function Hero() {
                 href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-[#1793D1] text-[#0B0F17] font-semibold text-sm px-7 py-3.5 rounded-md hover:brightness-110 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-200 uppercase tracking-wider"
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold text-sm px-7 py-3.5 rounded-md hover:brightness-110 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-200 uppercase tracking-wider"
               >
                 Escribir por WhatsApp
               </a>
               <a
-                href="#servicios"
-                className="inline-flex items-center justify-center gap-2 border border-[#1793D1] text-[#1793D1] font-semibold text-sm px-7 py-3.5 rounded-md hover:bg-[rgba(23,147,209,0.1)] transition-all duration-200 uppercase tracking-wider"
+                href="/servicios"
+                className="inline-flex items-center justify-center gap-2 border border-primary text-primary font-semibold text-sm px-7 py-3.5 rounded-md hover:bg-primary/10 transition-all duration-200 uppercase tracking-wider"
               >
                 Ver servicios
               </a>
@@ -161,7 +161,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-slow">
-        <ChevronDown className="w-6 h-6 text-[#64748B]" />
+        <ChevronDown className="w-6 h-6 text-muted-foreground" />
       </div>
     </section>
   );

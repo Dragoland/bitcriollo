@@ -4,39 +4,31 @@
 
 @layer base {
   :root {
-    /* TEMA CLARO */
-    --background: 210 20% 98%;
-    --foreground: 216 30% 10%;
+    /* TEMA CLARO - BitCriollo Light */
+    --background: 210 25% 97%;
+    --foreground: 216 30% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 216 30% 10%;
+    --card-foreground: 216 30% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 216 30% 10%;
+    --popover-foreground: 216 30% 12%;
     --primary: 197 80% 46%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 216 30% 10%;
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 210 20% 96%;
-    --accent-foreground: 216 30% 10%;
+    --secondary: 210 20% 93%;
+    --secondary-foreground: 216 30% 12%;
+    --muted: 210 20% 93%;
+    --muted-foreground: 215 16% 45%;
+    --accent: 210 20% 93%;
+    --accent-foreground: 216 30% 12%;
     --destructive: 355 78% 56%;
     --destructive-foreground: 0 0% 98%;
-    --border: 214 24% 88%;
-    --input: 214 24% 88%;
+    --border: 214 24% 85%;
+    --input: 214 24% 85%;
     --ring: 197 80% 46%;
     --radius: 0.625rem;
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 216 30% 10%;
-    --sidebar-primary: 197 80% 46%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 20% 96%;
-    --sidebar-accent-foreground: 216 30% 10%;
-    --sidebar-border: 214 24% 88%;
-    --sidebar-ring: 197 80% 46%;
   }
 
   .dark {
-    /* TEMA OSCURO (tu v1.0) */
+    /* TEMA OSCURO - BitCriollo Dark (tu v1.0) */
     --background: 216 30% 5%;
     --foreground: 210 40% 93%;
     --card: 216 25% 8%;
@@ -57,14 +49,6 @@
     --input: 214 24% 18%;
     --ring: 197 80% 46%;
     --radius: 0.625rem;
-    --sidebar-background: 216 25% 8%;
-    --sidebar-foreground: 210 40% 93%;
-    --sidebar-primary: 197 80% 46%;
-    --sidebar-primary-foreground: 216 30% 5%;
-    --sidebar-accent: 216 25% 12%;
-    --sidebar-accent-foreground: 210 40% 93%;
-    --sidebar-border: 214 24% 18%;
-    --sidebar-ring: 197 80% 46%;
   }
 }
 
@@ -93,7 +77,7 @@
   }
 }
 
-/* Prose styles para el blog (sin @tailwindcss/typography) */
+/* Prose styles para el blog */
 @layer components {
   .prose {
     @apply text-foreground;
@@ -154,9 +138,15 @@
 
   .bg-grid-pattern {
     background-image:
+    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  .dark .bg-grid-pattern {
+    background-image:
     linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 50px 50px;
   }
 
   .bg-gradient-mesh {
@@ -192,6 +182,14 @@
   .animate-stagger > *:nth-child(4) { animation-delay: 0.2s; }
   .animate-stagger > *:nth-child(5) { animation-delay: 0.25s; }
   .animate-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(23, 147, 209, 0.15);
+  }
+
+  .dark .shadow-glow {
+    box-shadow: 0 0 20px rgba(23, 147, 209, 0.25);
+  }
 }
 
 @keyframes fade-up {
@@ -205,22 +203,50 @@
   }
 }
 
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+@keyframes blob-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.animate-blob-drift {
+  animation: blob-drift 20s ease-in-out infinite;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0F17;
+  @apply bg-background;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E2D3D;
-  border-radius: 4px;
+  @apply bg-border rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1793D1;
+  @apply bg-primary;
 }
 
 /* Reduced motion */
