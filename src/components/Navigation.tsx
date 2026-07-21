@@ -7,9 +7,9 @@ const navItems = [
   { label: 'Inicio', to: '/' },
   { label: 'Servicios', to: '/servicios' },
   { label: 'Software', to: '/software' },
+  { label: 'Contacto', to: '/contacto' },
   { label: 'Perfil', to: '/perfil' },
   { label: 'Blog', to: '/blog' },
-  { label: 'Contacto', to: '/contacto' },
 ]
 
 export const Navigation = () => {
@@ -25,7 +25,7 @@ export const Navigation = () => {
     <nav className="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 flex items-center justify-between h-14">
         <Link to="/" className="font-mono font-bold text-primary text-lg">
-          BitCriollo<span className="text-[#F4A261]">.dev</span>
+          Bit<span className="text-orange-400">Criollo</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6">

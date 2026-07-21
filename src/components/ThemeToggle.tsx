@@ -7,10 +7,10 @@ export const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-md border border-border hover:border-accent-blue transition-colors"
+      className="p-2 rounded-md border border-border hover:border-primary transition-colors"
       aria-label="Cambiar tema"
     >
-      {theme === 'dark' ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+      {theme === 'dark' ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
     </button>
   )
 }
