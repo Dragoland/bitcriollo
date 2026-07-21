@@ -7,8 +7,8 @@ const navItems = [
   { label: 'Inicio', to: '/' },
   { label: 'Servicios', to: '/servicios' },
   { label: 'Software', to: '/software' },
-  { label: 'Contacto', to: '/contacto' },
   { label: 'Blog', to: '/blog' },
+  { label: 'Contacto', to: '/contacto' },
 ]
 
 export const Navigation = () => {
