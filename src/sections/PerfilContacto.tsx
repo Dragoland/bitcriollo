@@ -53,7 +53,7 @@ const skillTags = [
   { label: "Arch Linux", icon: Globe },
 ];
 
-// Inline Terminal icon para skillTags (no existe en lucide como tal, usamos Code)
+// Inline Terminal icon para skillTags
 function Terminal(props: any) {
   return (
     <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -73,7 +73,48 @@ export default function PerfilContacto() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validación básica
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      return;
+    }
+
+    // Construir el mensaje para WhatsApp
+    const serviceLabels: Record<string, string> = {
+      virus: "Limpieza de virus",
+      linux: "Migración a Linux",
+      optimizar: "Optimización",
+      recuperar: "Recuperación de datos",
+      diseno: "Diseño gráfico",
+      otro: "Otro",
+    };
+
+    const serviceText = formData.service
+      ? serviceLabels[formData.service] || formData.service
+      : "No especificado";
+
+    const whatsappMessage = [
+      `Hola Dragoland, soy *${formData.name.trim()}*.`,
+      ``,
+      `*Servicio:* ${serviceText}`,
+      ``,
+      `*Descripción:*`,
+      formData.message.trim(),
+      ``,
+      `*Email de contacto:* ${formData.email.trim()}`,
+    ].join("%0A");
+
+    // Abrir WhatsApp con el mensaje prellenado
+    const whatsappUrl = `https://wa.me/5356418463?text=${whatsappMessage}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
+    // Mostrar confirmación visual
     setSubmitted(true);
+
+    // Limpiar formulario
+    setFormData({ name: "", email: "", service: "", message: "" });
+
+    // Resetear estado de enviado después de 3 segundos
     setTimeout(() => setSubmitted(false), 3000);
   };
 
@@ -166,7 +207,7 @@ export default function PerfilContacto() {
             </div>
           </div>
 
-          {/* Right column — Avatar + CTA + Form */}
+          {/* Right column — Avatar + Form */}
           <div className="space-y-6">
             {/* Avatar / Illustration area */}
             <div className="relative aspect-square max-w-[400px] mx-auto lg:mx-0 rounded-2xl overflow-hidden border-2 border-border bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
@@ -179,25 +220,15 @@ export default function PerfilContacto() {
                 }}
               />
               <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
-                <span className="font-mono font-bold text-sm text-foreground">Dragoland</span>
-                <span className="block text-xs text-muted-foreground font-mono">@Dragoland_OP · UCI 3er año</span>
+                <span className="font-mono font-bold text-sm text-foreground">Norland Chávez</span>
+                <span className="block text-xs text-muted-foreground font-mono">@Dragoland · UCI 3er año</span>
               </div>
             </div>
-
-            {/* CTA WhatsApp */}
-            <a
-              href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full bg-primary text-primary-foreground font-semibold text-sm py-4 rounded-xl hover:brightness-110 transition-all duration-200 text-center"
-            >
-              Escríbeme por WhatsApp
-            </a>
 
             {/* Mini form */}
             <div className="bg-card border border-border rounded-xl p-6">
               <h3 className="font-mono font-bold text-sm text-foreground mb-4">
-                O déjame un mensaje
+                Escríbeme por WhatsApp
               </h3>
               {submitted ? (
                 <div className="text-center py-8">
@@ -205,7 +236,7 @@ export default function PerfilContacto() {
                     <MessageCircle className="w-6 h-6 text-emerald-500" />
                   </div>
                   <p className="font-mono font-bold text-foreground text-sm">¡Mensaje enviado!</p>
-                  <p className="text-xs text-muted-foreground">Te respondo pronto.</p>
+                  <p className="text-xs text-muted-foreground">WhatsApp se abrió en una nueva pestaña.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3">
@@ -248,9 +279,10 @@ export default function PerfilContacto() {
                   />
                   <button
                     type="submit"
-                    className="w-full bg-secondary border border-border text-foreground font-semibold text-sm py-2.5 rounded-lg hover:border-primary hover:text-primary transition-all duration-200"
+                    className="w-full bg-primary text-primary-foreground font-semibold text-sm py-3 rounded-lg hover:brightness-110 transition-all duration-200 flex items-center justify-center gap-2"
                   >
-                    Enviar mensaje
+                    <MessageCircle className="w-4 h-4" />
+                    Enviar por WhatsApp
                   </button>
                 </form>
               )}
@@ -261,3 +293,4 @@ export default function PerfilContacto() {
     </section>
   );
 }
+    
