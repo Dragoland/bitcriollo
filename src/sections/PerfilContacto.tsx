@@ -179,8 +179,8 @@ export default function PerfilContacto() {
                 }}
               />
               <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
-                <span className="font-mono font-bold text-sm text-foreground">Norland Chávez</span>
-                <span className="block text-xs text-muted-foreground font-mono">@Dragoland · UCI 3er año</span>
+                <span className="font-mono font-bold text-sm text-foreground">Dragoland</span>
+                <span className="block text-xs text-muted-foreground font-mono">@Dragoland_OP · UCI 3er año</span>
               </div>
             </div>
 
