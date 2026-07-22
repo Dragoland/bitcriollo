@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, Send, Mail, MapPin, Clock, Globe, Code, Music, Palette, Gamepad2 } from "lucide-react";
+import { MessageCircle, Send, Mail, MapPin } from "lucide-react";
 
 const contactMethods = [
   {
@@ -7,7 +7,7 @@ const contactMethods = [
     label: "WhatsApp",
     value: "+53 5 6418463",
     href: "https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20una%20duda%20sobre%20mi%20equipo",
-    description: "Respuesta rápida, atención directa",
+    description: "Respuesta rapida, atencion directa",
   },
   {
     icon: Send,
@@ -26,43 +26,14 @@ const contactMethods = [
   },
   {
     icon: MapPin,
-    label: "Ubicación",
-    value: "Falcón, Placetas, Villa Clara",
+    label: "Ubicacion",
+    value: "Falcon, Placetas, Villa Clara",
     href: null,
-    description: "Atención presencial",
-  },
-  {
-    icon: Clock,
-    label: "Horario",
-    value: "Lun–Sáb 9:00–18:00",
-    href: null,
-    description: "Respuesta en 24–48h",
+    description: "Atencion presencial",
   },
 ];
 
-const skillTags = [
-  { label: "Python", icon: Code },
-  { label: "Bash", icon: Terminal },
-  { label: "Linux", icon: Globe },
-  { label: "GIMP", icon: Palette },
-  { label: "Blender", icon: Palette },
-  { label: "FL Studio", icon: Music },
-  { label: "Emuladores", icon: Gamepad2 },
-  { label: "C++", icon: Code },
-  { label: "Java", icon: Code },
-  { label: "Arch Linux", icon: Globe },
-];
-
-// Inline Terminal icon para skillTags (no existe en lucide como tal, usamos Code)
-function Terminal(props: any) {
-  return (
-    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" />
-    </svg>
-  );
-}
-
-export default function PerfilContacto() {
+export default function Contacto() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -79,179 +50,170 @@ export default function PerfilContacto() {
 
   return (
     <section id="contacto" className="bg-secondary border-y border-border">
-      <div className="max-w-[1100px] mx-auto px-6 lg:px-[6vw] py-24 lg:py-32">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-4 flex items-center justify-center gap-2">
-            <span className="text-primary">//</span> CONECTEMOS
-          </div>
-          <h2 className="font-mono font-extrabold text-3xl lg:text-[42px] tracking-tight text-foreground mb-4">
-            Contacto
-          </h2>
-          <p className="font-body text-base text-muted-foreground max-w-[500px] mx-auto">
-            ¿Quién soy? Un vecino con paciencia y Linux. Escribime y resolvemos tu problema.
-          </p>
-        </div>
-
-        {/* Grid estilo Kirart */}
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-start">
-          {/* Left column — Bio + Contact info */}
-          <div className="space-y-8">
-            {/* Bio card */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="font-mono font-bold text-lg text-primary mb-4">
-                Sobre mí
-              </h3>
-              <p className="font-body text-muted-foreground leading-relaxed mb-4">
-                Estudio <strong className="text-foreground">Ingeniería de Ciencias Informáticas en la UCI</strong>,
-                La Habana. Entre semestres arreglo PCs, instalo Linux (especialmente <strong>Arch Linux</strong>),
-                diseño flyers y escribo scripts que automatizan tareas.
-              </p>
-              <p className="font-body text-muted-foreground leading-relaxed mb-4">
-                Tengo un canal en Telegram — <em>Diario de un Informático Universitario y Artista</em> —
-                donde hablo de tecnología sin pretender ser un experto de YouTube.
-              </p>
-              <div className="bg-destructive/5 border-l-[3px] border-destructive rounded-r-lg p-3">
-                <p className="text-muted-foreground font-body text-sm leading-relaxed">
-                  <strong className="text-destructive">No hago hardware:</strong> no abro torres, no soldo, no cambio pantallas.
-                  Si tu problema es físico, te diagnostico gratis y te recomiendo a alguien de confianza.
-                </p>
-              </div>
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw] py-24 lg:py-32">
+        <div className="grid lg:grid-cols-[55%_45%] gap-12 lg:gap-16">
+          {/* Left - Contact info */}
+          <div className="animate-fade-up">
+            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-4 flex items-center gap-2">
+              <span className="text-primary">//</span> CONEXION
             </div>
+            <h2 className="font-mono font-extrabold text-3xl lg:text-[42px] tracking-tight text-foreground mb-4">
+              Contacto
+            </h2>
+            <p className="font-body text-base text-muted-foreground mb-10 max-w-[450px]">
+              Dudas pequenas, problemas grandes o simplemente quieres saber si
+              tu PC se puede salvar. Escribeme.
+            </p>
 
             {/* Contact methods */}
-            <div className="space-y-3">
+            <div className="space-y-4 animate-stagger">
               {contactMethods.map((method, index) => {
                 const Icon = method.icon;
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center gap-4 p-4 bg-card border border-border rounded-xl hover:border-primary/30 transition-all duration-200 group"
-                  >
-                    <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
+                const content = (
+                  <div className="flex items-start gap-4 p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all duration-200 group">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs text-muted-foreground mb-0.5">{method.label}</div>
+                    <div>
+                      <h4 className="font-mono font-bold text-sm text-foreground mb-0.5">
+                        {method.label}
+                      </h4>
+                      <p className="font-body text-xs text-muted-foreground mb-1">
+                        {method.description}
+                      </p>
                       {method.href ? (
                         <a
                           href={method.href}
                           target={method.external ? "_blank" : undefined}
                           rel={method.external ? "noopener noreferrer" : undefined}
-                          className="font-mono font-semibold text-sm text-foreground hover:text-primary transition-colors truncate block"
+                          className="font-code text-sm text-primary hover:text-primary/80 transition-colors"
                         >
                           {method.value}
                         </a>
                       ) : (
-                        <span className="font-mono font-semibold text-sm text-foreground truncate block">
+                        <span className="font-code text-sm text-muted-foreground">
                           {method.value}
                         </span>
                       )}
                     </div>
                   </div>
                 );
+                return <div key={index}>{content}</div>;
               })}
             </div>
 
-            {/* Skills */}
-            <div className="flex flex-wrap gap-2">
-              {skillTags.map((tag) => (
-                <span
-                  key={tag.label}
-                  className="px-3 py-1.5 text-xs font-mono font-medium text-primary bg-primary/10 border border-primary/20 rounded-lg"
-                >
-                  {tag.label}
-                </span>
-              ))}
+            {/* Disclaimer */}
+            <div className="mt-8 p-4 bg-destructive/5 border-l-[3px] border-destructive rounded-r-lg">
+              <p className="text-muted-foreground font-body text-sm">
+                <strong className="text-destructive">IMPORTANTE:</strong> No
+                realizo trabajos de hardware (no abro equipos ni toco
+                componentes internos). Todo mi trabajo es a nivel de software.
+                Si tu problema es fisico, te diagnostico gratis y te recomiendo a
+                quien acudir.
+              </p>
             </div>
           </div>
 
-          {/* Right column — Avatar + CTA + Form */}
-          <div className="space-y-6">
-            {/* Avatar / Illustration area */}
-            <div className="relative aspect-square max-w-[400px] mx-auto lg:mx-0 rounded-2xl overflow-hidden border-2 border-border bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-              <img
-                src="/images/avatar-cartoon.png"
-                alt="BitCriollo Avatar"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-              />
-              <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
-                <span className="font-mono font-bold text-sm text-foreground">Norland Chávez</span>
-                <span className="block text-xs text-muted-foreground font-mono">@Dragoland · UCI 3er año</span>
-              </div>
-            </div>
-
-            {/* CTA WhatsApp */}
-            <a
-              href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full bg-primary text-primary-foreground font-semibold text-sm py-4 rounded-xl hover:brightness-110 transition-all duration-200 text-center"
-            >
-              Escríbeme por WhatsApp
-            </a>
-
-            {/* Mini form */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="font-mono font-bold text-sm text-foreground mb-4">
-                O déjame un mensaje
+          {/* Right - Form */}
+          <div className="animate-fade-up">
+            <div className="bg-card border border-border rounded-xl p-6 lg:p-8">
+              <h3 className="font-mono font-bold text-lg text-foreground mb-6">
+                Enviar mensaje
               </h3>
+
               {submitted ? (
-                <div className="text-center py-8">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
-                    <MessageCircle className="w-6 h-6 text-emerald-500" />
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4">
+                    <MessageCircle className="w-8 h-8 text-emerald-500" />
                   </div>
-                  <p className="font-mono font-bold text-foreground text-sm">¡Mensaje enviado!</p>
-                  <p className="text-xs text-muted-foreground">Te respondo pronto.</p>
+                  <h4 className="font-mono font-bold text-foreground mb-2">
+                    Mensaje enviado!
+                  </h4>
+                  <p className="font-body text-sm text-muted-foreground">
+                    Te respondo pronto por WhatsApp.
+                  </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-3">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Tu nombre"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-secondary border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                  />
-                  <input
-                    type="email"
-                    required
-                    placeholder="tu@email.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-secondary border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                  />
-                  <select
-                    value={formData.service}
-                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                    className="w-full bg-secondary border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-foreground focus:border-primary focus:outline-none transition-colors appearance-none cursor-pointer"
-                  >
-                    <option value="">¿Qué necesitas?</option>
-                    <option value="virus">Limpieza de virus</option>
-                    <option value="linux">Migración a Linux</option>
-                    <option value="optimizar">Optimización</option>
-                    <option value="recuperar">Recuperación de datos</option>
-                    <option value="diseno">Diseño gráfico</option>
-                    <option value="otro">Otro</option>
-                  </select>
-                  <textarea
-                    required
-                    rows={3}
-                    placeholder="Describe tu problema..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-secondary border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors resize-none"
-                  />
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-mono text-muted-foreground mb-1.5">
+                      Nombre
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full bg-secondary border border-border rounded-md px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                      placeholder="Tu nombre"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-muted-foreground mb-1.5">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full bg-secondary border border-border rounded-md px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                      placeholder="tu@email.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-muted-foreground mb-1.5">
+                      Servicio
+                    </label>
+                    <select
+                      value={formData.service}
+                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                      className="w-full bg-secondary border border-border rounded-md px-4 py-2.5 font-mono text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors appearance-none cursor-pointer"
+                    >
+                      <option value="">Selecciona un servicio</option>
+                      <option value="virus">Limpieza de virus</option>
+                      <option value="linux">Migracion a Linux</option>
+                      <option value="optimizar">Optimizacion</option>
+                      <option value="recuperar">Recuperacion de datos</option>
+                      <option value="diseno">Diseno grafico</option>
+                      <option value="otro">Otro</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-muted-foreground mb-1.5">
+                      Mensaje
+                    </label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full bg-secondary border border-border rounded-md px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-none"
+                      placeholder="Describe tu problema..."
+                    />
+                  </div>
+
                   <button
                     type="submit"
-                    className="w-full bg-secondary border border-border text-foreground font-semibold text-sm py-2.5 rounded-lg hover:border-primary hover:text-primary transition-all duration-200"
+                    className="w-full bg-primary text-primary-foreground font-semibold text-sm py-3 rounded-md hover:brightness-110 transition-all duration-200"
                   >
                     Enviar mensaje
                   </button>
+
+                  <p className="text-center text-xs text-muted-foreground font-mono pt-2">
+                    O escribeme directo por{" "}
+                    <a
+                      href="https://wa.me/5356418463"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      WhatsApp
+                    </a>
+                  </p>
                 </form>
               )}
             </div>
