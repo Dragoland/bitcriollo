@@ -5,6 +5,27 @@ Todas las versiones notables de **BitCriollo** serán documentadas en este archi
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
+## [2.0.0] - 2026-08-14
+
+### Navegación
+- **Inicio** (`/`) — Solo el Hero de bienvenida
+- **Servicios** (`/servicios`) — Todos los servicios con tags de color por categoría
+- **Software** (`/software`) — BomApettite con mockup visual + CTA personalizado
+- **Proceso** (`/proceso`) — Cómo funciona el workflow
+- **Blog** (`/blog`) — Posts desde Markdown
+- **Sobre mí** (`/sobre-mi`) — Fusión de Perfil + Contacto
+- **Cotizador** (`/cotizador`) — Calculadora de precios
+
+### Eliminado
+- `/perfil` y `/contacto` separados → fusionados en `/sobre-mi`
+- `/stack` → integrado en Sobre mí
+- La Vallita de la home → movida al footer
+
+### Mejoras
+- **Servicios**: sin "Software-only" repetido, tags de color por categoría (Software/Diseño/Multimedia/Remoto)
+- **Software**: mockup visual de BomApettite (simulación de app móvil con QR)
+- **Footer**: La Vallita integrada como banner antes del footer principal
+- **Navegación**: links activos con indicador visual, CTA de WhatsApp siempre visible
 
 ## [1.1.0] - 2026-07-13
 
