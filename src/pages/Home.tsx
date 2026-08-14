@@ -1,15 +1,5 @@
-import Hero from '../sections/Hero';
-import Servicios from '../sections/Servicios';
-import SoftwareStore from '../sections/SoftwareStore';
-import LaVallita from '../sections/LaVallita';
+import Hero from '../sections/Hero'
 
 export default function Home() {
-  return (
-    <>
-      <Hero />
-      <Servicios />
-      <SoftwareStore />
-      <LaVallita />
-    </>
-  );
+  return <Hero />
 }

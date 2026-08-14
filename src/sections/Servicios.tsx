@@ -3,16 +3,15 @@ import {
   Download, Printer, Wifi, Tv, Lock, ShoppingCart, Usb, FileText,
   Palette, Image, FileUser, Video, Gamepad2, Code, Globe, Terminal,
   Layers, Server,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+} from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 import { Link } from 'react-router'
-import Proceso from './Proceso'
 
 interface Service {
-  icon: LucideIcon;
-  name: string;
-  description: string;
-  tag: "software" | "design" | "media" | "remote";
+  icon: LucideIcon
+  name: string
+  description: string
+  tag: "software" | "design" | "media" | "remote"
 }
 
 const services: Service[] = [
@@ -172,82 +171,98 @@ const services: Service[] = [
     description: "Para clientes fuera del pueblo: resolución de problemas en Linux y Windows vía conexión remota cuando el internet lo permita.",
     tag: "remote",
   },
-];
+]
 
 const tagStyles = {
   software: "border-primary/30 text-primary bg-primary/5",
   design: "border-yellow-400/30 text-yellow-600 bg-yellow-400/5 dark:text-yellow-400",
   media: "border-orange-400/30 text-orange-600 bg-orange-400/5 dark:text-orange-400",
   remote: "border-emerald-500/30 text-emerald-600 bg-emerald-500/5 dark:text-emerald-400",
-};
+}
 
 const tagLabels = {
   software: "Software",
   design: "Diseño",
   media: "Multimedia",
   remote: "Remoto",
-};
+}
 
 export default function Servicios() {
   return (
-    <>
-      <section id="servicios" className="py-24 lg:py-32">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw]">
-          {/* Section header */}
-          <div className="text-center animate-fade-up mb-16">
-            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-4 flex items-center justify-center gap-2">
-              <span className="text-primary">//</span> MODULOS_DISPONIBLES
-            </div>
-            <h2 className="font-mono font-extrabold text-3xl lg:text-[42px] tracking-tight text-foreground mb-4">
-              Servicios
-            </h2>
-            <p className="font-body text-base text-muted-foreground max-w-[600px] mx-auto">
-              Todo a nivel de software. Si se arregla sin abrir la máquina, yo lo
-              hago. Si hay que abrirla, te digo antes y te recomiendo a alguien de
-              confianza.
+    <div className="py-24 lg:py-32">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw]">
+        {/* Section header */}
+        <div className="text-center mb-16">
+          <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-4 flex items-center justify-center gap-2">
+            <span className="text-primary">//</span> MODULOS_DISPONIBLES
+          </div>
+          <h2 className="font-mono font-extrabold text-3xl lg:text-[42px] tracking-tight text-foreground mb-4">
+            Servicios
+          </h2>
+          <p className="font-body text-base text-muted-foreground max-w-[600px] mx-auto">
+            Todo a nivel de software. Si se arregla sin abrir la máquina, yo lo
+            hago. Si hay que abrirla, te digo antes y te recomiendo a alguien de
+            confianza.
+          </p>
+        </div>
+
+        {/* Service grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, index) => {
+            const Icon = service.icon
+            return (
+              <Link
+                key={index}
+                to={`/cotizador?servicio=${service.name.toLowerCase().replace(/\s+/g, '-').substring(0, 20)}`}
+                className="group bg-card border border-border rounded-xl p-8 hover:border-primary/30 hover:shadow-glow transition-all duration-250 cursor-pointer relative overflow-hidden block"
+              >
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-[10px] bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
+                    <Icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h4 className="font-mono font-bold text-[15px] text-foreground leading-tight">
+                    {service.name}
+                  </h4>
+                </div>
+
+                <p className="font-body text-sm text-muted-foreground leading-relaxed mb-4 pl-[60px]">
+                  {service.description}
+                </p>
+
+                <div className="pl-[60px]">
+                  <span
+                    className={`inline-block px-3 py-1 text-[11px] font-semibold uppercase tracking-wider border rounded ${tagStyles[service.tag]}`}
+                  >
+                    {tagLabels[service.tag]}
+                  </span>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+
+        {/* Bottom note */}
+        <div className="mt-16 text-center">
+          <div className="inline-block bg-card border border-border rounded-xl px-8 py-5">
+            <p className="font-body text-sm text-muted-foreground">
+              <strong className="text-foreground">¿No encuentras lo que necesitas?</strong>{" "}
+              Escribime por{" "}
+              <a
+                href="https://wa.me/5356418463"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                WhatsApp
+              </a>{" "}
+              y lo conversamos. Si es software, seguro le encontramos la vuelta.
             </p>
           </div>
-
-          {/* Service grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-stagger">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              return (
-                <Link
-                  key={index}
-                  to={`/cotizador?servicio=${service.id}`}
-                  className="group bg-card border border-border rounded-xl p-8 hover:border-primary/30 hover:shadow-glow transition-all duration-250 cursor-pointer relative overflow-hidden block"
-                >
-                  {/* Top accent line */}
-                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-[10px] bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
-                      <Icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <h4 className="font-mono font-bold text-[15px] text-foreground leading-tight">
-                      {service.name}
-                    </h4>
-                  </div>
-
-                  <p className="font-body text-sm text-muted-foreground leading-relaxed mb-4 pl-[60px]">
-                    {service.description}
-                  </p>
-
-                  <div className="pl-[60px]">
-                    <span
-                      className={`inline-block px-3 py-1 text-[11px] font-semibold uppercase tracking-wider border rounded ${tagStyles[service.tag]}`}
-                    >
-                      {tagLabels[service.tag]}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
         </div>
-      </section>
-      <Proceso />
-    </>
-  );
+      </div>
+    </div>
+  )
 }

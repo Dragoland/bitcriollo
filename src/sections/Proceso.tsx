@@ -40,7 +40,7 @@ export default function Proceso() {
     <section id="proceso" className="py-24 lg:py-32">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw]">
         {/* Section header */}
-        <div className="text-center animate-fade-up mb-16">
+        <div className="text-center mb-16">
           <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-4 flex items-center justify-center gap-2">
             <span className="text-primary">//</span> WORKFLOW
           </div>
@@ -53,7 +53,7 @@ export default function Proceso() {
         </div>
 
         {/* Steps grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-stagger">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (

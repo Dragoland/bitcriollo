@@ -1,5 +1,5 @@
-import ProcesoSection from '../sections/Proceso';
+import ProcesoSection from '../sections/Proceso'
 
 export default function Proceso() {
-  return <ProcesoSection />;
+  return <ProcesoSection />
 }
