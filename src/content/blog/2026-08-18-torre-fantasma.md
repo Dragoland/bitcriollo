@@ -36,6 +36,8 @@ Con mucho cuidado, extraje ambas tarjetas de sus ranuras, tomé una goma de borr
 
 Me dispongo a reiniciar el equipo para bootear desde el USB de instalación de Windows 10. Antes de eso, entro a la BIOS para desactivar el Secure Boot (ese bendito mecanismo de seguridad que a veces nos complica la vida) y ajustar el orden de arranque. Todo normal, todo tranquilo.
 
+![BIOS de la ASUS H81M-P Plus mostrando la configuración de Secure Boot](https://bitcriollo.pages.dev/images/bios_torre.jpg)
+
 Guardo los cambios, la PC se reinicia, y en lugar del alegre logo de Windows o el menú de arranque, me encuentro con una pantalla negra y un cartel que me heló la sangre. Era el típico fondo rojo/negro de **American Megatrends (AMI)** , pero con un mensaje que jamás había visto en mis años de experiencia:
 
 ```
@@ -96,6 +98,8 @@ Inspirado por ese Short de 60 segundos, me levanté de la cama con una energía 
 5. **Reconexión y prueba de fuego.** Volví a conectar los cables de alimentación, aseguré todos los periféricos, y presioné el botón de encendido. Mi corazón latía tan fuerte que podía escucharlo por encima del ruido de los ventiladores.
 
 Y entonces, ocurrió el milagro. **La pantalla mostró el logo de ASUS**. No hubo mensaje de error. No hubo cuenta regresiva. La PC arrancó con normalidad, como si nunca hubiera pasado nada. Entré a la BIOS sin problemas, desactivé el Secure Boot, configuré el arranque desde el USB y Windows 10 comenzó a instalarse sin una sola queja.
+
+![Windows 10 instalado y funcionando en la torre resucitada](https://bitcriollo.pages.dev/images/trabajo_listo.jpg)
 
 El problema, tal como sospechaba, era un **falso positivo**. El circuito de protección de los puertos USB se había activado erróneamente debido a algún pico de voltaje o a una lectura incorrecta de los sensores de la placa. La BIOS había registrado ese error en su memoria no volátil y se negaba a funcionar hasta que un reseteo profundo la obligara a "olvidarlo". El puente CLRTC no solo restablece los valores de fábrica, sino que purga todos los flags de error internos del chip UEFI.
 
