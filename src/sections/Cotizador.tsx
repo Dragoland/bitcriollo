@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { Calculator, Check, MapPin, Globe, Wrench } from "lucide-react";
 
 interface ServiceOption {
