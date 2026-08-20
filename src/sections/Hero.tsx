@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Globe, MapPin, Code, Wrench } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 interface TerminalLine {
   type: "prompt" | "output" | "comment" | "cursor" | "badge";
