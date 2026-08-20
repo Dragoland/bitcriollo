@@ -8,7 +8,7 @@ import {
   CloudCog, ArrowRight
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 type Category = "local" | "dev" | "hardware"
 
