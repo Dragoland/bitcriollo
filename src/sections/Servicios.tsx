@@ -5,7 +5,7 @@ import {
   Palette, Image, FileUser, Video, Gamepad2, Code, Globe, Terminal,
   Layers, Server, Cpu, Fan, MemoryStick, CircuitBoard, Power,
   Wrench, Microscope, MonitorCog, Bot, FileCode, Workflow, Database,
-  CloudCog, ArrowRight
+  CloudCog, ArrowRight, MapPin
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Link } from 'react-router'
