@@ -1,5 +1,19 @@
 import Hero from '../sections/Hero'
+import Servicios from '../sections/Servicios'
+import SoftwareStore from '../sections/SoftwareStore'
+import Proceso from '../sections/Proceso'
+import Stack from '../sections/Stack'
+import LaVallita from '../sections/LaVallita'
 
 export default function Home() {
-  return <Hero />
+  return (
+    <>
+      <Hero />
+      <Servicios />
+      <SoftwareStore />
+      <Proceso />
+      <Stack />
+      <LaVallita />
+    </>
+  )
 }

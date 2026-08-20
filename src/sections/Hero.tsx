@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Globe, MapPin, Code, Wrench } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface TerminalLine {
-  type: "prompt" | "output" | "comment" | "cursor";
+  type: "prompt" | "output" | "comment" | "cursor" | "badge";
   text?: string;
   delay?: number;
 }
@@ -10,14 +11,16 @@ interface TerminalLine {
 const TERMINAL_LINES: TerminalLine[] = [
   { type: "prompt", text: "whoami", delay: 0 },
   { type: "output", text: "BitCriollo — Soluciones Digitales con Sabor", delay: 300 },
-  { type: "comment", text: "# Software-only · Primera consulta gratis · Falcón, Placetas", delay: 500 },
-  { type: "prompt", text: "cat servicios.txt", delay: 800 },
-  { type: "output", text: "Limpieza de virus  |  Migración a Linux  |  Recuperación de datos", delay: 1100 },
-  { type: "output", text: "Diseño gráfico  |  Optimización  |  Soporte remoto", delay: 1300 },
-  { type: "comment", text: "# Sin abrir torres. Sin precios de ciudad.", delay: 1500 },
-  { type: "prompt", text: "./contactar.sh", delay: 1800 },
-  { type: "output", text: "Escríbeme por WhatsApp → +53 5 6418463", delay: 2100 },
-  { type: "cursor", delay: 2400 },
+  { type: "comment", text: "# Software · Hardware · Desarrollo Remoto", delay: 500 },
+  { type: "comment", text: "# Falcón, Placetas · Disponible internacionalmente", delay: 700 },
+  { type: "prompt", text: "cat servicios.txt", delay: 1000 },
+  { type: "output", text: "Soporte local (Cuba)    |    Desarrollo remoto (Mundo)", delay: 1300 },
+  { type: "output", text: "Linux · Virus · Hardware · Scripts · IA Local · APIs", delay: 1500 },
+  { type: "comment", text: "# Sin precios de ciudad. Sin complicaciones.", delay: 1700 },
+  { type: "prompt", text: "./contactar.sh", delay: 2000 },
+  { type: "output", text: "WhatsApp local → +53 5 6418463", delay: 2300 },
+  { type: "output", text: "Proyectos remotos → norland.chavez333@gmail.com", delay: 2500 },
+  { type: "cursor", delay: 2800 },
 ];
 
 export default function Hero() {
@@ -101,10 +104,6 @@ export default function Hero() {
       {/* Background layers */}
       <div className="absolute inset-0 bg-gradient-mesh animate-blob-drift" />
       <div className="absolute inset-0 bg-grid-pattern" />
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-20"
-        style={{ backgroundImage: "url(/images/hero-bg.jpg)" }}
-      />
 
       {/* Content */}
       <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-[6vw] pt-24 pb-16 w-full">
@@ -122,7 +121,7 @@ export default function Hero() {
                 </span>
               </div>
               {/* Terminal body */}
-              <div className="p-6 font-code text-sm space-y-1.5 min-h-[260px]">
+              <div className="p-6 font-code text-sm space-y-1.5 min-h-[280px]">
                 {TERMINAL_LINES.map((line, i) => renderLine(line, i))}
               </div>
             </div>
@@ -130,15 +129,37 @@ export default function Hero() {
 
           {/* Text content */}
           <div className="order-1 lg:order-2 text-center lg:text-left">
-            <h1 className="font-mono font-extrabold text-4xl sm:text-5xl lg:text-[56px] leading-[1.1] tracking-tight mb-6">
-              El vecino que{" "}
-              <span className="text-gradient">entiende de esto</span>
+            {/* Badges */}
+            <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-6">
+              <span className="inline-flex items-center gap-1.5 text-xs font-mono bg-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/20">
+                <MapPin className="w-3 h-3" /> Falcón, Placetas
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-xs font-mono bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-full border border-emerald-500/20">
+                <Globe className="w-3 h-3" /> Remoto
+              </span>
+            </div>
+
+            <h1 className="font-mono font-extrabold text-4xl sm:text-5xl lg:text-[52px] leading-[1.1] tracking-tight mb-6">
+              Tu vecino técnico{" "}
+              <span className="text-gradient">con alcance global</span>
             </h1>
             <p className="font-body text-lg text-muted-foreground leading-relaxed max-w-[500px] mx-auto lg:mx-0 mb-8">
-              PCs lentas, virus, celulares locos, cuentas bloqueadas... Es de
-              hablar con alguien que te responde en criollo y no te cobra como
-              si vivieras en La Habana.
+              PCs lentas, virus, celulares locos, cuentas bloqueadas... y ahora también
+              desarrollo de software, automatización e IA local para equipos de cualquier parte del mundo.
             </p>
+
+            {/* Stats / trust indicators */}
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start mb-8">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Code className="w-4 h-4 text-primary" />
+                <span>Python · Bash · Linux</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Wrench className="w-4 h-4 text-orange-400" />
+                <span>Hardware incluido</span>
+              </div>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <a
                 href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
@@ -146,14 +167,24 @@ export default function Hero() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold text-sm px-7 py-3.5 rounded-md hover:brightness-110 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-200 uppercase tracking-wider"
               >
-                Escribir por WhatsApp
+                <MapPin className="w-4 h-4" />
+                Soporte Local
               </a>
               <a
-                href="/servicios"
+                href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20me%20interesa%20un%20proyecto%20de%20desarrollo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 border border-emerald-500 text-emerald-500 font-semibold text-sm px-7 py-3.5 rounded-md hover:bg-emerald-500/10 transition-all duration-200 uppercase tracking-wider"
+              >
+                <Globe className="w-4 h-4" />
+                Proyectos Remotos
+              </a>
+              <Link
+                to="/servicios"
                 className="inline-flex items-center justify-center gap-2 border border-primary text-primary font-semibold text-sm px-7 py-3.5 rounded-md hover:bg-primary/10 transition-all duration-200 uppercase tracking-wider"
               >
                 Ver servicios
-              </a>
+              </Link>
             </div>
           </div>
         </div>

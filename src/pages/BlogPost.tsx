@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router'
+import { useParams, Link } from 'react-router-dom'
 import { getPostBySlug, formatDate } from '../lib/posts'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'

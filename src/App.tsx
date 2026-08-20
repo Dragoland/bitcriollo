@@ -1,13 +1,13 @@
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import Home from './pages/Home'
-import { ServiciosPage } from './pages/Servicios'
+import { ServiciosPage } from './pages/ServiciosPage'
 import Software from './pages/Software'
 import Proceso from './pages/Proceso'
 import { Blog } from './pages/Blog'
 import { BlogPost } from './pages/BlogPost'
 import SobreMi from './pages/SobreMi'
-import CotizadorPage from './pages/Cotizador'
+import CotizadorPage from './pages/CotizadorPage'
 
 const router = createBrowserRouter([
   {

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { MessageCircle, Send, Mail, MapPin, Clock, Code, Music, Palette, Gamepad2 } from "lucide-react"
+import { MessageCircle, Send, Mail, MapPin, Clock, Code, Music, Palette, Gamepad2, Globe, Wrench, Terminal } from "lucide-react"
 
 const contactMethods = [
   {
@@ -41,8 +41,8 @@ const contactMethods = [
 ]
 
 const skillTags = [
-  "Python", "Bash", "Linux", "GIMP", "Blender", "FL Studio",
-  "Emuladores", "C++", "Java", "Arch Linux",
+  "Python", "Bash", "Linux", "Docker", "FastAPI", "PostgreSQL",
+  "GIMP", "Blender", "FL Studio", "Emuladores", "C++", "Java", "Arch Linux",
 ]
 
 export default function SobreMi() {
@@ -88,13 +88,17 @@ export default function SobreMi() {
                 Estudio <strong>Ingeniería de Ciencias Informáticas en la UCI</strong>,
                 La Habana. Voy para tercer año. No soy senior, no trabajo en
                 Google, no tengo certificaciones de Cisco. Pero me defiendo:{" "}
-                <strong>Java, Python, Bash</strong>, y <strong>C++</strong> me
+                <strong>Java, Python, Bash, Docker</strong>, y <strong>C++</strong> me
                 está comiendo la cabeza en este momento (lo normal).
               </p>
               <p>
-                Vivo en <strong className="text-foreground">Falcón, Placetas</strong>, y entre semestres arreglo PCs,
-                instalo Linux (especialmente <strong>Arch Linux</strong>), diseño flyers y escribo scripts que automatizan
+                Vivo en <strong className="text-foreground">Falcón, Placetas</strong>, y entre semestres arreglo PCs (ahora también hardware),
+                instalo Linux (especialmente <strong>Arch Linux</strong>), diseño flyers, desarrollo software a medida y escribo scripts que automatizan
                 tareas que nadie debería hacer a mano.
+              </p>
+              <p>
+                También trabajo <strong className="text-foreground">remotamente</strong> con clientes internacionales en proyectos de 
+                automatización, IA local, APIs y desarrollo de software desktop nativo.
               </p>
               <p>
                 Tengo un canal en Telegram —{" "}
@@ -113,29 +117,27 @@ export default function SobreMi() {
               </p>
             </div>
 
+            {/* Skills */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {skillTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1.5 text-xs font-mono font-medium text-primary bg-primary/10 border border-primary/20 rounded-lg"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
             {/* Disclaimer */}
             <div className="bg-destructive/5 border-l-[3px] border-destructive rounded-r-lg p-4">
               <p className="text-muted-foreground font-body text-sm leading-relaxed">
-                <strong className="text-destructive">Lo que NO hago:</strong> No
-                abro torres de PC, no soldo, no cambio pantallas, no toco
-                hardware interno. Si tu problema es físico, te diagnostico
-                gratis y te digo a quién acudir. Mi territorio es el software:
-                sistemas operativos, virus, configuraciones, recuperación de
-                datos, y todo lo que se arregla con clicks y comandos.
+                <strong className="text-destructive">Transparencia total:</strong>{" "}
+                Ahora sí abro torres de PC. Limpieza, cambio de pasta térmica, instalación de RAM/SSD,
+                diagnóstico de componentes y armado completo. Si una pieza está dañada irreparablemente, te digo
+                antes de gastar dinero. Garantía de 3 días en todas las reparaciones.
               </p>
             </div>
-          </div>
-
-          {/* Skills */}
-          <div className="flex flex-wrap gap-2">
-            {skillTags.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1.5 text-xs font-mono font-medium text-primary bg-primary/10 border border-primary/20 rounded-lg"
-              >
-                {tag}
-              </span>
-            ))}
           </div>
 
           {/* Contact methods */}
@@ -189,6 +191,17 @@ export default function SobreMi() {
             <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
               <span className="font-mono font-bold text-sm text-foreground">Norland Chávez</span>
               <span className="block text-xs text-muted-foreground font-mono">@Dragoland · UCI 3er año</span>
+              <div className="flex items-center justify-center gap-2 mt-1">
+                <span className="inline-flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded">
+                  <Code className="w-3 h-3" /> Dev
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] text-orange-400 bg-orange-400/10 px-1.5 py-0.5 rounded">
+                  <Wrench className="w-3 h-3" /> HW
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                  <Globe className="w-3 h-3" /> Remote
+                </span>
+              </div>
             </div>
           </div>
 
@@ -243,8 +256,10 @@ export default function SobreMi() {
                   <option value="linux">Migración a Linux</option>
                   <option value="optimizar">Optimización</option>
                   <option value="recuperar">Recuperación de datos</option>
+                  <option value="hardware">Servicio técnico hardware</option>
                   <option value="diseno">Diseño gráfico</option>
                   <option value="software">Software personalizado</option>
+                  <option value="ia">Instalación de IA local</option>
                   <option value="otro">Otro</option>
                 </select>
                 <textarea

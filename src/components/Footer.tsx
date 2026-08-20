@@ -1,5 +1,5 @@
-import { Link } from 'react-router'
-import { Leaf } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Leaf, Code, Globe, Wrench } from 'lucide-react'
 
 export const Footer = () => {
   return (
@@ -36,15 +36,29 @@ export const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Brand */}
             <div className="md:col-span-1">
-              <Link to="/" className="font-mono font-bold text-primary text-lg">
+              <Link to="/" className="font-mono font-bold text-primary text-lg flex items-center gap-2">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-primary">
+                  <path d="M11 2C9.5 5 7 8.5 7 12c0 2.5 1.5 4.5 4 6.5C13.5 16.5 15 14.5 15 12c0-3.5-2.5-7-4-10z" fill="currentColor"/>
+                </svg>
                 Bit<span className="text-orange-400">Criollo</span>
               </Link>
               <p className="text-sm text-muted-foreground font-body mt-3 leading-relaxed">
-                Soluciones informáticas a nivel de software en Falcón, Placetas. Linux, limpieza de virus, recuperación de datos, diseño gráfico y más.
+                Soluciones informáticas en Falcón, Placetas. Soporte local, desarrollo remoto y servicio técnico de hardware.
               </p>
               <p className="text-xs text-muted-foreground mt-4">
                 📍 Falcón, Placetas, Villa Clara, Cuba
               </p>
+              <div className="flex items-center gap-2 mt-3">
+                <span className="inline-flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-1 rounded">
+                  <Code className="w-3 h-3" /> Software
+                </span>
+                <span className="inline-flex items-center gap-1 text-xs text-orange-400 bg-orange-400/10 px-2 py-1 rounded">
+                  <Wrench className="w-3 h-3" /> Hardware
+                </span>
+                <span className="inline-flex items-center gap-1 text-xs text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded">
+                  <Globe className="w-3 h-3" /> Remoto
+                </span>
+              </div>
             </div>
 
             {/* Links */}
@@ -55,6 +69,7 @@ export const Footer = () => {
                 <Link to="/servicios" className="text-sm text-muted-foreground hover:text-primary transition-colors">Servicios</Link>
                 <Link to="/software" className="text-sm text-muted-foreground hover:text-primary transition-colors">Software</Link>
                 <Link to="/proceso" className="text-sm text-muted-foreground hover:text-primary transition-colors">Proceso</Link>
+                <Link to="/cotizador" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cotizador</Link>
               </div>
             </div>
 
@@ -72,7 +87,8 @@ export const Footer = () => {
               <h4 className="font-mono font-bold text-sm text-foreground mb-4">Legal</h4>
               <div className="flex flex-col gap-2">
                 <span className="text-sm text-muted-foreground">Software libre cuando se puede</span>
-                <span className="text-sm text-muted-foreground">Sin garantía sobre hardware</span>
+                <span className="text-sm text-muted-foreground">Garantía de 3 días en reparaciones</span>
+                <span className="text-sm text-muted-foreground">Diagnóstico gratuito</span>
               </div>
             </div>
           </div>

@@ -5,20 +5,19 @@ export default function LaVallita() {
     <section className="bg-gradient-warm">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw] py-20 lg:py-28">
         <div className="max-w-[700px] mx-auto text-center animate-fade-up">
-          {/* Plant icon */}
           <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-6">
             <Leaf className="w-7 h-7 text-emerald-500" />
           </div>
 
           <h2 className="font-mono font-bold text-2xl lg:text-[28px] text-emerald-500 mb-5">
-            Te gusta la naturaleza?
+            ¿Te gusta la naturaleza?
           </h2>
 
           <p className="font-body text-base text-muted-foreground leading-relaxed mb-8">
-            Mientras arreglo tu tecnologia, mi familia cuida la tierra.{" "}
+            Mientras arreglo tu tecnología, mi familia cuida la tierra.{" "}
             <strong className="text-foreground">La Vallita</strong> es nuestra
-            finca agroecologica en Falcon, Placetas. Plantas frutales, tradicion
-            y recuperacion. Quizas despues de arreglar tu PC te lleves un mamey
+            finca agroecológica en Falcón, Placetas. Plantas frutales, tradición
+            y recuperación. Quizás después de arreglar tu PC te lleves un mamey
             para el patio.
           </p>
 
