@@ -12,40 +12,35 @@ interface ServiceOption {
 
 const serviceOptions: ServiceOption[] = [
   // LOCAL
-  { id: "virus", name: "Limpieza de virus/malware", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "optimizar", name: "Optimización y aceleración", basePrice: 400, currency: "CUP", category: "local" },
-  { id: "formateo", name: "Formateo e instalación (Windows/Linux)", basePrice: 1500, currency: "CUP", category: "local" },
-  { id: "linux", name: "Migración a Linux", basePrice: 2000, currency: "CUP", category: "local" },
-  { id: "arch", name: "Instalación y configuración de Arch Linux", basePrice: 2000, currency: "CUP", category: "local" },
-  { id: "personalizacion", name: "Personalización de escritorio", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "recuperar", name: "Recuperación de archivos", basePrice: 800, currency: "CUP", category: "local" },
-  { id: "whatsapp", name: "Recuperación de WhatsApp", basePrice: 300, currency: "CUP", category: "local" },
-  { id: "celular", name: "Configuración de celular", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "cuentas", name: "Recuperación de cuentas", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "programas", name: "Instalación de programas", basePrice: 150, currency: "CUP", category: "local" },
-  { id: "impresora", name: "Configuración de impresora", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "wifi", name: "Configuración WiFi/router", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "smarttv", name: "Configuración Smart TV", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "seguridad", name: "Asesoría en seguridad digital", basePrice: 150, currency: "CUP", category: "local" },
-  { id: "compra", name: "Asesoría para compra de equipos", basePrice: 150, currency: "CUP", category: "local" },
-  { id: "pendrive", name: "Pendrive booteable", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "digitalizar", name: "Digitalización de documentos", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "servidor", name: "Configuración de servidor local / NAS", basePrice: 800, currency: "CUP", category: "local" },
-  { id: "diseno", name: "Diseño gráfico (flyers, logos, etc.)", basePrice: 300, currency: "CUP", category: "local" },
-  { id: "fotos", name: "Edición y retoque de fotos", basePrice: 250, currency: "CUP", category: "local" },
-  { id: "cv", name: "Creación de CV digital", basePrice: 300, currency: "CUP", category: "local" },
-  { id: "video", name: "Conversión y compresión de video", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "emuladores", name: "Instalación de emuladores y juegos retro", basePrice: 300, currency: "CUP", category: "local" },
+  { id: "virus", name: "Limpieza de virus/malware", basePrice: 1500, currency: "CUP", category: "local" },
+  { id: "optimizar", name: "Optimización y aceleración", basePrice: 1000, currency: "CUP", category: "local" },
+  { id: "formateo", name: "Formateo e instalación (Windows/Linux)", basePrice: 3000, currency: "CUP", category: "local" },
+  { id: "linux", name: "Migración a Linux", basePrice: 4000, currency: "CUP", category: "local" },
+  { id: "arch", name: "Instalación y configuración de Arch Linux", basePrice: 5000, currency: "CUP", category: "local" },
+  { id: "personalizacion", name: "Personalización de escritorio", basePrice: 1000, currency: "CUP", category: "local" },
+  { id: "recuperar", name: "Recuperación de archivos", basePrice: 2000, currency: "CUP", category: "local" },
+  { id: "whatsapp", name: "Recuperación de WhatsApp", basePrice: 800, currency: "CUP", category: "local" },
+  { id: "celular", name: "Configuración de celular", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "cuentas", name: "Recuperación de cuentas", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "programas", name: "Instalación de programas", basePrice: 400, currency: "CUP", category: "local" },
+  { id: "impresora", name: "Configuración de impresora", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "wifi", name: "Configuración WiFi/router", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "smarttv", name: "Configuración Smart TV", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "seguridad", name: "Asesoría en seguridad digital", basePrice: 400, currency: "CUP", category: "local" },
+  { id: "compra", name: "Asesoría para compra de equipos", basePrice: 400, currency: "CUP", category: "local" },
+  { id: "pendrive", name: "Pendrive booteable", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "digitalizar", name: "Digitalización de documentos", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "servidor", name: "Configuración de servidor local / NAS", basePrice: 2000, currency: "CUP", category: "local" },
+  { id: "diseno", name: "Diseño gráfico (flyers, logos, etc.)", basePrice: 800, currency: "CUP", category: "local" },
+  { id: "fotos", name: "Edición y retoque de fotos", basePrice: 600, currency: "CUP", category: "local" },
+  { id: "cv", name: "Creación de CV digital", basePrice: 800, currency: "CUP", category: "local" },
+  { id: "video", name: "Conversión y compresión de video", basePrice: 500, currency: "CUP", category: "local" },
+  { id: "emuladores", name: "Instalación de emuladores y juegos retro", basePrice: 800, currency: "CUP", category: "local" },
 
-  // HARDWARE
-  { id: "limpieza_hw", name: "Limpieza interna de PC", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "pasta_termica", name: "Cambio de pasta térmica", basePrice: 300, currency: "CUP", category: "hardware" },
-  { id: "ram_hw", name: "Instalación de RAM", basePrice: 200, currency: "CUP", category: "hardware" },
-  { id: "ssd_hw", name: "Instalación de SSD/HDD", basePrice: 400, currency: "CUP", category: "hardware" },
-  { id: "fuente_hw", name: "Cambio de fuente de poder", basePrice: 300, currency: "CUP", category: "hardware" },
-  { id: "diagnostico_hw", name: "Diagnóstico de componentes", basePrice: 300, currency: "CUP", category: "hardware" },
-  { id: "armado_hw", name: "Armado de PC desde cero", basePrice: 1500, currency: "CUP", category: "hardware" },
-  { id: "upgrade_hw", name: "Upgrade de componentes", basePrice: 500, currency: "CUP", category: "hardware" },
+  // HARDWARE (reducido — sin cambio de piezas)
+  { id: "limpieza_hw", name: "Limpieza interna de PC", basePrice: 2000, currency: "CUP", category: "hardware" },
+  { id: "diagnostico_hw", name: "Diagnóstico de componentes", basePrice: 1500, currency: "CUP", category: "hardware" },
+  { id: "armado_hw", name: "Armado de PC (mano de obra)", basePrice: 4000, currency: "CUP", category: "hardware" },
 
   // DESARROLLO REMOTO (USD)
   { id: "ia_local", name: "Instalación de IA Local (Ollama, etc.)", basePrice: 80, currency: "USD", category: "dev" },
@@ -343,4 +338,5 @@ export default function Cotizador() {
       </div>
     </section>
   );
+}
 }
