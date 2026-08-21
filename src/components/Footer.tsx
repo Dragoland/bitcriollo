@@ -87,8 +87,8 @@ export const Footer = () => {
               <h4 className="font-mono font-bold text-sm text-foreground mb-4">Legal</h4>
               <div className="flex flex-col gap-2">
                 <span className="text-sm text-muted-foreground">Software libre cuando se puede</span>
-                <span className="text-sm text-muted-foreground">Garantía de 3 días en reparaciones</span>
-                <span className="text-sm text-muted-foreground">Diagnóstico gratuito</span>
+                <span className="text-sm text-muted-foreground">Garantía de 1 semana en reparaciones</span>
+                <span className="text-sm text-muted-foreground">Trabajo realizado por un universitario de la UCI</span>
               </div>
             </div>
           </div>
