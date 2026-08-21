@@ -34,7 +34,7 @@ const contactMethods = [
   {
     icon: Clock,
     label: "Horario",
-    value: "Lun–Sáb 9:00–18:00",
+    value: "Lun–Sáb 9:00–20:00",
     href: null,
     description: "Respuesta en 24–48h",
   },
@@ -71,7 +71,7 @@ export default function SobreMi() {
           Sobre mí
         </h1>
         <p className="font-body text-base text-muted-foreground max-w-[500px] mx-auto">
-          ¿Quién soy? Un vecino con paciencia y Linux. No soy senior, no trabajo en Google, no tengo certificaciones de Cisco. Pero me defiendo.
+          ¿Quién soy? Un vecino con paciencia y Linux. No soy senior, no trabajo en Google, no tengo certificaciones de Cisco. Pero me defiendo. :3
         </p>
       </div>
 
@@ -81,7 +81,7 @@ export default function SobreMi() {
           {/* Bio card */}
           <div className="bg-card border border-border rounded-xl p-6 lg:p-8">
             <h2 className="font-mono font-bold text-lg text-primary mb-5">
-              Hey, soy Norland (Dragoland en internet, porque los nicks raros son ley)
+              Hey, soy Dragoland :D
             </h2>
             <div className="font-body text-muted-foreground space-y-4 leading-relaxed mb-6">
               <p className="text-foreground">
@@ -92,7 +92,7 @@ export default function SobreMi() {
                 está comiendo la cabeza en este momento (lo normal).
               </p>
               <p>
-                Vivo en <strong className="text-foreground">Falcón, Placetas</strong>, y entre semestres arreglo PCs (ahora también hardware),
+                Vivo en <strong className="text-foreground">Falcón, Placetas</strong>, y cuando no estoy en la universidad arreglo PCs,
                 instalo Linux (especialmente <strong>Arch Linux</strong>), diseño flyers, desarrollo software a medida y escribo scripts que automatizan
                 tareas que nadie debería hacer a mano.
               </p>
@@ -110,9 +110,7 @@ export default function SobreMi() {
                 <strong className="text-foreground">Más allá del código:</strong>{" "}
                 También soy productor musical (FL Studio, LMMS), diseñador
                 gráfico (Krita, GIMP, Blender), y tengo una obsesión sana con
-                los videojuegos retro y los emuladores. No me gusta el desarrollo
-                web — prefiero software desktop nativo, especialmente para Linux.
-                Me gusta que las cosas sean ligeras, rápidas y no dependan de 40
+                los videojuegos retro y los emuladores. Me gusta que las cosas sean ligeras, rápidas y no dependan de 40
                 librerías externas.
               </p>
             </div>
@@ -133,9 +131,11 @@ export default function SobreMi() {
             <div className="bg-destructive/5 border-l-[3px] border-destructive rounded-r-lg p-4">
               <p className="text-muted-foreground font-body text-sm leading-relaxed">
                 <strong className="text-destructive">Transparencia total:</strong>{" "}
-                Ahora sí abro torres de PC. Limpieza, cambio de pasta térmica, instalación de RAM/SSD,
-                diagnóstico de componentes y armado completo. Si una pieza está dañada irreparablemente, te digo
-                antes de gastar dinero. Garantía de 3 días en todas las reparaciones.
+                Garantía de una semana en todas las reparaciones. Me libero de cualquier cargo de responsabilidad si despues de la garantia
+                la PC presenta algun problema. Lea todos los servicios que puedo ofrecer y de no presentar alguno, pregunte que necesita
+                y trabajamos en ello. Este sitio fue creado por un universitario de la UCI con ganas de salir adelante por lo que pido,
+                no me trate de ignorante si desconozco de algun problema o solucion a un problema. Los precios expuestos no son definitivos
+                por lo que pueden ser mayores o menores dependiendo del caso.
               </p>
             </div>
           </div>
@@ -189,7 +189,7 @@ export default function SobreMi() {
               }}
             />
             <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
-              <span className="font-mono font-bold text-sm text-foreground">Norland Chávez</span>
+              <span className="font-mono font-bold text-sm text-foreground">Dragoland</span>
               <span className="block text-xs text-muted-foreground font-mono">@Dragoland · UCI 3er año</span>
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="inline-flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded">
