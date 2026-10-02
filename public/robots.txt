@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /private/
 
-Sitemap: https://bitcrillo.pages.dev/sitemap.xml
+Sitemap: https://bitcriollo.pages.dev/sitemap.xml
