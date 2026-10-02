@@ -3,6 +3,7 @@ import Servicios from '../sections/Servicios'
 import SoftwareStore from '../sections/SoftwareStore'
 import Proceso from '../sections/Proceso'
 import Stack from '../sections/Stack'
+import LaVallita from '../sections/LaVallita'
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <SoftwareStore />
       <Proceso />
       <Stack />
+      <LaVallita />
     </>
   )
 }

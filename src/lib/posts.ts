@@ -31,11 +31,57 @@ function parseFrontmatter(raw: string) {
   return { data, content }
 }
 
-const modules = import.meta.glob('../content/blog/*.md', {
-  eager: true,
-  query: '?raw',
-  import: 'default'
-})
+// Posts hardcodeados como fallback si import.meta.glob falla o no encuentra archivos
+const fallbackPosts: Post[] = [
+  {
+    slug: 'bienvenida',
+    title: 'Bienvenido al Blog de BitCriollo',
+    date: '2026-08-20',
+    tags: ['bienvenida', 'bitcriollo', 'tecnología'],
+    excerpt: 'Primer post del blog. De qué trata este espacio y qué encontrarás aquí.',
+    content: `# Bienvenido al Blog de BitCriollo
+
+Este es el espacio donde comparto lo que aprendo, lo que rompo y lo que arreglo.
+
+## ¿Qué encontrarás aquí?
+
+- **Guías prácticas** de Linux, especialmente Arch Linux
+- **Automatización** con Python y Bash
+- **IA local**: cómo correr LLMs en tu propia máquina
+- **Recuperación de datos** y seguridad digital
+- **Reflexiones** de un informático universitario en Cuba
+
+## Sobre los comentarios
+
+No hay sección de comentarios. Si tienes algo que decir, escríbeme por Telegram o WhatsApp.
+
+---
+
+*Hecho con paciencia y café en Falcón, Placetas.*
+`
+  }
+]
+
+let cachedModules: Record<string, any> | null = null
+
+function loadModules(): Record<string, any> {
+  if (cachedModules !== null) return cachedModules
+
+  try {
+    // Vite import.meta.glob - en producción puede fallar si no hay archivos .md
+    const mods = import.meta.glob('../content/blog/*.md', {
+      eager: true,
+      query: '?raw',
+      import: 'default'
+    })
+    cachedModules = mods || {}
+  } catch (e) {
+    console.warn('[posts.ts] import.meta.glob falló:', e)
+    cachedModules = {}
+  }
+
+  return cachedModules
+}
 
 export interface PostMeta {
   slug: string
@@ -50,16 +96,33 @@ export interface Post extends PostMeta {
 }
 
 export function getAllPosts(): Post[] {
+  const modules = loadModules()
   const posts: Post[] = []
 
-  for (const [path, raw] of Object.entries(modules)) {
-    if (typeof raw !== 'string') continue
+  for (const [path, rawModule] of Object.entries(modules)) {
+    // El módulo puede ser un string directo o un objeto { default: string }
+    let raw: string | undefined
+
+    if (typeof rawModule === 'string') {
+      raw = rawModule
+    } else if (rawModule && typeof rawModule === 'object') {
+      // Intentar obtener el default export
+      const mod = rawModule as any
+      if (typeof mod.default === 'string') {
+        raw = mod.default
+      }
+    }
+
+    if (!raw || typeof raw !== 'string') {
+      console.warn(`[posts.ts] Módulo ${path} no tiene contenido string válido`)
+      continue
+    }
 
     const { data, content } = parseFrontmatter(raw)
     const slug = path.split('/').pop()?.replace(/\.md$/, '') || ''
 
     if (!data.title || !data.date) {
-      console.warn(`Post ${slug} falta título o fecha`)
+      console.warn(`[posts.ts] Post ${slug} falta título o fecha`)
       continue
     }
 
@@ -71,6 +134,12 @@ export function getAllPosts(): Post[] {
       excerpt: data.excerpt || '',
       content,
     })
+  }
+
+  // Si no se encontraron posts desde archivos, usar fallback
+  if (posts.length === 0) {
+    console.log('[posts.ts] No se encontraron posts .md, usando fallback')
+    return [...fallbackPosts]
   }
 
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())

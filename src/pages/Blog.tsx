@@ -2,7 +2,15 @@ import { Link } from 'react-router'
 import { getAllPosts, formatDate } from '../lib/posts'
 
 export const Blog = () => {
-  const posts = getAllPosts()
+  let posts: ReturnType<typeof getAllPosts> = []
+  let error: string | null = null
+
+  try {
+    posts = getAllPosts()
+  } catch (e) {
+    error = 'No se pudieron cargar los posts.'
+    console.error('[Blog] Error cargando posts:', e)
+  }
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -11,11 +19,19 @@ export const Blog = () => {
         <h1 className="text-2xl font-bold text-foreground">Últimas entradas</h1>
       </div>
 
-      {posts.length === 0 ? (
+      {error && (
+        <div className="text-center py-12 text-destructive">
+          <p>{error}</p>
+        </div>
+      )}
+
+      {!error && posts.length === 0 && (
         <div className="text-center py-12 text-muted-foreground">
           <p>No hay posts aún. Vuelve pronto.</p>
         </div>
-      ) : (
+      )}
+
+      {!error && posts.length > 0 && (
         <div className="grid gap-4">
           {posts.map(post => (
             <Link

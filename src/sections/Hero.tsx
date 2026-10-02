@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Globe, MapPin, Code, Wrench } from "lucide-react";
+import { ChevronDown, Globe, MapPin, Code, Wrench, ShoppingBag } from "lucide-react";
 import { Link } from "react-router";
 
 interface TerminalLine {
@@ -160,12 +160,12 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start flex-wrap">
               <a
                 href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold text-sm px-7 py-3.5 rounded-md hover:brightness-110 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-200 uppercase tracking-wider"
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold text-sm px-6 py-3 rounded-md hover:brightness-110 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-200 uppercase tracking-wider"
               >
                 <MapPin className="w-4 h-4" />
                 Soporte Local
@@ -174,14 +174,21 @@ export default function Hero() {
                 href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20me%20interesa%20un%20proyecto%20de%20desarrollo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 border border-emerald-500 text-emerald-500 font-semibold text-sm px-7 py-3.5 rounded-md hover:bg-emerald-500/10 transition-all duration-200 uppercase tracking-wider"
+                className="inline-flex items-center justify-center gap-2 border border-emerald-500 text-emerald-500 font-semibold text-sm px-6 py-3 rounded-md hover:bg-emerald-500/10 transition-all duration-200 uppercase tracking-wider"
               >
                 <Globe className="w-4 h-4" />
                 Proyectos Remotos
               </a>
               <Link
+                to="/tienda"
+                className="inline-flex items-center justify-center gap-2 border border-yellow-400 text-yellow-400 font-semibold text-sm px-6 py-3 rounded-md hover:bg-yellow-400/10 transition-all duration-200 uppercase tracking-wider"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                Tienda
+              </Link>
+              <Link
                 to="/servicios"
-                className="inline-flex items-center justify-center gap-2 border border-primary text-primary font-semibold text-sm px-7 py-3.5 rounded-md hover:bg-primary/10 transition-all duration-200 uppercase tracking-wider"
+                className="inline-flex items-center justify-center gap-2 border border-primary text-primary font-semibold text-sm px-6 py-3 rounded-md hover:bg-primary/10 transition-all duration-200 uppercase tracking-wider"
               >
                 Ver servicios
               </Link>

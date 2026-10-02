@@ -1,1 +1,3 @@
+# Cloudflare Pages SPA fallback
+# Todas las rutas caen en index.html para que React Router maneje el routing
 /*    /index.html   200

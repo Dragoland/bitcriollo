@@ -5,7 +5,26 @@ import remarkGfm from 'remark-gfm'
 
 export const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>()
-  const post = slug ? getPostBySlug(slug) : undefined
+
+  let post: ReturnType<typeof getPostBySlug> = undefined
+  let error: string | null = null
+
+  try {
+    post = slug ? getPostBySlug(slug) : undefined
+  } catch (e) {
+    error = 'No se pudo cargar el post.'
+    console.error('[BlogPost] Error cargando post:', e)
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-12 text-center">
+        <h1 className="text-2xl font-bold text-destructive">Error</h1>
+        <p className="text-muted-foreground mt-2">{error}</p>
+        <Link to="/blog" className="text-primary hover:underline mt-4 inline-block">← Volver al blog</Link>
+      </div>
+    )
+  }
 
   if (!post) {
     return (
