@@ -12,7 +12,7 @@ const TERMINAL_LINES: TerminalLine[] = [
   { type: "prompt", text: "whoami", delay: 0 },
   { type: "output", text: "BitCriollo — Soluciones Digitales con Sabor", delay: 300 },
   { type: "comment", text: "# Software · Hardware · Desarrollo Remoto", delay: 500 },
-  { type: "comment", text: "# Falcón, Placetas · Disponible internacionalmente", delay: 700 },
+  { type: "comment", text: "# Villa Clara, Cuba · Disponible internacionalmente", delay: 700 },
   { type: "prompt", text: "cat servicios.txt", delay: 1000 },
   { type: "output", text: "Soporte local (Cuba)    |    Desarrollo remoto (Mundo)", delay: 1300 },
   { type: "output", text: "Linux · Virus · Hardware · Scripts · IA Local · APIs", delay: 1500 },
@@ -117,7 +117,7 @@ export default function Hero() {
                 <div className="w-3 h-3 rounded-full bg-yellow-400" />
                 <div className="w-3 h-3 rounded-full bg-emerald-500" />
                 <span className="ml-3 text-xs text-muted-foreground font-code">
-                  norland@bitcriollo: ~/falcon-placetas
+                  dragoland@bitcriollo: ~/villaclara-cuba
                 </span>
               </div>
               {/* Terminal body */}
@@ -132,7 +132,7 @@ export default function Hero() {
             {/* Badges */}
             <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-6">
               <span className="inline-flex items-center gap-1.5 text-xs font-mono bg-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/20">
-                <MapPin className="w-3 h-3" /> Falcón, Placetas
+                <MapPin className="w-3 h-3" /> Villa Clara, Cuba
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-mono bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-full border border-emerald-500/20">
                 <Globe className="w-3 h-3" /> Remoto
