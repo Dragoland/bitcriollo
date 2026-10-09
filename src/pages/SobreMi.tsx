@@ -190,7 +190,7 @@ export default function SobreMi() {
             />
             <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
               <span className="font-mono font-bold text-sm text-foreground">Dragoland</span>
-              <span className="block text-xs text-muted-foreground font-mono">@Dragoland · UCI 3er año</span>
+              <span className="block text-xs text-muted-foreground font-mono">@Dragoland_OP · UCI 3er año</span>
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="inline-flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded">
                   <Code className="w-3 h-3" /> Dev
