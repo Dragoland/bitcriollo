@@ -27,7 +27,7 @@ const contactMethods = [
   {
     icon: MapPin,
     label: "Ubicación",
-    value: "Falcón, Placetas, Villa Clara",
+    value: "Villa Clara, Cuba",
     href: null,
     description: "Atención presencial",
   },
@@ -81,7 +81,7 @@ export default function SobreMi() {
           {/* Bio card */}
           <div className="bg-card border border-border rounded-xl p-6 lg:p-8">
             <h2 className="font-mono font-bold text-lg text-primary mb-5">
-              Hey, soy Norland (Dragoland en internet, porque los nicks raros son ley)
+              Hey, soy Dragoland (porque en internet, los nicks raros son ley)
             </h2>
             <div className="font-body text-muted-foreground space-y-4 leading-relaxed mb-6">
               <p className="text-foreground">
@@ -133,9 +133,9 @@ export default function SobreMi() {
             <div className="bg-destructive/5 border-l-[3px] border-destructive rounded-r-lg p-4">
               <p className="text-muted-foreground font-body text-sm leading-relaxed">
                 <strong className="text-destructive">Transparencia total:</strong>{" "}
-                Ahora sí abro torres de PC. Limpieza, cambio de pasta térmica, instalación de RAM/SSD,
+                Abro torres de PC y Laptops. Limpieza, cambio de pasta térmica, instalación de RAM/SSD,
                 diagnóstico de componentes y armado completo. Si una pieza está dañada irreparablemente, te digo
-                antes de gastar dinero. Garantía de 3 días en todas las reparaciones.
+                antes de gastar dinero. Garantía de una semana en todas las reparaciones.
               </p>
             </div>
           </div>
@@ -189,7 +189,7 @@ export default function SobreMi() {
               }}
             />
             <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
-              <span className="font-mono font-bold text-sm text-foreground">Norland Chávez</span>
+              <span className="font-mono font-bold text-sm text-foreground">Dragoland</span>
               <span className="block text-xs text-muted-foreground font-mono">@Dragoland · UCI 3er año</span>
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="inline-flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded">
