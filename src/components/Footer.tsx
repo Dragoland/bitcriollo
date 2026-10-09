@@ -43,10 +43,10 @@ export const Footer = () => {
                 Bit<span className="text-orange-400">Criollo</span>
               </Link>
               <p className="text-sm text-muted-foreground font-body mt-3 leading-relaxed">
-                Soluciones informáticas en Falcón, Placetas. Soporte local, desarrollo remoto y servicio técnico de hardware.
+                Soluciones informáticas en Cuba. Soporte local, desarrollo remoto y servicio técnico de hardware.
               </p>
               <p className="text-xs text-muted-foreground mt-4">
-                📍 Falcón, Placetas, Villa Clara, Cuba
+                📍 Placetas, Villa Clara, Cuba
               </p>
               <div className="flex items-center gap-2 mt-3">
                 <span className="inline-flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-1 rounded">
@@ -67,7 +67,7 @@ export const Footer = () => {
               <div className="flex flex-col gap-2">
                 <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">Inicio</Link>
                 <Link to="/servicios" className="text-sm text-muted-foreground hover:text-primary transition-colors">Servicios</Link>
-                <Link to="/software" className="text-sm text-muted-foreground hover:text-primary transition-colors">Software</Link>
+                <Link to="/tienda" className="text-sm text-muted-foreground hover:text-primary transition-colors">Tienda</Link>
                 <Link to="/proceso" className="text-sm text-muted-foreground hover:text-primary transition-colors">Proceso</Link>
                 <Link to="/cotizador" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cotizador</Link>
               </div>
@@ -87,7 +87,7 @@ export const Footer = () => {
               <h4 className="font-mono font-bold text-sm text-foreground mb-4">Legal</h4>
               <div className="flex flex-col gap-2">
                 <span className="text-sm text-muted-foreground">Software libre cuando se puede</span>
-                <span className="text-sm text-muted-foreground">Garantía de 3 días en reparaciones</span>
+                <span className="text-sm text-muted-foreground">Garantía de una semana en reparaciones</span>
                 <span className="text-sm text-muted-foreground">Diagnóstico gratuito</span>
               </div>
             </div>
