@@ -8,9 +8,9 @@ location: "Falcón, Placetas"
 whatsapp: "5356418463"
 featured: true
 images:
-  - "/images/products/asus-rog-g16-1.jpg"
-  - "/images/products/asus-rog-g16-2.jpg"
-  - "/images/products/asus-rog-g16-3.jpg"
+  - "/images/asus-rog-g16-1.jpg"
+  - "/images/asus-rog-g16-2.jpg"
+  - "/images/asus-rog-g16-3.jpg"
 description: "Laptop gamer de alto rendimiento Asus ROG Strix G16. Prácticamente como nueva, ideal para gaming AAA, edición de video pesada y trabajo profesional."
 ---
 
