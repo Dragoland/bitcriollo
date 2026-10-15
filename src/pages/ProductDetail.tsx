@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router'
 import { getProductBySlug } from '../lib/products'
-import { ArrowLeft, MapPin, Star, ShoppingBag, MessageCircle, Check, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, MapPin, Star, ShoppingBag, MessageCircle, Check, ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -13,6 +13,8 @@ export default function ProductDetail() {
 
   // Estado para la imagen activa de la galería
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0)
+  // Estado para controlar el modal de vista a pantalla completa
+  const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false)
 
   try {
     product = slug ? getProductBySlug(slug) : undefined
@@ -48,12 +50,14 @@ export default function ProductDetail() {
     software: 'Software',
   }
 
-  const handlePrevImage = () => {
+  const handlePrevImage = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation()
     if (!product || product.images.length === 0) return
     setSelectedImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))
   }
 
-  const handleNextImage = () => {
+  const handleNextImage = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation()
     if (!product || product.images.length === 0) return
     setSelectedImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1))
   }
@@ -79,16 +83,26 @@ export default function ProductDetail() {
       <div className="grid lg:grid-cols-[55%_45%] gap-10">
         {/* Left - Images / Galería interactiva */}
         <div>
-          <div className="relative aspect-[4/3] bg-secondary rounded-xl border border-border overflow-hidden mb-4 shadow-sm group">
+          <div 
+            onClick={() => product && product.images.length > 0 && setIsLightboxOpen(true)}
+            className={`relative aspect-[4/3] bg-secondary rounded-xl border border-border overflow-hidden mb-4 shadow-sm ${product.images.length > 0 ? 'cursor-pointer group' : ''}`}
+          >
             {product.images.length > 0 ? (
-              <img
-                src={product.images[selectedImageIndex]}
-                alt={`${product.title} - Imagen ${selectedImageIndex + 1}`}
-                className="w-full h-full object-cover transition-all duration-300"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none'
-                }}
-              />
+              <>
+                <img
+                  src={product.images[selectedImageIndex]}
+                  alt={`${product.title} - Imagen ${selectedImageIndex + 1}`}
+                  className="w-full h-full object-cover transition-all duration-300"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none'
+                  }}
+                />
+
+                {/* Botón de expandir a pantalla completa */}
+                <div className="absolute top-3 right-3 bg-card/85 backdrop-blur-sm text-foreground p-2 rounded-lg border border-border opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Maximize2 className="w-4 h-4" />
+                </div>
+              </>
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <ShoppingBag className="w-20 h-20 text-muted-foreground opacity-20" />
@@ -248,6 +262,61 @@ export default function ProductDetail() {
           </p>
         </div>
       </div>
+
+      {/* Lightbox / Modal a Pantalla Completa */}
+      {isLightboxOpen && product && product.images.length > 0 && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          {/* Botón Cerrar */}
+          <button
+            type="button"
+            onClick={() => setIsLightboxOpen(false)}
+            className="absolute top-4 right-4 text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors cursor-pointer z-50"
+            aria-label="Cerrar vista completa"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {/* Contenedor de la Imagen completa sin cortes (object-contain) */}
+          <div 
+            className="relative max-w-5xl max-h-[90vh] w-full h-full flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={product.images[selectedImageIndex]}
+              alt={`${product.title} - Completa`}
+              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+            />
+
+            {/* Controles en el Modal */}
+            {product.images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-colors cursor-pointer"
+                  aria-label="Anterior"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-colors cursor-pointer"
+                  aria-label="Siguiente"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-3 py-1 rounded-full font-mono">
+                  {selectedImageIndex + 1} / {product.images.length}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
