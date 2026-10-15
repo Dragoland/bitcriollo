@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import { useParams, Link } from 'react-router'
 import { getProductBySlug } from '../lib/products'
-import { ArrowLeft, MapPin, Star, ShoppingBag, MessageCircle, Check } from 'lucide-react'
+import { ArrowLeft, MapPin, Star, ShoppingBag, MessageCircle, Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -9,6 +10,9 @@ export default function ProductDetail() {
 
   let product: ReturnType<typeof getProductBySlug> = undefined
   let error: string | null = null
+
+  // Estado para la imagen activa de la galería
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0)
 
   try {
     product = slug ? getProductBySlug(slug) : undefined
@@ -44,6 +48,16 @@ export default function ProductDetail() {
     software: 'Software',
   }
 
+  const handlePrevImage = () => {
+    if (!product || product.images.length === 0) return
+    setSelectedImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))
+  }
+
+  const handleNextImage = () => {
+    if (!product || product.images.length === 0) return
+    setSelectedImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1))
+  }
+
   const buildWhatsAppLink = () => {
     const msg = `Hola Dragoland! Me interesa el producto "${product.title}" (${product.price}). ¿Sigue disponible?`
     return `https://wa.me/${product.whatsapp}?text=${encodeURIComponent(msg)}`
@@ -63,14 +77,14 @@ export default function ProductDetail() {
       </Link>
 
       <div className="grid lg:grid-cols-[55%_45%] gap-10">
-        {/* Left - Images */}
+        {/* Left - Images / Galería interactiva */}
         <div>
-          <div className="aspect-[4/3] bg-secondary rounded-xl border border-border overflow-hidden mb-4">
+          <div className="relative aspect-[4/3] bg-secondary rounded-xl border border-border overflow-hidden mb-4 shadow-sm group">
             {product.images.length > 0 ? (
               <img
-                src={product.images[0]}
-                alt={product.title}
-                className="w-full h-full object-cover"
+                src={product.images[selectedImageIndex]}
+                alt={`${product.title} - Imagen ${selectedImageIndex + 1}`}
+                className="w-full h-full object-cover transition-all duration-300"
                 onError={(e) => {
                   (e.target as HTMLImageElement).style.display = 'none'
                 }}
@@ -80,15 +94,49 @@ export default function ProductDetail() {
                 <ShoppingBag className="w-20 h-20 text-muted-foreground opacity-20" />
               </div>
             )}
+
+            {/* Controles de navegación en imagen principal */}
+            {product.images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrevImage}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card text-foreground border border-border p-2 rounded-full shadow-md transition-all opacity-80 hover:opacity-100 cursor-pointer"
+                  aria-label="Imagen anterior"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextImage}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card text-foreground border border-border p-2 rounded-full shadow-md transition-all opacity-80 hover:opacity-100 cursor-pointer"
+                  aria-label="Siguiente imagen"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+                <div className="absolute bottom-3 right-3 bg-card/80 backdrop-blur-sm text-xs px-2.5 py-1 rounded-md border border-border text-muted-foreground font-mono">
+                  {selectedImageIndex + 1} / {product.images.length}
+                </div>
+              </>
+            )}
           </div>
 
-          {/* Thumbnails */}
+          {/* Miniaturas (Thumbnails) */}
           {product.images.length > 1 && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 overflow-x-auto pb-2">
               {product.images.map((img, i) => (
-                <div key={i} className="w-20 h-20 rounded-lg border border-border overflow-hidden bg-secondary">
-                  <img src={img} alt={`${product.title} ${i + 1}`} className="w-full h-full object-cover" />
-                </div>
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setSelectedImageIndex(i)}
+                  className={`relative w-20 h-20 rounded-lg border overflow-hidden bg-secondary transition-all cursor-pointer flex-shrink-0 ${
+                    i === selectedImageIndex
+                      ? 'border-primary ring-2 ring-primary/20 opacity-100 scale-105'
+                      : 'border-border opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img} alt={`${product.title} miniatura ${i + 1}`} className="w-full h-full object-cover" />
+                </button>
               ))}
             </div>
           )}
