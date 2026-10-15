@@ -1,4 +1,4 @@
-// Parser de frontmatter para productos
+// Parser de frontmatter para productos (Soporta listas en una línea y listas YAML con guiones)
 function parseFrontmatter(raw: string) {
   const match = raw.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/)
   if (!match) return { data: {}, content: raw }
@@ -7,27 +7,48 @@ function parseFrontmatter(raw: string) {
   const content = match[2]
 
   const data: Record<string, any> = {}
+  const lines = frontmatter.split('\n')
+  let currentKey: string | null = null
 
-  for (const line of frontmatter.split('\n')) {
-    const trimmed = line.trim()
+  for (let i = 0; i < lines.length; i++) {
+    const trimmed = lines[i].trim()
     if (!trimmed || trimmed.startsWith('#')) continue
 
-    // Arrays: images: ["/img1.jpg", "/img2.jpg"]
-    const arrayMatch = trimmed.match(/^(\w+):\s*\[(.*)\]$/)
-    if (arrayMatch) {
-      const values = arrayMatch[2].split(',').map(v => v.trim().replace(/^["']|["']$/g, ''))
-      data[arrayMatch[1]] = values
+    // 1. Elemento de lista en varias líneas: - "/ruta/imagen.jpg"
+    if (trimmed.startsWith('-') && currentKey) {
+      const itemValue = trimmed.replace(/^-/, '').trim().replace(/^["']|["']$/g, '')
+      if (!Array.isArray(data[currentKey])) {
+        data[currentKey] = []
+      }
+      data[currentKey].push(itemValue)
       continue
     }
 
-    // Key: value
+    // 2. Arreglo en una sola línea: images: ["/img1.jpg", "/img2.jpg"]
+    const arrayMatch = trimmed.match(/^(\w+):\s*\[(.*)\]$/)
+    if (arrayMatch) {
+      currentKey = arrayMatch[1]
+      const values = arrayMatch[2].split(',').map(v => v.trim().replace(/^["']|["']$/g, '')).filter(Boolean)
+      data[currentKey] = values
+      continue
+    }
+
+    // 3. Clave: valor estándar (e.g. title: "Laptop", o inicio de lista `images:`)
     const kvMatch = trimmed.match(/^(\w+):\s*(.*)$/)
     if (kvMatch) {
-      let value = kvMatch[2].trim().replace(/^["']|["']$/g, '')
+      const key = kvMatch[1]
+      let value: any = kvMatch[2].trim().replace(/^["']|["']$/g, '')
+
+      currentKey = key
+
       // Convertir booleanos
-      if (value === 'true') value = true as any
-      if (value === 'false') value = false as any
-      data[kvMatch[1]] = value
+      if (value === 'true') value = true
+      if (value === 'false') value = false
+
+      // Si la clave tiene valor (ej: title: "Laptop"), lo guarda
+      if (value !== '') {
+        data[key] = value
+      }
     }
   }
 
@@ -139,7 +160,7 @@ export function getAllProducts(): Product[] {
       location: data.location || 'Falcón, Placetas',
       whatsapp: data.whatsapp || '5356418463',
       featured: data.featured === true,
-      images: data.images || [],
+      images: Array.isArray(data.images) ? data.images : (data.images ? [data.images] : []),
       description: data.description || '',
       content,
     })
