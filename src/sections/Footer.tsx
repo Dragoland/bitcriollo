@@ -90,7 +90,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="text-center text-xs text-[#64748B] font-mono opacity-60">
-          &copy; 2026 BitCriollo. Software libre cuando se puede.
+          &copy; 2026 BitCriollo. Representando el Open Source.
         </p>
       </div>
     </footer>
