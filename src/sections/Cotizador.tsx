@@ -41,11 +41,10 @@ const serviceOptions: ServiceOption[] = [
   { id: "limpieza_hw", name: "Limpieza interna de PC", basePrice: 500, currency: "CUP", category: "hardware" },
   { id: "pasta_termica", name: "Cambio de pasta térmica", basePrice: 500, currency: "CUP", category: "hardware" },
   { id: "ram_hw", name: "Instalación de RAM", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "ssd_hw", name: "Instalación de SSD/HDD", basePrice: 1000, currency: "CUP", category: "hardware" },
+  { id: "ssd_hw", name: "Instalación de SSD/HDD", basePrice: 500, currency: "CUP", category: "hardware" },
   { id: "fuente_hw", name: "Cambio de fuente de poder", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "diagnostico_hw", name: "Diagnóstico de componentes", basePrice: 250, currency: "CUP", category: "hardware" },
   { id: "armado_hw", name: "Armado de PC desde cero", basePrice: 2000, currency: "CUP", category: "hardware" },
-  { id: "upgrade_hw", name: "Upgrade de componentes", basePrice: 1000, currency: "CUP", category: "hardware" },
+  { id: "upgrade_hw", name: "Upgrade de componentes", basePrice: 500, currency: "CUP", category: "hardware" },
 
   // DESARROLLO REMOTO (USD)
   { id: "ia_local", name: "Instalación de IA Local (Ollama, etc.)", basePrice: 80, currency: "USD", category: "dev" },
