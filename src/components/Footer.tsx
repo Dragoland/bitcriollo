@@ -44,7 +44,6 @@ export const Footer = () => {
                 <Link to="/tienda" className="text-sm text-muted-foreground hover:text-primary transition-colors">Tienda</Link>
                 <Link to="/proceso" className="text-sm text-muted-foreground hover:text-primary transition-colors">Proceso</Link>
                 <Link to="/cotizador" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cotizador</Link>
-                <Link to="/proyectos" className="text-sm text-muted-foreground hover:text-primary transition-colors">Proyectos</Link>
               </div>
             </div>
 
