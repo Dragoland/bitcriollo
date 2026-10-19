@@ -144,7 +144,7 @@ export default function Hero() {
               <span className="text-gradient">con alcance global</span>
             </h1>
             <p className="font-body text-lg text-muted-foreground leading-relaxed max-w-[500px] mx-auto lg:mx-0 mb-8">
-              PCs lentas, virus, celulares locos, cuentas bloqueadas... y ahora también
+              PCs lentas, virus, celulares locos, cuentas bloqueadas y tambien
               desarrollo de software, automatización e IA local para equipos de cualquier parte del mundo.
             </p>
 
@@ -156,7 +156,7 @@ export default function Hero() {
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Wrench className="w-4 h-4 text-orange-400" />
-                <span>Hardware incluido</span>
+                <span>Arreglo de Equipos</span>
               </div>
             </div>
 
