@@ -92,7 +92,7 @@ export default function SobreMi() {
                 está comiendo la cabeza en este momento (lo normal).
               </p>
               <p>
-                Vivo en <strong className="text-foreground">Falcón, Placetas</strong>, y entre semestres arreglo PCs (ahora también hardware),
+                  Vivo en <strong className="text-foreground">Falcón, Placetas, Villa Clara, Cuba</strong>, y entre semestres arreglo PCs,
                 instalo Linux (especialmente <strong>Arch Linux</strong>), diseño flyers, desarrollo software a medida y escribo scripts que automatizan
                 tareas que nadie debería hacer a mano.
               </p>
@@ -135,7 +135,7 @@ export default function SobreMi() {
                 <strong className="text-destructive">Transparencia total:</strong>{" "}
                 Abro torres de PC y Laptops. Limpieza, cambio de pasta térmica, instalación de RAM/SSD,
                 diagnóstico de componentes y armado completo. Si una pieza está dañada irreparablemente, te digo
-                antes de gastar dinero. Garantía de una semana en todas las reparaciones.
+                antes de gastar dinero. Garantía de 2 semanas en todas las reparaciones.
               </p>
             </div>
           </div>
