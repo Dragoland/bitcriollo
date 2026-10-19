@@ -4,32 +4,6 @@ import { Leaf, Code, Globe, Wrench } from 'lucide-react'
 export const Footer = () => {
   return (
     <footer className="border-t border-border bg-card">
-      {/* La Vallita banner */}
-      <div className="container mx-auto px-4 py-10">
-        <div className="max-w-2xl mx-auto text-center bg-gradient-to-br from-emerald-500/5 to-emerald-500/[0.02] border border-emerald-500/20 rounded-xl p-6">
-          <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4">
-            <Leaf className="w-6 h-6 text-emerald-500" />
-          </div>
-          <h3 className="font-mono font-bold text-emerald-500 text-lg mb-2">
-            ¿Te gusta la naturaleza?
-          </h3>
-          <p className="font-body text-sm text-muted-foreground leading-relaxed mb-4 max-w-md mx-auto">
-            Mientras arreglo tu tecnología, mi familia cuida la tierra.{' '}
-            <strong className="text-foreground">La Vallita</strong> es nuestra
-            finca agroecológica en Falcón, Placetas. Plantas frutales, tradición
-            y recuperación.
-          </p>
-          <a
-            href="https://wa.me/5355406632?text=Hola%2C%20vi%20el%20sitio%20de%20BitCriollo%20y%20me%20interesan%20sus%20plantas"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-emerald-500 text-white font-semibold text-xs px-5 py-2.5 rounded-md hover:brightness-110 transition-all"
-          >
-            Visitar La Vallita
-          </a>
-        </div>
-      </div>
-
       {/* Main footer */}
       <div className="border-t border-border">
         <div className="container mx-auto px-4 py-10">
@@ -70,6 +44,7 @@ export const Footer = () => {
                 <Link to="/tienda" className="text-sm text-muted-foreground hover:text-primary transition-colors">Tienda</Link>
                 <Link to="/proceso" className="text-sm text-muted-foreground hover:text-primary transition-colors">Proceso</Link>
                 <Link to="/cotizador" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cotizador</Link>
+                <Link to="/proyectos" className="text-sm text-muted-foreground hover:text-primary transition-colors">Proyectos</Link>
               </div>
             </div>
 
@@ -86,8 +61,8 @@ export const Footer = () => {
             <div>
               <h4 className="font-mono font-bold text-sm text-foreground mb-4">Legal</h4>
               <div className="flex flex-col gap-2">
-                <span className="text-sm text-muted-foreground">Software libre cuando se puede</span>
-                <span className="text-sm text-muted-foreground">Garantía de una semana en reparaciones</span>
+                <span className="text-sm text-muted-foreground">Software libre y Open Source</span>
+                <span className="text-sm text-muted-foreground">Garantía de 2 semanas en reparaciones</span>
                 <span className="text-sm text-muted-foreground">Diagnóstico gratuito</span>
               </div>
             </div>
