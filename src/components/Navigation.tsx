@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Proceso', to: '/proceso' },
   { label: 'Blog', to: '/blog' },
   { label: 'Sobre mí', to: '/sobre-mi' },
+  { label: 'Proyectos', to: '/proyectos'}
 ]
 
 export const Navigation = () => {
