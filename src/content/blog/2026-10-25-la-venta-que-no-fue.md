@@ -1,3 +1,4 @@
+---
 title: "💰 LA VENTA QUE NO FUE: Cómo perdí 50 dólares por no dejarme robar"
 date: 2026-10-25
 tags: [negociación, cuba, hardware, profesionalismo, dignidad, reparación, reflexión]
