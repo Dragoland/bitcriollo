@@ -19,7 +19,7 @@ const stepsLocal: Step[] = [
     num: "02",
     icon: Search,
     title: "Reviso",
-    description: "Voy donde estés (si es en Falcón) o conecto remoto. Diagnóstico honesto: te digo si lo puedo arreglar.",
+    description: "Voy donde estés (si es en Falcón) o conecto remoto. Diagnóstico honesto y gratuito: te digo si lo puedo arreglar.",
   },
   {
     num: "03",
@@ -31,7 +31,7 @@ const stepsLocal: Step[] = [
     num: "04",
     icon: CheckCircle,
     title: "Arreglo y te explico",
-    description: "Hago el trabajo, te explico qué pasó (en palabras humanas) y te doy 3 días de garantía si el mismo problema vuelve.",
+    description: "Hago el trabajo, te explico qué pasó (en palabras humanas) y te doy 2 semanas de garantía si el mismo problema vuelve.",
   },
 ];
 
@@ -52,13 +52,13 @@ const stepsDev: Step[] = [
     num: "03",
     icon: Calculator,
     title: "Acuerdo y pago",
-    description: "50% por adelantado para empezar, 50% al entregar. Pagos vía stablecoins (USDC) o el método que prefieras.",
+    description: "50% por adelantado para empezar, 50% al entregar. Pagos vía TropiPay o monedas cryptos.",
   },
   {
     num: "04",
     icon: CheckCircle,
     title: "Desarrollo y entrega",
-    description: "Te mando avances periódicos. Entrega final con código, documentación y soporte post-entrega de 7 días.",
+    description: "Te mando avances periódicos. Entrega final con código, documentación y soporte post-entrega de 1 mes.",
   },
 ];
 
@@ -73,7 +73,7 @@ const stepsHardware: Step[] = [
     num: "02",
     icon: Wrench,
     title: "Diagnóstico",
-    description: "Abro la torre (sí, ahora sí la abro), reviso componentes, temperaturas y estado físico. Diagnóstico gratis.",
+    description: "Abro la torre, reviso componentes, temperaturas y estado físico. Diagnóstico gratuito y honesto.",
   },
   {
     num: "03",
@@ -85,7 +85,7 @@ const stepsHardware: Step[] = [
     num: "04",
     icon: CheckCircle,
     title: "Reparación y pruebas",
-    description: "Hago el trabajo, armo todo de nuevo y pruebo estabilidad. Garantía de 3 días en reparaciones.",
+    description: "Hago el trabajo, armo todo de nuevo y pruebo estabilidad. Garantía de 2 semanas en reparaciones.",
   },
 ];
 
