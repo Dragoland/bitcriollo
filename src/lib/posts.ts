@@ -6,6 +6,9 @@ export interface PostMeta {
   date: string
   tags: string[]
   excerpt: string
+  /** Imagen de portada (frontmatter `cover:`). Si existe, se muestra en el post
+   *  y el prerender la usa como og:image. */
+  cover: string
 }
 
 export interface Post extends PostMeta {
@@ -51,6 +54,7 @@ const fallbackPosts: Post[] = [
     date: '2026-08-20',
     tags: ['bienvenida', 'bitcriollo', 'tecnología'],
     excerpt: 'Primer post del blog. De qué trata este espacio y qué encontrarás aquí.',
+    cover: '',
     content: fallbackContent,
     readingMinutes: readingMinutes(fallbackContent),
   },
@@ -79,6 +83,7 @@ function buildPosts(): Post[] {
       date,
       tags: asList(data.tags),
       excerpt: asString(data.excerpt),
+      cover: asString(data.cover),
       content,
       readingMinutes: readingMinutes(content),
     })

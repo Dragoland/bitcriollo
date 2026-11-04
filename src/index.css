@@ -173,3 +173,13 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* highlight.js (el tema se importa en main.tsx): se integra con los tokens del sitio */
+.prose pre code.hljs {
+  background: transparent;
+  padding: 0;
+  color: hsl(var(--foreground));
+}
+.prose pre:has(code.hljs) {
+  background: hsl(var(--secondary));
+}

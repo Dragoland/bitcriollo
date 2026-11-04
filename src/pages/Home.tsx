@@ -5,6 +5,8 @@ import { usePageMeta } from '../lib/usePageMeta'
 import { WA, waLink } from '../lib/site'
 import FeaturedProducts from '../sections/FeaturedProducts'
 import Hero from '../sections/Hero'
+import Testimonios from '../sections/Testimonios'
+import Faq from '../sections/Faq'
 import { ServiciosDestacados } from '../sections/Servicios'
 
 const TRUST = [
@@ -46,7 +48,9 @@ export default function Home() {
       </section>
 
       <ServiciosDestacados />
+      <Testimonios />
       <FeaturedProducts />
+      <Faq />
 
       <section className="border-t border-border bg-secondary">
         <div className="site-container py-20 text-center">

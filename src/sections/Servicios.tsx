@@ -12,6 +12,7 @@ import {
   isCategory,
 } from '../data/services'
 import type { Category, Service } from '../data/services'
+import PricesUpdated from '../components/PricesUpdated'
 
 function ServiceCard({ service }: { service: Service }) {
   const cat = CATEGORIES[service.category]
@@ -91,7 +92,11 @@ export function ServiciosCatalogo() {
           ))}
         </div>
 
-        <Reveal className="mt-16 text-center">
+        <div className="mt-8 flex justify-center">
+          <PricesUpdated />
+        </div>
+
+        <Reveal className="mt-8 text-center">
           <div className="inline-block max-w-xl rounded-xl border border-border bg-card px-8 py-5">
             <p className="font-body text-sm text-muted-foreground">
               <strong className="text-foreground">¿No encuentras lo que necesitas?</strong> Escríbeme por{' '}

@@ -2,7 +2,9 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import { Check, MessageCircle } from 'lucide-react'
 import SectionHeader from '../components/SectionHeader'
+import PricesUpdated from '../components/PricesUpdated'
 import { waLink } from '../lib/site'
+import { buildQuoteLines, sumTotals } from '../lib/quote'
 import {
   CATEGORIES,
   CATEGORY_ORDER,
@@ -20,7 +22,6 @@ const COMPLEXITY = [
   { label: 'Moderado', hint: 'Requiere más tiempo', factor: 1.5 },
   { label: 'Complejo', hint: 'Caso difícil o varios equipos', factor: 2 },
 ]
-const URGENT_FACTOR = 1.25
 
 export default function Cotizador() {
   const [params] = useSearchParams()
@@ -43,26 +44,14 @@ export default function Cotizador() {
       return next
     })
 
+  // Lógica pura extraída a src/lib/quote.ts (probada con vitest)
   const lines = useMemo(
-    () =>
-      SERVICES.filter((s) => selected.has(s.id)).map((service) => {
-        const hourly = service.unit === 'hora'
-        const qty = hourly ? hours : 1
-        const factor = hourly ? 1 : COMPLEXITY[complexity].factor
-        const total = Math.round(service.price * factor * qty * (urgent ? URGENT_FACTOR : 1))
-        return { service, qty, total }
-      }),
+    () => buildQuoteLines(SERVICES, selected, complexity, urgent, hours),
     [selected, complexity, urgent, hours]
   )
+  const totals = useMemo(() => sumTotals(lines), [lines])
 
   const hasHourly = lines.some((l) => l.service.unit === 'hora')
-  const totals = lines.reduce<Record<Currency, number>>(
-    (acc, l) => {
-      acc[l.service.currency] += l.total
-      return acc
-    },
-    { CUP: 0, USD: 0 }
-  )
 
   const message = [
     'Hola Dragoland!',
@@ -117,6 +106,10 @@ export default function Cotizador() {
                   </button>
                 )
               })}
+            </div>
+
+            <div className="mb-4">
+              <PricesUpdated />
             </div>
 
             <div className="mb-10 grid gap-3 sm:grid-cols-2">

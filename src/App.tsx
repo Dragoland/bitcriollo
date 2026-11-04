@@ -13,6 +13,7 @@ const Blog = lazy(() => import('./pages/Blog'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
 const Marketplace = lazy(() => import('./pages/Marketplace'))
 const ProductDetail = lazy(() => import('./pages/ProductDetail'))
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function ErrorPage() {
@@ -37,9 +38,10 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'servicios', element: <ServiciosPage /> },
-      { path: 'software', element: <Software /> },
       { path: 'proceso', element: <Proceso /> },
       { path: 'cotizador', element: <CotizadorPage /> },
+      { path: 'proyectos', element: <ProjectsPage /> },
+      { path: 'software', element: <Software /> },
       { path: 'tienda', element: <Marketplace /> },
       { path: 'tienda/:slug', element: <ProductDetail /> },
       { path: 'blog', element: <Blog /> },

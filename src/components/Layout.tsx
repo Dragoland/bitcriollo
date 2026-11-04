@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router'
+import WhatsAppFloat from './WhatsAppFloat'
 import { Footer } from './Footer'
 import { Navigation } from './Navigation'
 import ScrollToTop from './ScrollToTop'
@@ -25,6 +26,7 @@ export const Layout = () => (
         <Outlet />
       </Suspense>
     </main>
+    <WhatsAppFloat />
     <Footer />
   </div>
 )

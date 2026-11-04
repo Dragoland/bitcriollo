@@ -1,25 +1,28 @@
 {
   "name": "bitcriollo",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "sitemap": "node scripts/generate-sitemap.mjs",
-    "prebuild": "node scripts/generate-sitemap.mjs",
-    "build": "vite build",
+    "rss": "node scripts/generate-rss.mjs",
+    "prebuild": "node scripts/generate-sitemap.mjs && node scripts/generate-rss.mjs",
+    "build": "vite build && node scripts/prerender.mjs",
+    "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "test": "vitest run"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.0",
     "@fontsource-variable/jetbrains-mono": "^5.0.0",
+    "highlight.js": "^11.10.0",
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-markdown": "^9.0.1",
-    "react-router": "^7.6.1",
+    "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
@@ -37,6 +40,7 @@
     "tailwindcss": "^3.4.19",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^3.2.4"
   }
 }
