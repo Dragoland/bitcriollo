@@ -27,6 +27,7 @@ Web de BitCriollo: presenta los **servicios** (soporte local, servicio técnico 
 - 🔎 **SEO**: título, descripción, canonical y Open Graph por página (`usePageMeta`), datos estructurados `LocalBusiness`, `sitemap.xml` generado en cada build, `robots.txt` e imagen para compartir en WhatsApp/Telegram.
 - ♿ **Accesibilidad**: enlace "Saltar al contenido", etiquetas en formularios, navegación por teclado, `aria-*` en menús y botones, respeto de `prefers-reduced-motion`.
 - ⚡ **Rendimiento**: páginas cargadas bajo demanda, tipografías **autoalojadas** (sin Google Fonts) y animaciones con `IntersectionObserver` (sin GSAP).
+- 📚 **Blog con contenido inicial**: tutoriales prácticos (recuperación de datos, Python, IA local con Ollama, respaldos con rsync, instalación de Linux Mint, seguridad en WhatsApp, atajos de Bash) y curiosidades de la informática.
 - 🖥️ **Terminal animada** en la portada (decorativa, con resumen para lectores de pantalla).
 
 ## Stack
@@ -163,6 +164,9 @@ description: "Texto corto para la tarjeta."
 ```
 
 > Si no existe ningún `.md` en `content/blog` o `content/products`, el sitio muestra contenido de ejemplo definido en `lib/posts.ts` y `lib/products.ts`. Al crear tus propios archivos, ese contenido de ejemplo deja de usarse.
+
+### Stack de herramientas
+Está en [`src/sections/Stack.tsx`](src/sections/Stack.tsx). Cada herramienta lleva un `slug` de [Simple Icons](https://simpleicons.org) y su icono se carga desde `https://cdn.simpleicons.org/<slug>`. Si el enlace no carga (sin internet, bloqueado o el icono ya no existe), se muestra automáticamente un icono local de respaldo (`fallback`, de lucide-react). Para añadir una herramienta basta con agregar una línea a la lista `TOOLS`; si no tiene icono en Simple Icons, déjala sin `slug`.
 
 ### Imágenes
 Van en `public/images/` y se referencian con ruta absoluta (`/images/...`). Para la portada de *Sobre mí* se usa `public/images/avatar-cartoon.png`.
