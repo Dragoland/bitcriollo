@@ -1,345 +1,242 @@
-import { useState, useMemo } from "react";
+import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
-import { Calculator, Check, MapPin, Globe, Wrench } from "lucide-react";
+import { Check, MessageCircle } from 'lucide-react'
+import SectionHeader from '../components/SectionHeader'
+import { waLink } from '../lib/site'
+import {
+  CATEGORIES,
+  CATEGORY_ORDER,
+  SERVICES,
+  formatMoney,
+  formatPrice,
+  getServiceById,
+  getServicesByCategory,
+  isCategory,
+} from '../data/services'
+import type { Category, Currency } from '../data/services'
 
-interface ServiceOption {
-  id: string;
-  name: string;
-  basePrice: number;
-  currency: "CUP" | "USD";
-  category: "local" | "dev" | "hardware";
-}
-
-const serviceOptions: ServiceOption[] = [
-  // LOCAL
-  { id: "virus", name: "Limpieza de virus/malware", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "optimizar", name: "Optimización y aceleración", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "formateo", name: "Formateo e instalación (Windows)", basePrice: 2000, currency: "CUP", category: "local" },
-  { id: "linux", name: "Migración a Linux", basePrice: 3000, currency: "CUP", category: "local" },
-  { id: "arch", name: "Instalación y configuración de Arch Linux", basePrice: 5000, currency: "CUP", category: "local" },
-  { id: "personalizacion", name: "Personalización de escritorio", basePrice: 1000, currency: "CUP", category: "local" },
-  { id: "recuperar", name: "Recuperación de archivos", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "whatsapp", name: "Recuperación de WhatsApp", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "celular", name: "Configuración de celular", basePrice: 250, currency: "CUP", category: "local" },
-  { id: "cuentas", name: "Recuperación de cuentas", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "programas", name: "Instalación de programas", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "impresora", name: "Configuración de impresora", basePrice: 1000, currency: "CUP", category: "local" },
-  { id: "wifi", name: "Configuración WiFi/router", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "smarttv", name: "Configuración Smart TV", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "seguridad", name: "Asesoría en seguridad digital", basePrice: 250, currency: "CUP", category: "local" },
-  { id: "compra", name: "Asesoría para compra de equipos", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "pendrive", name: "Pendrive booteable con Ventoy", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "digitalizar", name: "Digitalización de documentos", basePrice: 1000, currency: "CUP", category: "local" },
-  { id: "servidor", name: "Configuración de servidor local / NAS", basePrice: 2000, currency: "CUP", category: "local" },
-  { id: "diseno", name: "Diseño gráfico (flyers, logos, etc.)", basePrice: 1000, currency: "CUP", category: "local" },
-  { id: "fotos", name: "Edición y retoque de fotos", basePrice: 1500, currency: "CUP", category: "local" },
-  { id: "cv", name: "Creación de CV digital", basePrice: 500, currency: "CUP", category: "local" },
-  { id: "video", name: "Conversión y compresión de video", basePrice: 200, currency: "CUP", category: "local" },
-  { id: "emuladores", name: "Instalación de emuladores y juegos retro", basePrice: 500, currency: "CUP", category: "local" },
-
-  // HARDWARE
-  { id: "limpieza_hw", name: "Limpieza interna de PC", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "pasta_termica", name: "Cambio de pasta térmica", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "ram_hw", name: "Instalación de RAM", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "ssd_hw", name: "Instalación de SSD/HDD", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "fuente_hw", name: "Cambio de fuente de poder", basePrice: 500, currency: "CUP", category: "hardware" },
-  { id: "armado_hw", name: "Armado de PC desde cero", basePrice: 2000, currency: "CUP", category: "hardware" },
-  { id: "upgrade_hw", name: "Upgrade de componentes", basePrice: 500, currency: "CUP", category: "hardware" },
-
-  // DESARROLLO REMOTO (USD)
-  { id: "ia_local", name: "Instalación de IA Local (Ollama, etc.)", basePrice: 80, currency: "USD", category: "dev" },
-  { id: "automatizacion", name: "Automatización de tareas (Python, Bash)", basePrice: 50, currency: "USD", category: "dev" },
-  { id: "scripts_dev", name: "Scripts personalizados", basePrice: 40, currency: "USD", category: "dev" },
-  { id: "api_dev", name: "APIs REST y microservicios", basePrice: 150, currency: "USD", category: "dev" },
-  { id: "migracion_libre", name: "Migración a Software Libre", basePrice: 100, currency: "USD", category: "dev" },
-  { id: "soporte_remoto", name: "Soporte técnico remoto (por hora)", basePrice: 25, currency: "USD", category: "dev" },
-  { id: "consultoria_linux", name: "Consultoría Linux / DevOps (por hora)", basePrice: 30, currency: "USD", category: "dev" },
-  { id: "software_medida", name: "Desarrollo de software a medida", basePrice: 200, currency: "USD", category: "dev" },
-];
-
-const complexityMultipliers = [1, 1.5, 2];
-const complexityLabels = ["Simple", "Moderado", "Complejo"];
-
-const categoryTabs = [
-  { id: "local" as const, label: "Soporte Local", icon: MapPin, color: "primary" },
-  { id: "hardware" as const, label: "Hardware", icon: Wrench, color: "orange" },
-  { id: "dev" as const, label: "Desarrollo Remoto", icon: Globe, color: "emerald" },
-];
+const COMPLEXITY = [
+  { label: 'Simple', hint: 'Caso común', factor: 1 },
+  { label: 'Moderado', hint: 'Requiere más tiempo', factor: 1.5 },
+  { label: 'Complejo', hint: 'Caso difícil o varios equipos', factor: 2 },
+]
+const URGENT_FACTOR = 1.25
 
 export default function Cotizador() {
-  const [searchParams] = useSearchParams()
-  const preselectedCat = searchParams.get('categoria') as "local" | "dev" | "hardware" | null
-  const preselectedId = searchParams.get('servicio')
+  const [params] = useSearchParams()
+  const preselected = getServiceById(params.get('servicio') ?? '')
+  const catParam = params.get('categoria')
 
-  const [activeCategory, setActiveCategory] = useState<"local" | "dev" | "hardware">(
-    preselectedCat && ["local", "dev", "hardware"].includes(preselectedCat) ? preselectedCat : "local"
-  );
+  const [category, setCategory] = useState<Category>(
+    preselected?.category ?? (isCategory(catParam) ? catParam : 'local')
+  )
+  const [selected, setSelected] = useState<Set<string>>(() => new Set<string>(preselected ? [preselected.id] : []))
+  const [complexity, setComplexity] = useState(0)
+  const [urgent, setUrgent] = useState(false)
+  const [hours, setHours] = useState(1)
 
-  const [selected, setSelected] = useState<Set<string>>(() => {
-    const initial = new Set<string>()
-    if (preselectedId) {
-      const match = serviceOptions.find(s => 
-        s.name.toLowerCase().replace(/\s+/g, '-').substring(0, 25) === preselectedId
-      )
-      if (match) initial.add(match.id)
-    }
-    return initial
-  });
-
-  const [complexity, setComplexity] = useState(0);
-  const [urgent, setUrgent] = useState(false);
-
-  const toggleService = (id: string) => {
+  const toggle = (id: string) =>
     setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
 
-  const filteredServices = serviceOptions.filter(s => s.category === activeCategory)
+  const lines = useMemo(
+    () =>
+      SERVICES.filter((s) => selected.has(s.id)).map((service) => {
+        const hourly = service.unit === 'hora'
+        const qty = hourly ? hours : 1
+        const factor = hourly ? 1 : COMPLEXITY[complexity].factor
+        const total = Math.round(service.price * factor * qty * (urgent ? URGENT_FACTOR : 1))
+        return { service, qty, total }
+      }),
+    [selected, complexity, urgent, hours]
+  )
 
-  const { totalCUP, totalUSD } = useMemo(() => {
-    let cup = 0;
-    let usd = 0;
-    selected.forEach((id) => {
-      const svc = serviceOptions.find((s) => s.id === id);
-      if (svc) {
-        const price = svc.basePrice * complexityMultipliers[complexity] * (urgent ? 1.25 : 1)
-        if (svc.currency === "CUP") cup += price;
-        else usd += price;
-      }
-    });
-    return { totalCUP: Math.round(cup), totalUSD: Math.round(usd) };
-  }, [selected, complexity, urgent]);
+  const hasHourly = lines.some((l) => l.service.unit === 'hora')
+  const totals = lines.reduce<Record<Currency, number>>(
+    (acc, l) => {
+      acc[l.service.currency] += l.total
+      return acc
+    },
+    { CUP: 0, USD: 0 }
+  )
 
-  const selectedServicesList = serviceOptions.filter((s) => selected.has(s.id));
+  const message = [
+    'Hola Dragoland!',
+    '',
+    'Quiero cotizar estos servicios:',
+    ...lines.map(({ service, qty }) => `- ${service.name}${service.unit === 'hora' ? ` (${qty} h)` : ''}`),
+    '',
+    `Complejidad: ${COMPLEXITY[complexity].label}`,
+    ...(urgent ? ['Urgente: sí (+25%)'] : []),
+    ...(totals.CUP ? [`Estimado: ~${formatMoney(totals.CUP, 'CUP')}`] : []),
+    ...(totals.USD ? [`Estimado: ~${formatMoney(totals.USD, 'USD')}`] : []),
+    '',
+    '¿Podemos hablar de los detalles?',
+  ].join('\n')
 
-  const buildWhatsAppMessage = () => {
-    const services = selectedServicesList.map((s) => `- ${s.name} (${s.currency} ${s.basePrice})`).join("%0A");
-    const complexityText = complexityLabels[complexity];
-    const urgentText = urgent ? "%0AUrgente: Sí (+25%)" : "";
-    const cupText = totalCUP > 0 ? `%0AEstimado CUP: ~$${totalCUP}` : "";
-    const usdText = totalUSD > 0 ? `%0AEstimado USD: ~$${totalUSD}` : "";
-    return `https://wa.me/5356418463?text=Hola%20Dragoland!%0A%0AQuiero%20cotizar%20los%20siguientes%20servicios:%0A${services}%0A%0AComplejidad:%20${complexityText}${urgentText}${cupText}${usdText}%0A%0A¿Podemos%20hablar%20detalles?`;
-  };
+  const optionButton = (active: boolean) =>
+    `rounded-lg border px-4 py-2.5 text-left font-mono text-sm transition-colors ${
+      active ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-card text-muted-foreground hover:text-foreground'
+    }`
 
   return (
-    <section id="cotizar" className="bg-secondary border-y border-border">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw] py-24 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Calculator */}
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-4 flex items-center gap-2">
-              <span className="text-primary">//</span> CALCULAR_PRECIO
-            </div>
-            <h2 className="font-mono font-extrabold text-3xl lg:text-[42px] tracking-tight text-foreground mb-4">
-              ¿Cuánto costará?
-            </h2>
-            <p className="font-body text-base text-muted-foreground mb-8 max-w-[450px]">
-              Selecciona los servicios que necesitas y obtén una estimación. El precio final puede variar según complejidad.
-            </p>
+    <section className="py-20 lg:py-28">
+      <div className="site-container">
+        <SectionHeader
+          as="h1"
+          eyebrow="COTIZADOR"
+          title="Cotiza tu servicio"
+          description="Marca lo que necesitas y obtén un estimado al momento. El precio final te lo confirmo siempre antes de empezar."
+        />
 
-            {/* Category tabs */}
-            <div className="flex gap-2 mb-6">
-              {categoryTabs.map((tab) => {
-                const Icon = tab.icon
-                const isActive = activeCategory === tab.id
+        <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
+          {/* Controles */}
+          <div>
+            <div role="group" aria-label="Categorías" className="mb-6 flex flex-wrap gap-2">
+              {CATEGORY_ORDER.map((key) => {
+                const cat = CATEGORIES[key]
+                const count = getServicesByCategory(key).filter((s) => selected.has(s.id)).length
                 return (
                   <button
-                    key={tab.id}
-                    onClick={() => {
-                      setActiveCategory(tab.id)
-                      setSelected(new Set())
-                    }}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-mono font-semibold transition-all border ${
-                      isActive
-                        ? tab.id === "local"
-                          ? "bg-primary text-primary-foreground border-primary"
-                          : tab.id === "hardware"
-                          ? "bg-orange-400 text-white border-orange-400"
-                          : "bg-emerald-500 text-white border-emerald-500"
-                        : "bg-card text-muted-foreground border-border hover:text-foreground"
+                    key={key}
+                    type="button"
+                    aria-pressed={key === category}
+                    onClick={() => setCategory(key)}
+                    className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 font-mono text-sm font-semibold transition-colors ${
+                      key === category ? cat.tab : 'border-border bg-card text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
-                    {tab.label}
+                    {cat.label}
+                    {count > 0 && (
+                      <span className="rounded-full bg-foreground/10 px-1.5 text-xs text-foreground">{count}</span>
+                    )}
                   </button>
                 )
               })}
             </div>
 
-            {/* Service selector grid */}
-            <div className="grid sm:grid-cols-2 gap-3 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-              {filteredServices.map((svc) => {
-                const isSelected = selected.has(svc.id);
+            <div className="mb-10 grid gap-3 sm:grid-cols-2">
+              {getServicesByCategory(category).map((service) => {
+                const checked = selected.has(service.id)
+                const cat = CATEGORIES[service.category]
                 return (
                   <button
-                    key={svc.id}
-                    onClick={() => toggleService(svc.id)}
-                    className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-all duration-200 ${
-                      isSelected
-                        ? activeCategory === "local"
-                          ? "border-primary bg-primary/10"
-                          : activeCategory === "hardware"
-                          ? "border-orange-400 bg-orange-400/10"
-                          : "border-emerald-500 bg-emerald-500/10"
-                        : "border-border bg-card hover:border-muted-foreground/30"
+                    key={service.id}
+                    type="button"
+                    aria-pressed={checked}
+                    onClick={() => toggle(service.id)}
+                    className={`flex items-start gap-3 rounded-lg border p-4 text-left transition-colors ${
+                      checked ? cat.tab : 'border-border bg-card hover:border-muted-foreground/40'
                     }`}
                   >
-                    <div
-                      className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-colors ${
-                        isSelected
-                          ? activeCategory === "local"
-                            ? "bg-primary border-primary"
-                            : activeCategory === "hardware"
-                            ? "bg-orange-400 border-orange-400"
-                            : "bg-emerald-500 border-emerald-500"
-                          : "border-muted-foreground"
+                    <span
+                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
+                        checked ? cat.solid : 'border-border'
                       }`}
+                      aria-hidden="true"
                     >
-                      {isSelected && <Check className="w-3 h-3 text-white" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <span className={`text-sm font-mono block truncate ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>
-                        {svc.name}
-                      </span>
-                      <span className="text-[10px] text-muted-foreground font-code">
-                        {svc.currency} {svc.basePrice}
-                      </span>
-                    </div>
+                      {checked && <Check className="h-3.5 w-3.5 text-background" />}
+                    </span>
+                    <span>
+                      <span className="block font-mono text-sm font-semibold text-foreground">{service.name}</span>
+                      <span className="block font-code text-xs text-muted-foreground">{formatPrice(service)}</span>
+                    </span>
                   </button>
-                );
+                )
               })}
             </div>
 
-            {/* Complexity slider */}
-            <div className="mb-6">
-              <label className="text-sm font-mono text-muted-foreground mb-3 block">
-                Complejidad del problema
+            <div className="space-y-6 rounded-xl border border-border bg-card p-6">
+              <fieldset>
+                <legend className="mb-3 font-mono text-sm font-bold text-foreground">Complejidad</legend>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {COMPLEXITY.map((c, i) => (
+                    <button key={c.label} type="button" aria-pressed={i === complexity} onClick={() => setComplexity(i)} className={optionButton(i === complexity)}>
+                      <span className="block font-semibold">{c.label}</span>
+                      <span className="block font-body text-xs opacity-80">{c.hint}</span>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+
+              <label className="flex cursor-pointer items-start gap-3">
+                <input type="checkbox" checked={urgent} onChange={(e) => setUrgent(e.target.checked)} className="mt-1 h-4 w-4 accent-[hsl(var(--primary))]" />
+                <span>
+                  <span className="block font-mono text-sm font-semibold text-foreground">Es urgente (+25%)</span>
+                  <span className="block font-body text-xs text-muted-foreground">Prioridad: lo atiendo antes que el resto.</span>
+                </span>
               </label>
-              <div className="flex gap-2">
-                {complexityLabels.map((label, i) => (
-                  <button
-                    key={label}
-                    onClick={() => setComplexity(i)}
-                    className={`flex-1 py-2 px-3 rounded-md text-sm font-mono transition-all duration-200 ${
-                      complexity === i
-                        ? "bg-primary text-primary-foreground font-semibold"
-                        : "bg-card text-muted-foreground border border-border hover:text-foreground"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
 
-            {/* Urgency toggle */}
-            <button
-              onClick={() => setUrgent(!urgent)}
-              className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 mb-8 w-full ${
-                urgent
-                  ? "border-destructive bg-destructive/10"
-                  : "border-border bg-card hover:border-muted-foreground/30"
-              }`}
-            >
-              <div
-                className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-colors ${
-                  urgent ? "bg-destructive border-destructive" : "border-muted-foreground"
-                }`}
-              >
-                {urgent && <Check className="w-3 h-3 text-white" />}
-              </div>
-              <span className={`text-sm font-mono ${urgent ? "text-destructive" : "text-muted-foreground"}`}>
-                Es urgente (+25%)
-              </span>
-            </button>
-
-            {/* Price display */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <div className="space-y-2 mb-4">
-                {totalCUP > 0 && (
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-code text-4xl font-bold text-primary">~${totalCUP}</span>
-                    <span className="font-code text-lg text-muted-foreground">CUP</span>
-                  </div>
-                )}
-                {totalUSD > 0 && (
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-code text-4xl font-bold text-emerald-500">~${totalUSD}</span>
-                    <span className="font-code text-lg text-muted-foreground">USD</span>
-                  </div>
-                )}
-                {totalCUP === 0 && totalUSD === 0 && (
-                  <div className="font-code text-2xl font-bold text-muted-foreground">Selecciona servicios</div>
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground font-mono mb-4">
-                Precio estimado. Cotización final por WhatsApp.
-              </p>
-              {selected.size > 0 && (
-                <a
-                  href={buildWhatsAppMessage()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full bg-primary text-primary-foreground font-semibold text-sm px-6 py-3 rounded-md hover:brightness-110 transition-all duration-200"
-                >
-                  Pedir cotización
-                </a>
+              {hasHourly && (
+                <div>
+                  <label htmlFor="horas" className="mb-2 block font-mono text-sm font-bold text-foreground">
+                    Horas estimadas (servicios por hora)
+                  </label>
+                  <input
+                    id="horas"
+                    type="number"
+                    min={1}
+                    max={40}
+                    value={hours}
+                    onChange={(e) => setHours(Math.min(40, Math.max(1, Number(e.target.value) || 1)))}
+                    className="w-28 rounded-md border border-border bg-secondary px-3 py-2 font-mono text-sm text-foreground"
+                  />
+                </div>
               )}
             </div>
           </div>
 
-          {/* Visual / Summary */}
-          <div className="hidden lg:flex flex-col items-center justify-start pt-20">
-            <div className="relative">
-              <Calculator className="w-48 h-48 text-primary opacity-10" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4 shadow-glow">
-                    <span className="font-code text-3xl font-bold text-primary">
-                      {selected.size}
-                    </span>
-                  </div>
-                  <p className="font-mono text-sm text-muted-foreground">
-                    servicio{selected.size !== 1 ? "s" : ""} seleccionado{selected.size !== 1 ? "s" : ""}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {selectedServicesList.length > 0 && (
-              <div className="mt-8 w-full max-w-[360px] bg-card border border-border rounded-lg p-4">
-                <p className="text-xs font-mono text-muted-foreground mb-3 uppercase tracking-wider">
-                  Resumen
-                </p>
-                <div className="space-y-2">
-                  {selectedServicesList.map((svc) => (
-                    <div key={svc.id} className="flex justify-between text-sm font-mono">
-                      <span className="text-muted-foreground truncate mr-2">{svc.name}</span>
-                      <span className="text-foreground shrink-0">{svc.currency} {svc.basePrice}</span>
-                    </div>
+          {/* Resumen */}
+          <aside className="h-fit rounded-xl border border-border bg-card p-6 lg:sticky lg:top-24" aria-live="polite">
+            <h2 className="mb-4 font-mono text-lg font-bold text-foreground">Resumen</h2>
+            {lines.length === 0 ? (
+              <p className="font-body text-sm text-muted-foreground">Aún no has elegido ningún servicio.</p>
+            ) : (
+              <>
+                <ul className="mb-4 space-y-2 border-b border-border pb-4">
+                  {lines.map(({ service, qty, total }) => (
+                    <li key={service.id} className="flex items-start justify-between gap-3 font-body text-sm">
+                      <span className="text-foreground">
+                        {service.name}
+                        {service.unit === 'hora' && <span className="text-muted-foreground"> × {qty} h</span>}
+                      </span>
+                      <span className="shrink-0 font-code text-xs text-muted-foreground">
+                        {formatMoney(total, service.currency)}
+                      </span>
+                    </li>
                   ))}
-                  <div className="border-t border-border pt-2 mt-2">
-                    <div className="flex justify-between text-sm font-mono">
-                      <span className="text-muted-foreground">Complejidad: {complexityLabels[complexity]}</span>
-                      <span className="text-yellow-500">x{complexityMultipliers[complexity]}</span>
-                    </div>
-                    {urgent && (
-                      <div className="flex justify-between text-sm font-mono">
-                        <span className="text-muted-foreground">Urgente</span>
-                        <span className="text-destructive">x1.25</span>
-                      </div>
-                    )}
-                  </div>
+                </ul>
+                <div className="mb-1 font-mono text-xs uppercase tracking-wider text-muted-foreground">Estimado</div>
+                <div className="mb-4 space-y-1">
+                  {totals.CUP > 0 && <div className="font-code text-2xl font-bold text-primary">~{formatMoney(totals.CUP, 'CUP')}</div>}
+                  {totals.USD > 0 && <div className="font-code text-2xl font-bold text-remote">~{formatMoney(totals.USD, 'USD')}</div>}
                 </div>
-              </div>
+                <p className="mb-5 font-body text-xs text-muted-foreground">
+                  Es una orientación, no un precio cerrado. Primero reviso tu caso y te confirmo el valor.
+                </p>
+              </>
             )}
-          </div>
+            <a
+              href={lines.length ? waLink(message) : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-disabled={lines.length === 0}
+              className={`flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-all ${
+                lines.length
+                  ? 'bg-primary text-primary-foreground hover:brightness-110'
+                  : 'pointer-events-none bg-muted text-muted-foreground'
+              }`}
+            >
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              Enviar cotización por WhatsApp
+            </a>
+          </aside>
         </div>
       </div>
     </section>
-  );
+  )
 }

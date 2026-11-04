@@ -1,58 +1,84 @@
-import { Link } from 'react-router'
-import { getAllPosts, formatDate } from '../lib/posts'
+import { Link, useSearchParams } from 'react-router'
+import { Clock } from 'lucide-react'
+import SectionHeader from '../components/SectionHeader'
+import { formatDate, getAllPosts, getAllTags } from '../lib/posts'
+import { usePageMeta } from '../lib/usePageMeta'
 
-export const Blog = () => {
-  let posts: ReturnType<typeof getAllPosts> = []
-  let error: string | null = null
+export default function Blog() {
+  usePageMeta({
+    title: 'Blog DIUA — Diario de un Informático Universitario y Artista',
+    description: 'Guías de Linux, automatización con Python y Bash, IA local, recuperación de datos y reflexiones desde Cuba.',
+    path: '/blog',
+  })
 
-  try {
-    posts = getAllPosts()
-  } catch (e) {
-    error = 'No se pudieron cargar los posts.'
-    console.error('[Blog] Error cargando posts:', e)
-  }
+  const [params, setParams] = useSearchParams()
+  const tag = params.get('tag')
+  const allPosts = getAllPosts()
+  const tags = getAllTags()
+  const posts = tag ? allPosts.filter((p) => p.tags.includes(tag)) : allPosts
+
+  const chip = (active: boolean) =>
+    `rounded-full border px-3 py-1 font-mono text-xs transition-colors ${
+      active ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted-foreground hover:text-foreground'
+    }`
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="flex items-center gap-3 mb-8">
-        <span className="text-xs text-primary font-mono">// PUBLICACIONES_RECIENTES</span>
-        <h1 className="text-2xl font-bold text-foreground">Últimas entradas</h1>
-      </div>
+    <section className="py-20 lg:py-28">
+      <div className="site-container max-w-4xl">
+        <SectionHeader
+          as="h1"
+          eyebrow="PUBLICACIONES_RECIENTES"
+          title="Últimas entradas"
+          description="Lo que aprendo, lo que rompo y lo que arreglo."
+        />
 
-      {error && (
-        <div className="text-center py-12 text-destructive">
-          <p>{error}</p>
-        </div>
-      )}
+        {tags.length > 1 && (
+          <div role="group" aria-label="Filtrar por etiqueta" className="mb-8 flex flex-wrap justify-center gap-2">
+            <button type="button" aria-pressed={!tag} onClick={() => setParams({}, { replace: true })} className={chip(!tag)}>
+              Todas
+            </button>
+            {tags.map((t) => (
+              <button key={t} type="button" aria-pressed={tag === t} onClick={() => setParams({ tag: t }, { replace: true })} className={chip(tag === t)}>
+                {t}
+              </button>
+            ))}
+          </div>
+        )}
 
-      {!error && posts.length === 0 && (
-        <div className="text-center py-12 text-muted-foreground">
-          <p>No hay posts aún. Vuelve pronto.</p>
-        </div>
-      )}
-
-      {!error && posts.length > 0 && (
-        <div className="grid gap-4">
-          {posts.map(post => (
-            <Link
-              key={post.slug}
-              to={`/blog/${post.slug}`}
-              className="block bg-card border border-border rounded-lg p-5 hover:border-primary hover:bg-accent transition-all hover:-translate-y-0.5"
-            >
-              <div className="text-xs text-muted-foreground font-mono mb-2">{formatDate(post.date)}</div>
-              <h2 className="text-lg font-semibold text-foreground mb-1">{post.title}</h2>
-              <p className="text-sm text-muted-foreground font-body line-clamp-2">{post.excerpt || 'Haz clic para leer la publicación completa...'}</p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {post.tags.map(tag => (
-                  <span key={tag} className="text-xs px-2 py-0.5 rounded border border-primary/20 bg-primary/5 text-primary">
-                    {tag}
+        {posts.length === 0 ? (
+          <p className="py-12 text-center text-muted-foreground">No hay entradas con esa etiqueta todavía.</p>
+        ) : (
+          <div className="grid gap-4">
+            {posts.map((post) => (
+              <Link
+                key={post.slug}
+                to={`/blog/${post.slug}`}
+                className="block rounded-lg border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary"
+              >
+                <div className="mb-2 flex items-center gap-3 font-mono text-xs text-muted-foreground">
+                  <time dateTime={post.date}>{formatDate(post.date)}</time>
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" aria-hidden="true" /> {post.readingMinutes} min
                   </span>
-                ))}
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
+                </div>
+                <h2 className="mb-1 text-lg font-semibold text-foreground">{post.title}</h2>
+                <p className="line-clamp-2 font-body text-sm text-muted-foreground">
+                  {post.excerpt || 'Haz clic para leer la publicación completa…'}
+                </p>
+                {post.tags.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {post.tags.map((t) => (
+                      <span key={t} className="rounded border border-primary/20 bg-primary/5 px-2 py-0.5 text-xs text-primary">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   )
 }

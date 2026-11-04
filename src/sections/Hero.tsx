@@ -1,206 +1,195 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Globe, MapPin, Code, Wrench, ShoppingBag } from "lucide-react";
-import { Link } from "react-router";
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
+import { ChevronDown, Code, Globe, MapPin, Wrench } from 'lucide-react'
+import { SITE, WA, waLink } from '../lib/site'
 
 interface TerminalLine {
-  type: "prompt" | "output" | "comment" | "cursor" | "badge";
-  text?: string;
-  delay?: number;
+  kind: 'prompt' | 'output' | 'comment' | 'cursor'
+  text?: string
+  /** Milisegundos desde que carga la página */
+  at: number
 }
 
-const TERMINAL_LINES: TerminalLine[] = [
-  { type: "prompt", text: "whoami", delay: 0 },
-  { type: "output", text: "BitCriollo — Soluciones Digitales con Sabor", delay: 300 },
-  { type: "comment", text: "# Software · Hardware · Desarrollo Remoto", delay: 500 },
-  { type: "comment", text: "# Villa Clara, Cuba · Disponible internacionalmente", delay: 700 },
-  { type: "prompt", text: "cat servicios.txt", delay: 1000 },
-  { type: "output", text: "Soporte local (Cuba)    |    Desarrollo remoto (Mundo)", delay: 1300 },
-  { type: "output", text: "Linux · Virus · Hardware · Scripts · IA Local · APIs", delay: 1500 },
-  { type: "comment", text: "# Sin precios de ciudad. Sin complicaciones.", delay: 1700 },
-  { type: "prompt", text: "./contactar.sh", delay: 2000 },
-  { type: "output", text: "WhatsApp local → +53 5 6418463", delay: 2300 },
-  { type: "output", text: "Proyectos remotos → norland.chavez333@gmail.com", delay: 2500 },
-  { type: "cursor", delay: 2800 },
-];
+const LINES: TerminalLine[] = [
+  { kind: 'prompt', text: 'whoami', at: 0 },
+  { kind: 'output', text: 'BitCriollo — Soluciones Digitales con Sabor', at: 300 },
+  { kind: 'comment', text: '# Software · Hardware · Desarrollo Remoto', at: 500 },
+  { kind: 'comment', text: '# Villa Clara, Cuba · Disponible internacionalmente', at: 700 },
+  { kind: 'prompt', text: 'cat servicios.txt', at: 1000 },
+  { kind: 'output', text: 'Soporte local (Cuba)    |    Desarrollo remoto (Mundo)', at: 1300 },
+  { kind: 'output', text: 'Linux · Virus · Hardware · Scripts · IA Local · APIs', at: 1500 },
+  { kind: 'comment', text: '# Sin precios de ciudad. Sin complicaciones.', at: 1700 },
+  { kind: 'prompt', text: './contactar.sh', at: 2000 },
+  { kind: 'output', text: `WhatsApp local → ${SITE.phoneDisplay}`, at: 2300 },
+  { kind: 'output', text: `Proyectos remotos → ${SITE.email}`, at: 2500 },
+  { kind: 'cursor', at: 2800 },
+]
+
+const SUMMARY =
+  'BitCriollo ofrece soporte local en Villa Clara, Cuba, servicio técnico de hardware y desarrollo de software remoto para todo el mundo.'
 
 export default function Hero() {
-  const [visibleLines, setVisibleLines] = useState<number>(0);
-  const [typedChars, setTypedChars] = useState<Record<number, number>>({});
-  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(0)
+  const [typed, setTyped] = useState<Record<number, number>>({})
 
   useEffect(() => {
-    const timeouts: ReturnType<typeof setTimeout>[] = [];
-
-    TERMINAL_LINES.forEach((line, i) => {
-      const delay = line.delay ?? i * 200;
-      const t = setTimeout(() => {
-        setVisibleLines((prev) => Math.max(prev, i + 1));
-        if (line.type === "prompt" && line.text) {
-          const text = line.text;
-          let charIndex = 0;
-          const typeInterval = setInterval(() => {
-            charIndex++;
-            setTypedChars((prev) => ({ ...prev, [i]: charIndex }));
-            if (charIndex >= text.length) {
-              clearInterval(typeInterval);
-            }
-          }, 45);
-          timeouts.push(typeInterval as unknown as ReturnType<typeof setTimeout>);
-        }
-      }, delay);
-      timeouts.push(t);
-    });
-
-    return () => timeouts.forEach((t) => clearTimeout(t));
-  }, []);
-
-  const renderLine = (line: TerminalLine, index: number) => {
-    if (index >= visibleLines) return null;
-
-    switch (line.type) {
-      case "prompt": {
-        const typed = typedChars[index] || 0;
-        const text = line.text || "";
-        return (
-          <div key={index} className="flex items-start gap-2">
-            <span className="text-emerald-500 font-code shrink-0">$</span>
-            <span className="text-foreground">{text.slice(0, typed)}</span>
-            {typed < text.length && (
-              <span className="inline-block w-2 h-4 bg-primary animate-cursor-blink ml-0.5" />
-            )}
-          </div>
-        );
-      }
-      case "output":
-        return (
-          <div key={index} className="text-muted-foreground ml-6 font-code text-sm">
-            {line.text}
-          </div>
-        );
-      case "comment":
-        return (
-          <div key={index} className="text-muted-foreground/70 ml-0 font-code text-sm">
-            {line.text}
-          </div>
-        );
-      case "cursor":
-        return (
-          <div key={index} className="flex items-center gap-2 mt-2">
-            <span className="text-emerald-500 font-code">$</span>
-            <span className="inline-block w-2 h-4 bg-primary animate-cursor-blink" />
-          </div>
-        );
-      default:
-        return null;
+    // Con "movimiento reducido" mostramos todo de golpe
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(LINES.length)
+      setTyped(Object.fromEntries(LINES.map((l, i) => [i, l.text?.length ?? 0])))
+      return
     }
-  };
+
+    const timeouts: number[] = []
+    const intervals: number[] = []
+
+    LINES.forEach((line, i) => {
+      timeouts.push(
+        window.setTimeout(() => {
+          setVisible((v) => Math.max(v, i + 1))
+          if (line.kind !== 'prompt' || !line.text) return
+          const text = line.text
+          let n = 0
+          const id = window.setInterval(() => {
+            n += 1
+            setTyped((prev) => ({ ...prev, [i]: n }))
+            if (n >= text.length) window.clearInterval(id)
+          }, 45)
+          intervals.push(id)
+        }, line.at)
+      )
+    })
+
+    return () => {
+      timeouts.forEach((id) => window.clearTimeout(id))
+      intervals.forEach((id) => window.clearInterval(id))
+    }
+  }, [])
+
+  const renderLine = (line: TerminalLine, i: number) => {
+    if (i >= visible) return null
+    switch (line.kind) {
+      case 'prompt': {
+        const text = line.text ?? ''
+        const n = typed[i] ?? 0
+        return (
+          <div key={i} className="flex items-start gap-2">
+            <span className="shrink-0 font-code text-remote">$</span>
+            <span className="text-foreground">{text.slice(0, n)}</span>
+            {n < text.length && <span className="ml-0.5 inline-block h-4 w-2 animate-cursor-blink bg-primary" />}
+          </div>
+        )
+      }
+      case 'output':
+        return (
+          <div key={i} className="ml-6 font-code text-sm text-muted-foreground">
+            {line.text}
+          </div>
+        )
+      case 'comment':
+        return (
+          <div key={i} className="font-code text-sm text-muted-foreground/80">
+            {line.text}
+          </div>
+        )
+      case 'cursor':
+        return (
+          <div key={i} className="mt-2 flex items-center gap-2">
+            <span className="font-code text-remote">$</span>
+            <span className="inline-block h-4 w-2 animate-cursor-blink bg-primary" />
+          </div>
+        )
+    }
+  }
 
   return (
-    <section
-      id="inicio"
-      ref={sectionRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
-    >
-      {/* Background layers */}
-      <div className="absolute inset-0 bg-gradient-mesh animate-blob-drift" />
-      <div className="absolute inset-0 bg-grid-pattern" />
+    <section id="inicio" className="relative flex min-h-[calc(100svh-3.5rem)] items-center overflow-hidden">
+      <div className="absolute inset-0 animate-blob-drift bg-gradient-mesh" aria-hidden="true" />
+      <div className="absolute inset-0 bg-grid-pattern" aria-hidden="true" />
 
-      {/* Content */}
-      <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-[6vw] pt-24 pb-16 w-full">
-        <div className="grid lg:grid-cols-[55%_45%] gap-12 lg:gap-8 items-center">
-          {/* Terminal */}
+      <div className="site-container relative z-10 py-16">
+        <div className="grid items-center gap-12 lg:grid-cols-[55%_45%] lg:gap-8">
+          {/* Terminal (decorativa) */}
           <div className="order-2 lg:order-1">
-            <div className="bg-card border border-border rounded-xl overflow-hidden shadow-card">
-              {/* Terminal header */}
-              <div className="bg-secondary px-4 py-3 flex items-center gap-2 border-b border-border">
-                <div className="w-3 h-3 rounded-full bg-destructive" />
-                <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                <span className="ml-3 text-xs text-muted-foreground font-code">
-                  dragoland@bitcriollo: ~/villaclara-cuba
+            <p className="sr-only">{SUMMARY}</p>
+            <div aria-hidden="true" className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
+              <div className="flex items-center gap-2 border-b border-border bg-secondary px-4 py-3">
+                <span className="h-3 w-3 rounded-full bg-destructive" />
+                <span className="h-3 w-3 rounded-full bg-store" />
+                <span className="h-3 w-3 rounded-full bg-remote" />
+                <span className="ml-3 font-code text-xs text-muted-foreground">
+                  {SITE.handle.toLowerCase()}@bitcriollo: ~/villaclara-cuba
                 </span>
               </div>
-              {/* Terminal body */}
-              <div className="p-6 font-code text-sm space-y-1.5 min-h-[280px]">
-                {TERMINAL_LINES.map((line, i) => renderLine(line, i))}
+              <div className="min-h-[280px] space-y-1.5 p-6 font-code text-sm">
+                {LINES.map((line, i) => renderLine(line, i))}
               </div>
             </div>
           </div>
 
-          {/* Text content */}
-          <div className="order-1 lg:order-2 text-center lg:text-left">
-            {/* Badges */}
-            <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-6">
-              <span className="inline-flex items-center gap-1.5 text-xs font-mono bg-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/20">
-                <MapPin className="w-3 h-3" /> Villa Clara, Cuba
+          {/* Texto */}
+          <div className="order-1 text-center lg:order-2 lg:text-left">
+            <div className="mb-6 flex flex-wrap justify-center gap-2 lg:justify-start">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 font-mono text-xs text-primary">
+                <MapPin className="h-3 w-3" aria-hidden="true" /> Villa Clara, Cuba
               </span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-mono bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-full border border-emerald-500/20">
-                <Globe className="w-3 h-3" /> Remoto
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-remote/20 bg-remote/10 px-3 py-1.5 font-mono text-xs text-remote">
+                <Globe className="h-3 w-3" aria-hidden="true" /> Remoto
               </span>
             </div>
 
-            <h1 className="font-mono font-extrabold text-4xl sm:text-5xl lg:text-[52px] leading-[1.1] tracking-tight mb-6">
-              Tu vecino técnico{" "}
-              <span className="text-gradient">con alcance global</span>
+            <h1 className="mb-6 font-mono text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-[52px]">
+              Tu vecino técnico <span className="text-gradient">con alcance global</span>
             </h1>
-            <p className="font-body text-lg text-muted-foreground leading-relaxed max-w-[500px] mx-auto lg:mx-0 mb-8">
-              PCs lentas, virus, celulares locos, cuentas bloqueadas y tambien
-              desarrollo de software, automatización e IA local para equipos de cualquier parte del mundo.
+            <p className="mx-auto mb-8 max-w-[500px] font-body text-lg leading-relaxed text-muted-foreground lg:mx-0">
+              PCs lentas, virus, celulares locos, cuentas bloqueadas, y también desarrollo de software, automatización e
+              IA local para equipos de cualquier parte del mundo.
             </p>
 
-            {/* Stats / trust indicators */}
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start mb-8">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Code className="w-4 h-4 text-primary" />
-                <span>Python · Bash · Linux</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Wrench className="w-4 h-4 text-orange-400" />
-                <span>Arreglo de Equipos</span>
-              </div>
+            <div className="mb-8 flex flex-wrap justify-center gap-4 lg:justify-start">
+              <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Code className="h-4 w-4 text-primary" aria-hidden="true" /> Python · Bash · Linux
+              </span>
+              <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Wrench className="h-4 w-4 text-hardware" aria-hidden="true" /> Arreglo de equipos
+              </span>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start flex-wrap">
+            <div className="flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
               <a
-                href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
+                href={waLink(WA.equipo)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold text-sm px-6 py-3 rounded-md hover:brightness-110 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-200 uppercase tracking-wider"
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all duration-200 hover:-translate-y-0.5 hover:shadow-glow hover:brightness-110"
               >
-                <MapPin className="w-4 h-4" />
-                Soporte Local
+                Escríbeme por WhatsApp
               </a>
-              <a
-                href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20me%20interesa%20un%20proyecto%20de%20desarrollo"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 border border-emerald-500 text-emerald-500 font-semibold text-sm px-6 py-3 rounded-md hover:bg-emerald-500/10 transition-all duration-200 uppercase tracking-wider"
-              >
-                <Globe className="w-4 h-4" />
-                Proyectos Remotos
-              </a>
-              <Link
-                to="/tienda"
-                className="inline-flex items-center justify-center gap-2 border border-yellow-400 text-yellow-400 font-semibold text-sm px-6 py-3 rounded-md hover:bg-yellow-400/10 transition-all duration-200 uppercase tracking-wider"
-              >
-                <ShoppingBag className="w-4 h-4" />
-                Tienda
-              </Link>
               <Link
                 to="/servicios"
-                className="inline-flex items-center justify-center gap-2 border border-primary text-primary font-semibold text-sm px-6 py-3 rounded-md hover:bg-primary/10 transition-all duration-200 uppercase tracking-wider"
+                className="inline-flex items-center justify-center gap-2 rounded-md border border-primary px-6 py-3 text-sm font-semibold uppercase tracking-wider text-primary transition-all duration-200 hover:bg-primary/10"
               >
                 Ver servicios
               </Link>
             </div>
+
+            <p className="mt-5 font-body text-sm text-muted-foreground">
+              ¿Proyecto remoto?{' '}
+              <a
+                href={waLink(WA.proyecto)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-remote underline-offset-2 hover:underline"
+              >
+                Cuéntame tu idea →
+              </a>
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-slow">
-        <ChevronDown className="w-6 h-6 text-muted-foreground" />
+      <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 animate-bounce-slow sm:block" aria-hidden="true">
+        <ChevronDown className="h-6 w-6 text-muted-foreground" />
       </div>
     </section>
-  );
+  )
 }

@@ -1,93 +1,87 @@
 import { Link } from 'react-router'
-import { Leaf, Code, Globe, Wrench } from 'lucide-react'
+import { Code, Globe, MapPin, Wrench } from 'lucide-react'
+import { GitHubIcon, TelegramIcon, WhatsAppIcon } from './icons'
+import Logo from './Logo'
+import { SITE, githubUrl, telegramUrl, waLink } from '../lib/site'
 
-export const Footer = () => {
-  return (
-    <footer className="border-t border-border bg-card">
-      {/* Main footer */}
-      <div className="border-t border-border">
-        <div className="container mx-auto px-4 py-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Brand */}
-            <div className="md:col-span-1">
-              <Link to="/" className="font-mono font-bold text-primary text-lg flex items-center gap-2">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-primary">
-                  <path d="M11 2C9.5 5 7 8.5 7 12c0 2.5 1.5 4.5 4 6.5C13.5 16.5 15 14.5 15 12c0-3.5-2.5-7-4-10z" fill="currentColor"/>
-                </svg>
-                Bit<span className="text-orange-400">Criollo</span>
-              </Link>
-              <p className="text-sm text-muted-foreground font-body mt-3 leading-relaxed">
-                Soluciones informáticas en Cuba. Soporte local, desarrollo remoto y servicio técnico de hardware.
-              </p>
-              <p className="text-xs text-muted-foreground mt-4">
-                📍 Placetas, Villa Clara, Cuba
-              </p>
-              <div className="flex items-center gap-2 mt-3">
-                <span className="inline-flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-1 rounded">
-                  <Code className="w-3 h-3" /> Software
-                </span>
-                <span className="inline-flex items-center gap-1 text-xs text-orange-400 bg-orange-400/10 px-2 py-1 rounded">
-                  <Wrench className="w-3 h-3" /> Hardware
-                </span>
-                <span className="inline-flex items-center gap-1 text-xs text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded">
-                  <Globe className="w-3 h-3" /> Remoto
-                </span>
-              </div>
-            </div>
+const linkClass = 'text-sm text-muted-foreground transition-colors hover:text-primary'
 
-            {/* Links */}
-            <div>
-              <h4 className="font-mono font-bold text-sm text-foreground mb-4">Sitio</h4>
-              <div className="flex flex-col gap-2">
-                <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">Inicio</Link>
-                <Link to="/servicios" className="text-sm text-muted-foreground hover:text-primary transition-colors">Servicios</Link>
-                <Link to="/tienda" className="text-sm text-muted-foreground hover:text-primary transition-colors">Tienda</Link>
-                <Link to="/proceso" className="text-sm text-muted-foreground hover:text-primary transition-colors">Proceso</Link>
-                <Link to="/cotizador" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cotizador</Link>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-mono font-bold text-sm text-foreground mb-4">Contenido</h4>
-              <div className="flex flex-col gap-2">
-                <Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">Blog DIUA</Link>
-                <Link to="/sobre-mi" className="text-sm text-muted-foreground hover:text-primary transition-colors">Sobre mí</Link>
-                <a href="https://github.com/Dragoland" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors">GitHub</a>
-                <a href="https://t.me/diario_del_informatico" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors">Telegram</a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-mono font-bold text-sm text-foreground mb-4">Legal</h4>
-              <div className="flex flex-col gap-2">
-                <span className="text-sm text-muted-foreground">Software libre y Open Source</span>
-                <span className="text-sm text-muted-foreground">Garantía de 2 semanas en reparaciones</span>
-                <span className="text-sm text-muted-foreground">Diagnóstico gratuito</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="border-t border-border">
-        <div className="container mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground font-mono">
-            © 2026 BitCriollo. Hecho con &gt; y paciencia.
+export const Footer = () => (
+  <footer className="border-t border-border bg-card">
+    <div className="site-container py-10">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div>
+          <Link to="/" aria-label="BitCriollo — inicio">
+            <Logo />
+          </Link>
+          <p className="mt-3 font-body text-sm leading-relaxed text-muted-foreground">
+            Soluciones informáticas en Cuba. Soporte local, desarrollo remoto y servicio técnico de hardware.
           </p>
-          <div className="flex items-center gap-4">
-            <a href="https://wa.me/5356418463" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="WhatsApp">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            </a>
-            <a href="https://t.me/diario_del_informatico" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Telegram">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-            </a>
-            <a href="https://github.com/Dragoland" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="GitHub">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            </a>
+          <p className="mt-4 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" /> {SITE.location}
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-1 text-xs text-primary">
+              <Code className="h-3 w-3" aria-hidden="true" /> Software
+            </span>
+            <span className="inline-flex items-center gap-1 rounded bg-hardware/10 px-2 py-1 text-xs text-hardware">
+              <Wrench className="h-3 w-3" aria-hidden="true" /> Hardware
+            </span>
+            <span className="inline-flex items-center gap-1 rounded bg-remote/10 px-2 py-1 text-xs text-remote">
+              <Globe className="h-3 w-3" aria-hidden="true" /> Remoto
+            </span>
           </div>
         </div>
+
+        <nav aria-label="Sitio">
+          <h2 className="mb-4 font-mono text-sm font-bold text-foreground">Sitio</h2>
+          <div className="flex flex-col gap-2">
+            <Link to="/" className={linkClass}>Inicio</Link>
+            <Link to="/servicios" className={linkClass}>Servicios</Link>
+            <Link to="/tienda" className={linkClass}>Tienda</Link>
+            <Link to="/cotizador" className={linkClass}>Cotizador</Link>
+            <Link to="/proceso" className={linkClass}>Proceso</Link>
+          </div>
+        </nav>
+
+        <nav aria-label="Contenido">
+          <h2 className="mb-4 font-mono text-sm font-bold text-foreground">Contenido</h2>
+          <div className="flex flex-col gap-2">
+            <Link to="/blog" className={linkClass}>Blog DIUA</Link>
+            <Link to="/sobre-mi" className={linkClass}>Sobre mí</Link>
+            <a href={githubUrl} target="_blank" rel="noopener noreferrer" className={linkClass}>GitHub</a>
+            <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className={linkClass}>Telegram</a>
+          </div>
+        </nav>
+
+        <div>
+          <h2 className="mb-4 font-mono text-sm font-bold text-foreground">Garantías</h2>
+          <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
+            <li>Diagnóstico gratuito</li>
+            <li>Garantía de 2 semanas en reparaciones</li>
+            <li>Software libre y Open Source</li>
+          </ul>
+        </div>
       </div>
-    </footer>
-  )
-}
+    </div>
+
+    <div className="border-t border-border">
+      <div className="site-container flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
+        <p className="font-mono text-xs text-muted-foreground">
+          © {new Date().getFullYear()} BitCriollo. Hecho con &gt; y paciencia.
+        </p>
+        <div className="flex items-center gap-4">
+          <a href={waLink()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-muted-foreground transition-colors hover:text-primary">
+            <WhatsAppIcon className="h-5 w-5" />
+          </a>
+          <a href={telegramUrl} target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="text-muted-foreground transition-colors hover:text-primary">
+            <TelegramIcon className="h-5 w-5" />
+          </a>
+          <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-muted-foreground transition-colors hover:text-primary">
+            <GitHubIcon className="h-5 w-5" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+)

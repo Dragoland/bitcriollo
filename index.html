@@ -3,20 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BitCriollo — Soluciones Digitales con Sabor</title>
-    <meta name="description" content="Servicios informáticos a nivel de software en Falcón, Placetas. Linux, limpieza de virus, recuperación de datos, diseño gráfico, software a medida y más. Primera consulta gratis." />
+    <title>BitCriollo — Soluciones Digitales con Sabor | Placetas, Cuba</title>
+    <meta name="description" content="Servicios informáticos en Falcón, Placetas: Linux, limpieza de virus, recuperación de datos, reparación de PCs y desarrollo de software remoto. Diagnóstico gratis." />
+    <link rel="canonical" href="https://bitcriollo.pages.dev/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BitCriollo" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content="BitCriollo — Soluciones Digitales con Sabor" />
+    <meta property="og:description" content="Soporte técnico en Placetas y desarrollo de software remoto. Linux, virus, recuperación de datos, hardware y más. Diagnóstico gratis." />
+    <meta property="og:url" content="https://bitcriollo.pages.dev/" />
+    <meta property="og:image" content="https://bitcriollo.pages.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"LocalBusiness","name":"BitCriollo","description":"Servicios informáticos en Placetas, Villa Clara: soporte técnico, Linux, recuperación de datos, hardware y desarrollo de software remoto.","url":"https://bitcriollo.pages.dev","telephone":"+5356418463","email":"norland.chavez333@gmail.com","image":"https://bitcriollo.pages.dev/og-image.png","address":{"@type":"PostalAddress","addressLocality":"Falcón, Placetas","addressRegion":"Villa Clara","addressCountry":"CU"},"areaServed":["Placetas","Villa Clara","Cuba"],"openingHours":"Mo-Sa 09:00-18:00","founder":{"@type":"Person","name":"Norland Chávez"}}
+    </script>
+
     <script>
-      (function() {
-        const theme = localStorage.getItem('theme') || 'dark';
-        if (theme === 'dark') document.documentElement.classList.add('dark');
+      // Aplica el tema antes de que cargue React (evita el parpadeo). Misma lógica que ThemeContext.
+      (function () {
+        var theme = null;
+        try { theme = localStorage.getItem('theme'); } catch (e) {}
+        if (theme !== 'dark' && theme !== 'light') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.classList.toggle('dark', theme === 'dark');
       })();
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>BitCriollo necesita JavaScript. Escríbeme por WhatsApp: +53 5 6418463.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

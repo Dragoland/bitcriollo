@@ -1,23 +1,29 @@
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { lazy } from 'react'
+import { Link, RouterProvider, createBrowserRouter } from 'react-router'
 import { Layout } from './components/Layout'
 import Home from './pages/Home'
-import { ServiciosPage } from './pages/ServiciosPage'
-import Software from './pages/Software'
-import Proceso from './pages/Proceso'
-import { Blog } from './pages/Blog'
-import { BlogPost } from './pages/BlogPost'
-import SobreMi from './pages/SobreMi'
-import CotizadorPage from './pages/CotizadorPage'
-import Marketplace from './pages/Marketplace'
-import ProductDetail from './pages/ProductDetail'
+
+// Las demás páginas se cargan bajo demanda (react-markdown solo baja en blog/tienda)
+const ServiciosPage = lazy(() => import('./pages/ServiciosPage'))
+const Software = lazy(() => import('./pages/Software'))
+const Proceso = lazy(() => import('./pages/Proceso'))
+const CotizadorPage = lazy(() => import('./pages/CotizadorPage'))
+const SobreMi = lazy(() => import('./pages/SobreMi'))
+const Blog = lazy(() => import('./pages/Blog'))
+const BlogPost = lazy(() => import('./pages/BlogPost'))
+const Marketplace = lazy(() => import('./pages/Marketplace'))
+const ProductDetail = lazy(() => import('./pages/ProductDetail'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 function ErrorPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+    <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
       <div className="text-center">
-        <h1 className="font-mono text-4xl font-bold text-destructive mb-4">Error</h1>
-        <p className="text-muted-foreground mb-6">Algo salió mal al cargar esta página.</p>
-        <a href="/" className="text-primary hover:underline font-mono">← Volver al inicio</a>
+        <h1 className="mb-4 font-mono text-4xl font-bold text-destructive">Error</h1>
+        <p className="mb-6 text-muted-foreground">Algo salió mal al cargar esta página.</p>
+        <Link to="/" reloadDocument className="font-mono text-primary hover:underline">
+          ← Volver al inicio
+        </Link>
       </div>
     </div>
   )
@@ -33,18 +39,17 @@ const router = createBrowserRouter([
       { path: 'servicios', element: <ServiciosPage /> },
       { path: 'software', element: <Software /> },
       { path: 'proceso', element: <Proceso /> },
-      { path: 'blog', element: <Blog /> },
-      { path: 'blog/:slug', element: <BlogPost /> },
-      { path: 'sobre-mi', element: <SobreMi /> },
       { path: 'cotizador', element: <CotizadorPage /> },
       { path: 'tienda', element: <Marketplace /> },
       { path: 'tienda/:slug', element: <ProductDetail /> },
-    ]
-  }
+      { path: 'blog', element: <Blog /> },
+      { path: 'blog/:slug', element: <BlogPost /> },
+      { path: 'sobre-mi', element: <SobreMi /> },
+      { path: '*', element: <NotFound /> },
+    ],
+  },
 ])
 
-function App() {
+export default function App() {
   return <RouterProvider router={router} />
 }
-
-export default App

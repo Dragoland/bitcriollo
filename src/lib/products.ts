@@ -1,79 +1,5 @@
-// Parser de frontmatter para productos (Soporta listas en una línea y listas YAML con guiones)
-function parseFrontmatter(raw: string) {
-  const match = raw.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/)
-  if (!match) return { data: {}, content: raw }
-
-  const frontmatter = match[1]
-  const content = match[2]
-
-  const data: Record<string, any> = {}
-  const lines = frontmatter.split('\n')
-  let currentKey: string | null = null
-
-  for (let i = 0; i < lines.length; i++) {
-    const trimmed = lines[i].trim()
-    if (!trimmed || trimmed.startsWith('#')) continue
-
-    // 1. Elemento de lista en varias líneas: - "/ruta/imagen.jpg"
-    if (trimmed.startsWith('-') && currentKey) {
-      const itemValue = trimmed.replace(/^-/, '').trim().replace(/^["']|["']$/g, '')
-      if (!Array.isArray(data[currentKey])) {
-        data[currentKey] = []
-      }
-      data[currentKey].push(itemValue)
-      continue
-    }
-
-    // 2. Arreglo en una sola línea: images: ["/img1.jpg", "/img2.jpg"]
-    const arrayMatch = trimmed.match(/^(\w+):\s*\[(.*)\]$/)
-    if (arrayMatch) {
-      currentKey = arrayMatch[1]
-      const values = arrayMatch[2].split(',').map(v => v.trim().replace(/^["']|["']$/g, '')).filter(Boolean)
-      data[currentKey] = values
-      continue
-    }
-
-    // 3. Clave: valor estándar (e.g. title: "Laptop", o inicio de lista `images:`)
-    const kvMatch = trimmed.match(/^(\w+):\s*(.*)$/)
-    if (kvMatch) {
-      const key = kvMatch[1]
-      let value: any = kvMatch[2].trim().replace(/^["']|["']$/g, '')
-
-      currentKey = key
-
-      // Convertir booleanos
-      if (value === 'true') value = true
-      if (value === 'false') value = false
-
-      // Si la clave tiene valor (ej: title: "Laptop"), lo guarda
-      if (value !== '') {
-        data[key] = value
-      }
-    }
-  }
-
-  return { data, content }
-}
-
-let cachedProductModules: Record<string, any> | null = null
-
-function loadProductModules(): Record<string, any> {
-  if (cachedProductModules !== null) return cachedProductModules
-
-  try {
-    const mods = import.meta.glob('../content/products/*.md', {
-      eager: true,
-      query: '?raw',
-      import: 'default'
-    })
-    cachedProductModules = mods || {}
-  } catch (e) {
-    console.warn('[products.ts] import.meta.glob falló:', e)
-    cachedProductModules = {}
-  }
-
-  return cachedProductModules
-}
+import { asList, asString, parseFrontmatter } from './frontmatter'
+import { SITE } from './site'
 
 export interface Product {
   slug: string
@@ -90,6 +16,13 @@ export interface Product {
   content: string
 }
 
+const modules = import.meta.glob('../content/products/*.md', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+}) as Record<string, string>
+
+// Se usan solo si no existe ningún .md en src/content/products/
 const fallbackProducts: Product[] = [
   {
     slug: 'bom-apettite-software',
@@ -99,11 +32,12 @@ const fallbackProducts: Product[] = [
     condition: 'nuevo',
     seller: 'BitCriollo',
     location: 'Remoto',
-    whatsapp: '5356418463',
+    whatsapp: SITE.phone,
     featured: true,
     images: ['/images/products/bom-apettite-1.jpg'],
     description: 'Sistema de gestión de pedidos QR para restaurantes. Incluye instalación y soporte.',
-    content: '## BomApettite\n\nSistema completo de gestión de pedidos mediante códigos QR.\n\n### Incluye:\n- Menú digital interactivo\n- Gestión de mesas con QR únicos\n- Pedidos en tiempo real\n- Reportes exportables a Excel\n- Funciona en red local sin internet\n\n### Precio\n\n**$100 USD** — Incluye instalación, configuración y capacitación básica.\n\n---\n\n*Software desarrollado por BitCriollo.*'
+    content:
+      '## BomApettite\n\nSistema completo de gestión de pedidos mediante códigos QR.\n\n### Incluye:\n- Menú digital interactivo\n- Gestión de mesas con QR únicos\n- Pedidos en tiempo real\n- Reportes exportables a Excel\n- Funciona en red local sin internet\n\n### Precio\n\n**$100 USD** — Incluye instalación, configuración y capacitación básica.\n\n---\n\n*Software desarrollado por BitCriollo.*',
   },
   {
     slug: 'negocio-en-zona-software',
@@ -113,75 +47,53 @@ const fallbackProducts: Product[] = [
     condition: 'nuevo',
     seller: 'BitCriollo',
     location: 'Remoto',
-    whatsapp: '5356418463',
+    whatsapp: SITE.phone,
     featured: true,
     images: ['/images/products/negocio-zona-1.jpg'],
     description: 'Software desktop para gestionar inventario, ventas y clientes. 100% offline.',
-    content: '## NegocioEnZona\n\nSistema integral de gestión para pequeños negocios.\n\n### Incluye:\n- Inventario con alertas de stock\n- Registro de ventas y facturación\n- Base de datos de clientes\n- Reportes por período\n- Exportación a Excel y PDF\n\n### Precio\n\n**$150 USD** — Personalizable según el negocio.\n\n---\n\n*Software desarrollado por BitCriollo.*'
+    content:
+      '## NegocioEnZona\n\nSistema integral de gestión para pequeños negocios.\n\n### Incluye:\n- Inventario con alertas de stock\n- Registro de ventas y facturación\n- Base de datos de clientes\n- Reportes por período\n- Exportación a Excel y PDF\n\n### Precio\n\n**$150 USD** — Personalizable según el negocio.\n\n---\n\n*Software desarrollado por BitCriollo.*',
   },
 ]
 
-export function getAllProducts(): Product[] {
-  const modules = loadProductModules()
+function buildProducts(): Product[] {
   const products: Product[] = []
 
-  for (const [path, rawModule] of Object.entries(modules)) {
-    let raw: string | undefined
-
-    if (typeof rawModule === 'string') {
-      raw = rawModule
-    } else if (rawModule && typeof rawModule === 'object') {
-      const mod = rawModule as any
-      if (typeof mod.default === 'string') {
-        raw = mod.default
-      }
-    }
-
-    if (!raw || typeof raw !== 'string') {
-      console.warn(`[products.ts] Módulo ${path} no tiene contenido válido`)
-      continue
-    }
-
+  for (const [path, raw] of Object.entries(modules)) {
+    if (typeof raw !== 'string') continue
     const { data, content } = parseFrontmatter(raw)
-    const slug = path.split('/').pop()?.replace(/\.md$/, '') || ''
+    const slug = path.split('/').pop()?.replace(/\.md$/, '') ?? ''
+    const title = asString(data.title)
+    const price = asString(data.price)
 
-    if (!data.title || !data.price) {
-      console.warn(`[products.ts] Producto ${slug} falta título o precio`)
+    if (!slug || !title || !price) {
+      console.warn(`[products] "${slug}" ignorado: falta title o price en el frontmatter`)
       continue
     }
+    if (data.draft === true && !import.meta.env.DEV) continue
 
     products.push({
       slug,
-      title: data.title,
-      price: data.price,
-      category: data.category || 'otros',
-      condition: data.condition || 'usado',
-      seller: data.seller || 'BitCriollo',
-      location: data.location || 'Falcón, Placetas',
-      whatsapp: data.whatsapp || '5356418463',
+      title,
+      price,
+      category: asString(data.category, 'otros'),
+      condition: asString(data.condition, 'usado'),
+      seller: asString(data.seller, SITE.name),
+      location: asString(data.location, 'Falcón, Placetas'),
+      whatsapp: asString(data.whatsapp, SITE.phone),
       featured: data.featured === true,
-      images: Array.isArray(data.images) ? data.images : (data.images ? [data.images] : []),
-      description: data.description || '',
+      images: asList(data.images),
+      description: asString(data.description),
       content,
     })
   }
 
-  if (products.length === 0) {
-    console.log('[products.ts] No se encontraron productos .md, usando fallback')
-    return [...fallbackProducts]
-  }
-
-  return products
+  return products.length > 0 ? products : fallbackProducts
 }
 
-export function getProductBySlug(slug: string): Product | undefined {
-  return getAllProducts().find(p => p.slug === slug)
-}
+const products = buildProducts()
 
-export function getProductsByCategory(category: string): Product[] {
-  return getAllProducts().filter(p => p.category === category)
-}
-
-export function getFeaturedProducts(): Product[] {
-  return getAllProducts().filter(p => p.featured)
-}
+export const getAllProducts = (): Product[] => products
+export const getProductBySlug = (slug: string): Product | undefined => products.find((p) => p.slug === slug)
+export const getProductsByCategory = (category: string): Product[] => products.filter((p) => p.category === category)
+export const getFeaturedProducts = (): Product[] => products.filter((p) => p.featured)

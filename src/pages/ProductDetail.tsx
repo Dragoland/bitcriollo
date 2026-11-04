@@ -1,322 +1,128 @@
-import { useState } from 'react'
-import { useParams, Link } from 'react-router'
+import { Link, useParams } from 'react-router'
+import { ArrowLeft, Check, MapPin, MessageCircle, Star } from 'lucide-react'
+import ImageGallery from '../components/ImageGallery'
+import Markdown from '../components/Markdown'
+import { getProductCategory } from '../data/productCategories'
 import { getProductBySlug } from '../lib/products'
-import { ArrowLeft, MapPin, Star, ShoppingBag, MessageCircle, Check, ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import type { Product } from '../lib/products'
+import { waLink } from '../lib/site'
+import { usePageMeta } from '../lib/usePageMeta'
+
+function ProductView({ product }: { product: Product }) {
+  usePageMeta({
+    title: product.title,
+    description: product.description || undefined,
+    path: `/tienda/${product.slug}`,
+  })
+
+  const category = getProductCategory(product.category)
+  const isNew = product.condition === 'nuevo'
+  const buy = waLink(`Hola Dragoland! Me interesa el producto "${product.title}" (${product.price}). ¿Sigue disponible?`, product.whatsapp)
+  const negotiate = waLink(`Hola Dragoland! Vi el producto "${product.title}" (${product.price}). ¿Hay posibilidad de negociar el precio?`, product.whatsapp)
+
+  return (
+    <article className="py-16 lg:py-24">
+      <div className="site-container max-w-5xl">
+        <Link to="/tienda" className="mb-8 inline-flex items-center gap-2 font-mono text-sm text-primary hover:underline">
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver a la tienda
+        </Link>
+
+        <div className="grid gap-10 lg:grid-cols-[55%_45%]">
+          <ImageGallery images={product.images} title={product.title} />
+
+          <div>
+            <div className="mb-4 flex flex-wrap gap-2">
+              <span className={`rounded px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-background ${isNew ? 'bg-remote' : 'bg-hardware'}`}>
+                {product.condition}
+              </span>
+              <span className={`rounded border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${category.badge}`}>
+                {category.label}
+              </span>
+              {product.featured && (
+                <span className="inline-flex items-center gap-1 rounded bg-store px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-background">
+                  <Star className="h-3 w-3" aria-hidden="true" /> Destacado
+                </span>
+              )}
+            </div>
+
+            <h1 className="mb-3 font-mono text-2xl font-extrabold text-foreground lg:text-3xl">{product.title}</h1>
+
+            <p className="mb-6 flex flex-wrap items-center gap-x-2 font-body text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4" aria-hidden="true" /> {product.location}
+              <span aria-hidden="true">·</span>
+              <span>
+                Vendido por <strong className="text-foreground">{product.seller}</strong>
+              </span>
+            </p>
+
+            <div className="mb-8 font-code text-4xl font-bold text-primary">{product.price}</div>
+
+            <div className="mb-8 space-y-3">
+              <a
+                href={buy}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110"
+              >
+                <MessageCircle className="h-5 w-5" aria-hidden="true" /> Comprar por WhatsApp
+              </a>
+              <a
+                href={negotiate}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-secondary px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-primary hover:text-primary"
+              >
+                Negociar precio
+              </a>
+            </div>
+
+            <ul className="space-y-2 rounded-xl border border-border bg-card p-4">
+              {['Producto verificado por BitCriollo', 'Pago contra entrega en Falcón/Placetas', 'Soporte post-venta incluido'].map((t) => (
+                <li key={t} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Check className="h-4 w-4 text-remote" aria-hidden="true" /> {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-12">
+          <h2 className="mb-4 font-mono text-xl font-bold text-foreground">Descripción</h2>
+          <div className="rounded-xl border border-border bg-card p-6">
+            <Markdown>{product.content}</Markdown>
+          </div>
+        </div>
+
+        <div className="mt-8 rounded-xl border border-border bg-gradient-to-br from-primary/5 to-transparent p-6">
+          <h2 className="mb-3 font-mono text-lg font-bold text-foreground">¿Cómo funciona la compra?</h2>
+          <ol className="space-y-3 font-body text-sm text-muted-foreground">
+            <li><strong className="text-foreground">1.</strong> Escribes por WhatsApp diciendo que te interesa este producto.</li>
+            <li><strong className="text-foreground">2.</strong> Yo te confirmo disponibilidad y coordinamos la entrega (presencial en Falcón/Placetas o envío).</li>
+            <li><strong className="text-foreground">3.</strong> Pagas al recibir el producto. Si es software, te envío el enlace de descarga después del pago.</li>
+            <li><strong className="text-foreground">4.</strong> Si el producto es de un tercero, yo me encargo de la negociación y te doy garantía de que lo que ves es lo que recibes.</li>
+          </ol>
+        </div>
+      </div>
+    </article>
+  )
+}
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>()
-
-  let product: ReturnType<typeof getProductBySlug> = undefined
-  let error: string | null = null
-
-  // Estado para la imagen activa de la galería
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0)
-  // Estado para controlar el modal de vista a pantalla completa
-  const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false)
-
-  try {
-    product = slug ? getProductBySlug(slug) : undefined
-  } catch (e) {
-    error = 'No se pudo cargar el producto.'
-    console.error('[ProductDetail] Error:', e)
-  }
-
-  if (error) {
-    return (
-      <div className="container mx-auto px-4 py-12 text-center">
-        <h1 className="text-2xl font-bold text-destructive">Error</h1>
-        <p className="text-muted-foreground mt-2">{error}</p>
-        <Link to="/tienda" className="text-primary hover:underline mt-4 inline-block">← Volver a la tienda</Link>
-      </div>
-    )
-  }
+  const product = slug ? getProductBySlug(slug) : undefined
 
   if (!product) {
     return (
-      <div className="container mx-auto px-4 py-12 text-center">
-        <h1 className="text-2xl font-bold text-destructive">Producto no encontrado</h1>
-        <p className="text-muted-foreground mt-2">El producto que buscas no existe o fue vendido.</p>
-        <Link to="/tienda" className="text-primary hover:underline mt-4 inline-block">← Volver a la tienda</Link>
-      </div>
+      <section className="site-container py-24 text-center">
+        <h1 className="font-mono text-2xl font-bold text-foreground">Producto no encontrado</h1>
+        <p className="mt-2 text-muted-foreground">El producto que buscas no existe o ya fue vendido.</p>
+        <Link to="/tienda" className="mt-6 inline-flex items-center gap-2 text-primary hover:underline">
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver a la tienda
+        </Link>
+      </section>
     )
   }
 
-  const categoryLabels: Record<string, string> = {
-    pcs: 'PCs y Laptops',
-    componentes: 'Componentes',
-    perifericos: 'Periféricos',
-    software: 'Software',
-  }
-
-  const handlePrevImage = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation()
-    if (!product || product.images.length === 0) return
-    setSelectedImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))
-  }
-
-  const handleNextImage = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation()
-    if (!product || product.images.length === 0) return
-    setSelectedImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1))
-  }
-
-  const buildWhatsAppLink = () => {
-    const msg = `Hola Dragoland! Me interesa el producto "${product.title}" (${product.price}). ¿Sigue disponible?`
-    return `https://wa.me/${product.whatsapp}?text=${encodeURIComponent(msg)}`
-  }
-
-  const buildWhatsAppNegotiateLink = () => {
-    const msg = `Hola Dragoland! Ví el producto "${product.title}" (${product.price}). ¿Hay posibilidad de negociar el precio?`
-    return `https://wa.me/${product.whatsapp}?text=${encodeURIComponent(msg)}`
-  }
-
-  return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
-      {/* Breadcrumb */}
-      <Link to="/tienda" className="inline-flex items-center gap-2 text-primary hover:underline mb-8 font-mono text-sm">
-        <ArrowLeft className="w-4 h-4" />
-        ← Volver a la tienda
-      </Link>
-
-      <div className="grid lg:grid-cols-[55%_45%] gap-10">
-        {/* Left - Images / Galería interactiva */}
-        <div>
-          <div 
-            onClick={() => product && product.images.length > 0 && setIsLightboxOpen(true)}
-            className={`relative aspect-[4/3] bg-secondary rounded-xl border border-border overflow-hidden mb-4 shadow-sm ${product.images.length > 0 ? 'cursor-pointer group' : ''}`}
-          >
-            {product.images.length > 0 ? (
-              <>
-                <img
-                  src={product.images[selectedImageIndex]}
-                  alt={`${product.title} - Imagen ${selectedImageIndex + 1}`}
-                  className="w-full h-full object-cover transition-all duration-300"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none'
-                  }}
-                />
-
-                {/* Botón de expandir a pantalla completa */}
-                <div className="absolute top-3 right-3 bg-card/85 backdrop-blur-sm text-foreground p-2 rounded-lg border border-border opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Maximize2 className="w-4 h-4" />
-                </div>
-              </>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <ShoppingBag className="w-20 h-20 text-muted-foreground opacity-20" />
-              </div>
-            )}
-
-            {/* Controles de navegación en imagen principal */}
-            {product.images.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={handlePrevImage}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card text-foreground border border-border p-2 rounded-full shadow-md transition-all opacity-80 hover:opacity-100 cursor-pointer"
-                  aria-label="Imagen anterior"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextImage}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card text-foreground border border-border p-2 rounded-full shadow-md transition-all opacity-80 hover:opacity-100 cursor-pointer"
-                  aria-label="Siguiente imagen"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-                <div className="absolute bottom-3 right-3 bg-card/80 backdrop-blur-sm text-xs px-2.5 py-1 rounded-md border border-border text-muted-foreground font-mono">
-                  {selectedImageIndex + 1} / {product.images.length}
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* Miniaturas (Thumbnails) */}
-          {product.images.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {product.images.map((img, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setSelectedImageIndex(i)}
-                  className={`relative w-20 h-20 rounded-lg border overflow-hidden bg-secondary transition-all cursor-pointer flex-shrink-0 ${
-                    i === selectedImageIndex
-                      ? 'border-primary ring-2 ring-primary/20 opacity-100 scale-105'
-                      : 'border-border opacity-60 hover:opacity-100'
-                  }`}
-                >
-                  <img src={img} alt={`${product.title} miniatura ${i + 1}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Right - Info */}
-        <div>
-          {/* Badges */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            <span className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded ${
-              product.condition === 'nuevo' ? 'bg-emerald-500 text-white' : 'bg-orange-400 text-white'
-            }`}>
-              {product.condition.toUpperCase()}
-            </span>
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider border border-primary/30 text-primary bg-primary/5 px-2.5 py-1 rounded">
-              {categoryLabels[product.category] || product.category}
-            </span>
-            {product.featured && (
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-yellow-400 text-black px-2.5 py-1 rounded">
-                <Star className="w-3 h-3" />
-                Destacado
-              </span>
-            )}
-          </div>
-
-          <h1 className="font-mono font-extrabold text-2xl lg:text-3xl text-foreground mb-3">
-            {product.title}
-          </h1>
-
-          <div className="flex items-center gap-2 text-sm text-muted-foreground font-body mb-6">
-            <MapPin className="w-4 h-4" />
-            {product.location}
-            <span className="mx-2">·</span>
-            <span>Vendido por <strong className="text-foreground">{product.seller}</strong></span>
-          </div>
-
-          <div className="font-code text-4xl font-bold text-primary mb-8">
-            {product.price}
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="space-y-3 mb-8">
-            <a
-              href={buildWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full bg-primary text-primary-foreground font-semibold text-sm px-6 py-4 rounded-xl hover:brightness-110 transition-all"
-            >
-              <MessageCircle className="w-5 h-5" />
-              Comprar por WhatsApp
-            </a>
-            <a
-              href={buildWhatsAppNegotiateLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full bg-secondary border border-border text-foreground font-semibold text-sm px-6 py-3 rounded-xl hover:border-primary hover:text-primary transition-all"
-            >
-              Negociar precio
-            </a>
-          </div>
-
-          {/* Trust badges */}
-          <div className="bg-card border border-border rounded-xl p-4 space-y-2">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="w-4 h-4 text-emerald-500" />
-              <span>Producto verificado por BitCriollo</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="w-4 h-4 text-emerald-500" />
-              <span>Pago contra entrega en Falcón/Placetas</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="w-4 h-4 text-emerald-500" />
-              <span>Soporte post-venta incluido</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Description */}
-      <div className="mt-12">
-        <h2 className="font-mono font-bold text-xl text-foreground mb-4">Descripción</h2>
-        <div className="bg-card border border-border rounded-xl p-6">
-          <article className="prose prose-invert max-w-none font-body text-muted-foreground leading-relaxed">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {product.content}
-            </ReactMarkdown>
-          </article>
-        </div>
-      </div>
-
-      {/* Seller info */}
-      <div className="mt-8 bg-gradient-to-br from-primary/5 to-transparent border border-border rounded-xl p-6">
-        <h3 className="font-mono font-bold text-lg text-foreground mb-3">
-          ¿Cómo funciona la compra?
-        </h3>
-        <div className="space-y-3 font-body text-sm text-muted-foreground">
-          <p>
-            <strong className="text-foreground">1.</strong> Escribes por WhatsApp diciendo que te interesa este producto.
-          </p>
-          <p>
-            <strong className="text-foreground">2.</strong> Yo te confirmo disponibilidad y coordinamos entrega (presencial en Falcón/Placetas o envío).
-          </p>
-          <p>
-            <strong className="text-foreground">3.</strong> Pagas al recibir el producto. Si es software, te envío el enlace de descarga después del pago.
-          </p>
-          <p>
-            <strong className="text-foreground">4.</strong> Si el producto es de un tercero, yo me encargo de la negociación y te doy garantía de que lo que ves es lo que recibes.
-          </p>
-        </div>
-      </div>
-
-      {/* Lightbox / Modal a Pantalla Completa */}
-      {isLightboxOpen && product && product.images.length > 0 && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setIsLightboxOpen(false)}
-        >
-          {/* Botón Cerrar */}
-          <button
-            type="button"
-            onClick={() => setIsLightboxOpen(false)}
-            className="absolute top-4 right-4 text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors cursor-pointer z-50"
-            aria-label="Cerrar vista completa"
-          >
-            <X className="w-6 h-6" />
-          </button>
-
-          {/* Contenedor de la Imagen completa sin cortes (object-contain) */}
-          <div 
-            className="relative max-w-5xl max-h-[90vh] w-full h-full flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={product.images[selectedImageIndex]}
-              alt={`${product.title} - Completa`}
-              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
-            />
-
-            {/* Controles en el Modal */}
-            {product.images.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={handlePrevImage}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-colors cursor-pointer"
-                  aria-label="Anterior"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextImage}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-colors cursor-pointer"
-                  aria-label="Siguiente"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-3 py-1 rounded-full font-mono">
-                  {selectedImageIndex + 1} / {product.images.length}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  )
+  // `key` reinicia la galería al cambiar de producto
+  return <ProductView key={product.slug} product={product} />
 }

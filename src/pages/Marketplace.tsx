@@ -1,248 +1,136 @@
-import { useState } from 'react'
-import { Link } from 'react-router'
+import { useSearchParams } from 'react-router'
+import { Search, ShoppingBag, Star } from 'lucide-react'
+import ProductCard from '../components/ProductCard'
+import Reveal from '../components/Reveal'
+import SectionHeader from '../components/SectionHeader'
+import { PRODUCT_CATEGORIES } from '../data/productCategories'
 import { getAllProducts } from '../lib/products'
-import { ShoppingBag, MapPin, Monitor, Cpu, Package, Code, Star, ArrowRight, Search } from 'lucide-react'
+import { WA, waLink } from '../lib/site'
+import { usePageMeta } from '../lib/usePageMeta'
 
-const categoryConfig: Record<string, { label: string; icon: React.ElementType; color: string; badge: string }> = {
-  pcs: { label: 'PCs y Laptops', icon: Monitor, color: 'primary', badge: 'border-primary/30 text-primary bg-primary/5' },
-  componentes: { label: 'Componentes', icon: Cpu, color: 'orange', badge: 'border-orange-400/30 text-orange-400 bg-orange-400/5' },
-  perifericos: { label: 'Periféricos', icon: Package, color: 'yellow', badge: 'border-yellow-400/30 text-yellow-400 bg-yellow-400/5' },
-  software: { label: 'Software', icon: Code, color: 'emerald', badge: 'border-emerald-500/30 text-emerald-500 bg-emerald-500/5' },
-}
+// Ignora mayúsculas y tildes al buscar ("teclado" encuentra "Teclado" y "téclado")
+const normalize = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()
 
 export default function Marketplace() {
-  const [activeCategory, setActiveCategory] = useState<string>('todos')
-  const [searchQuery, setSearchQuery] = useState('')
-
-  let products: ReturnType<typeof getAllProducts> = []
-  try {
-    products = getAllProducts()
-  } catch (e) {
-    console.error('[Marketplace] Error cargando productos:', e)
-  }
-
-  const featured = products.filter(p => p.featured)
-  const filtered = products.filter(p => {
-    const matchesCategory = activeCategory === 'todos' || p.category === activeCategory
-    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.description.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
+  usePageMeta({
+    title: 'Tienda: PCs, componentes y software',
+    description: 'PCs, laptops, componentes, periféricos y software. Yo busco al vendedor, cotizo y coordino; tú solo escribes por WhatsApp.',
+    path: '/tienda',
   })
 
-  const buildWhatsAppLink = (product: typeof products[0]) => {
-    const msg = `Hola Dragoland! Me interesa el producto "${product.title}" (${product.price}). ¿Sigue disponible?`
-    return `https://wa.me/${product.whatsapp}?text=${encodeURIComponent(msg)}`
+  const [params, setParams] = useSearchParams()
+  const category = params.get('categoria') ?? 'todos'
+  const query = params.get('q') ?? ''
+
+  const products = getAllProducts()
+  const q = normalize(query.trim())
+  const filtered = products.filter(
+    (p) =>
+      (category === 'todos' || p.category === category) &&
+      (!q || normalize(`${p.title} ${p.description}`).includes(q))
+  )
+  const featured = products.filter((p) => p.featured)
+  const showFeatured = category === 'todos' && !q && featured.length > 0
+
+  const update = (key: 'categoria' | 'q', value: string) => {
+    const next = new URLSearchParams(params)
+    if (value && value !== 'todos') next.set(key, value)
+    else next.delete(key)
+    setParams(next, { replace: true })
   }
 
-  return (
-    <div className="py-24 lg:py-32">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-[6vw]">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-4 flex items-center justify-center gap-2">
-            <span className="text-primary">//</span> MARKETPLACE
-          </div>
-          <h2 className="font-mono font-extrabold text-3xl lg:text-[42px] tracking-tight text-foreground mb-4">
-            Tienda BitCriollo
-          </h2>
-          <p className="font-body text-base text-muted-foreground max-w-[600px] mx-auto">
-            PCs, componentes y software. Yo encuentro el vendedor, cotizo por ti y me encargo de todo. 
-            Tú solo escribes por WhatsApp.
-          </p>
-        </div>
+  const tab = (active: boolean, activeClass = 'border-primary bg-primary/10 text-primary') =>
+    `flex items-center gap-2 rounded-lg border px-4 py-2.5 font-mono text-sm font-semibold transition-colors ${
+      active ? activeClass : 'border-border bg-card text-muted-foreground hover:text-foreground'
+    }`
 
-        {/* Search */}
-        <div className="max-w-md mx-auto mb-10">
+  return (
+    <section className="py-20 lg:py-28">
+      <div className="site-container">
+        <SectionHeader
+          as="h1"
+          eyebrow="MARKETPLACE"
+          title="Tienda BitCriollo"
+          description="PCs, componentes y software. Yo encuentro el vendedor, cotizo por ti y me encargo de todo. Tú solo escribes por WhatsApp."
+        />
+
+        <div className="mx-auto mb-10 max-w-md">
+          <label htmlFor="buscar" className="sr-only">Buscar productos</label>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             <input
-              type="text"
-              placeholder="Buscar productos..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-card border border-border rounded-xl pl-10 pr-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+              id="buscar"
+              type="search"
+              placeholder="Buscar productos…"
+              value={query}
+              onChange={(e) => update('q', e.target.value)}
+              className="w-full rounded-xl border border-border bg-card py-3 pl-10 pr-4 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
             />
           </div>
         </div>
 
-        {/* Category tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          <button
-            onClick={() => setActiveCategory('todos')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-mono font-semibold transition-all border ${
-              activeCategory === 'todos'
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'bg-card text-muted-foreground border-border hover:text-foreground'
-            }`}
-          >
-            <ShoppingBag className="w-4 h-4" />
-            Todos
+        <div role="group" aria-label="Categorías" className="mb-12 flex flex-wrap justify-center gap-2">
+          <button type="button" aria-pressed={category === 'todos'} onClick={() => update('categoria', 'todos')} className={tab(category === 'todos')}>
+            <ShoppingBag className="h-4 w-4" aria-hidden="true" /> Todos
           </button>
-          {Object.entries(categoryConfig).map(([key, config]) => {
-            const Icon = config.icon
-            const isActive = activeCategory === key
+          {Object.entries(PRODUCT_CATEGORIES).map(([key, cfg]) => {
+            const Icon = cfg.icon
             return (
-              <button
-                key={key}
-                onClick={() => setActiveCategory(key)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-mono font-semibold transition-all border ${
-                  isActive
-                    ? config.key === 'pcs'
-                      ? 'bg-primary text-primary-foreground border-primary'
-                      : config.key === 'componentes'
-                      ? 'bg-orange-400 text-white border-orange-400'
-                      : config.key === 'perifericos'
-                      ? 'bg-yellow-400 text-black border-yellow-400'
-                      : 'bg-emerald-500 text-white border-emerald-500'
-                    : 'bg-card text-muted-foreground border-border hover:text-foreground'
-                }`}
-                style={isActive ? {
-                  backgroundColor: key === 'pcs' ? 'hsl(var(--primary))' : key === 'componentes' ? '#fb923c' : key === 'perifericos' ? '#facc15' : '#10b981',
-                  color: key === 'perifericos' ? '#000' : '#fff',
-                  borderColor: key === 'pcs' ? 'hsl(var(--primary))' : key === 'componentes' ? '#fb923c' : key === 'perifericos' ? '#facc15' : '#10b981',
-                } : {}}
-              >
-                <Icon className="w-4 h-4" />
-                {config.label}
+              <button key={key} type="button" aria-pressed={category === key} onClick={() => update('categoria', key)} className={tab(category === key, cfg.active)}>
+                <Icon className="h-4 w-4" aria-hidden="true" /> {cfg.label}
               </button>
             )
           })}
         </div>
 
-        {/* Featured section */}
-        {activeCategory === 'todos' && searchQuery === '' && featured.length > 0 && (
+        {showFeatured && (
           <div className="mb-16">
-            <div className="flex items-center gap-2 mb-6">
-              <Star className="w-5 h-5 text-yellow-400" />
-              <h3 className="font-mono font-bold text-lg text-foreground">Destacados</h3>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featured.map(product => (
-                <ProductCard key={product.slug} product={product} buildWhatsAppLink={buildWhatsAppLink} />
+            <h2 className="mb-6 flex items-center gap-2 font-mono text-lg font-bold text-foreground">
+              <Star className="h-5 w-5 text-store" aria-hidden="true" /> Destacados
+            </h2>
+            <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {featured.map((p) => (
+                <ProductCard key={p.slug} product={p} />
               ))}
-            </div>
+            </Reveal>
           </div>
         )}
 
-        {/* Product grid */}
         <div>
-          <h3 className="font-mono font-bold text-lg text-foreground mb-6">
-            {activeCategory === 'todos' ? 'Todos los productos' : categoryConfig[activeCategory]?.label || 'Productos'}
-          </h3>
-
+          <h2 className="mb-6 font-mono text-lg font-bold text-foreground">
+            {category === 'todos' ? 'Todos los productos' : PRODUCT_CATEGORIES[category]?.label ?? 'Productos'}
+          </h2>
           {filtered.length === 0 ? (
-            <div className="text-center py-16 text-muted-foreground">
-              <ShoppingBag className="w-12 h-12 mx-auto mb-4 opacity-30" />
-              <p className="font-mono">No hay productos en esta categoría aún.</p>
-              <p className="text-sm font-body mt-2">Escribime por WhatsApp si buscas algo específico.</p>
+            <div className="py-16 text-center text-muted-foreground">
+              <ShoppingBag className="mx-auto mb-4 h-12 w-12 opacity-30" aria-hidden="true" />
+              <p className="font-mono">No hay productos con ese filtro.</p>
+              <p className="mt-2 font-body text-sm">Escríbeme por WhatsApp si buscas algo específico.</p>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map(product => (
-                <ProductCard key={product.slug} product={product} buildWhatsAppLink={buildWhatsAppLink} />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((p) => (
+                <ProductCard key={p.slug} product={p} />
               ))}
             </div>
           )}
         </div>
 
-        {/* CTA */}
-        <div className="mt-16 bg-card border border-border border-dashed rounded-xl p-10 text-center">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-            <span className="text-xl">💻</span>
-          </div>
-          <h3 className="font-mono font-bold text-xl text-foreground mb-2">
-            ¿Tienes algo para vender?
-          </h3>
-          <p className="font-body text-sm text-muted-foreground max-w-md mx-auto mb-6">
-            Si tienes una PC, componentes o periféricos que quieras vender, yo los cotizo y los publico por ti. 
-            Solo me llevo una comisión pequeña por la venta.
+        <div className="mt-16 rounded-xl border border-dashed border-border bg-card p-10 text-center">
+          <h2 className="mb-2 font-mono text-xl font-bold text-foreground">¿Tienes algo para vender?</h2>
+          <p className="mx-auto mb-6 max-w-md font-body text-sm text-muted-foreground">
+            Si tienes una PC, componentes o periféricos que quieras vender, yo los cotizo y los publico por ti. Solo me
+            llevo una comisión pequeña por la venta.
           </p>
           <a
-            href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20algo%20para%20vender%20en%20la%20tienda"
+            href={waLink(WA.vender)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary font-semibold text-sm rounded-lg hover:bg-primary/10 transition-all"
+            className="inline-flex items-center gap-2 rounded-lg border border-primary px-6 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/10"
           >
             Quiero vender algo
           </a>
         </div>
       </div>
-    </div>
-  )
-}
-
-function ProductCard({ product, buildWhatsAppLink }: { product: ReturnType<typeof getAllProducts>[0]; buildWhatsAppLink: (p: typeof product) => string }) {
-  const config = categoryConfig[product.category] || categoryConfig.pcs
-  const Icon = config.icon
-
-  return (
-    <div className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 hover:shadow-glow transition-all duration-250">
-      {/* Image */}
-      <Link to={`/tienda/${product.slug}`} className="block relative aspect-[4/3] bg-secondary overflow-hidden">
-        {product.images.length > 0 ? (
-          <img
-            src={product.images[0]}
-            alt={product.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none'
-            }}
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Icon className="w-16 h-16 text-muted-foreground opacity-20" />
-          </div>
-        )}
-        {product.featured && (
-          <div className="absolute top-3 left-3 bg-yellow-400 text-black text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">
-            Destacado
-          </div>
-        )}
-        <div className={`absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded ${
-          product.condition === 'nuevo' ? 'bg-emerald-500 text-white' : 'bg-orange-400 text-white'
-        }`}>
-          {product.condition}
-        </div>
-      </Link>
-
-      {/* Content */}
-      <div className="p-5">
-        <div className="flex items-center gap-2 mb-2">
-          <span className={`inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider border px-2 py-0.5 rounded ${config.badge}`}>
-            <Icon className="w-3 h-3" />
-            {config.label}
-          </span>
-          <span className="text-[10px] text-muted-foreground font-mono flex items-center gap-1">
-            <MapPin className="w-3 h-3" />
-            {product.location}
-          </span>
-        </div>
-
-        <Link to={`/tienda/${product.slug}`}>
-          <h4 className="font-mono font-bold text-[15px] text-foreground leading-tight mb-2 group-hover:text-primary transition-colors">
-            {product.title}
-          </h4>
-        </Link>
-
-        <p className="font-body text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-2">
-          {product.description}
-        </p>
-
-        <div className="flex items-center justify-between">
-          <span className="font-code text-lg font-bold text-primary">
-            {product.price}
-          </span>
-          <a
-            href={buildWhatsAppLink(product)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-mono text-primary hover:text-primary/80 transition-colors"
-          >
-            Comprar
-            <ArrowRight className="w-4 h-4" />
-          </a>
-        </div>
-      </div>
-    </div>
+    </section>
   )
 }

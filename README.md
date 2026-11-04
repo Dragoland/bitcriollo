@@ -1,152 +1,206 @@
-# BitCriollo 🖥️
+<div align="center">
 
-[![Deploy to Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare&logoColor=white)](https://bitcriollo.pages.dev)
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+# 🔥 BitCriollo
 
-**BitCriollo** es el sitio web profesional de **Norland Chávez**, técnico informático independiente en Falcón, Placetas, Villa Clara. Es un espacio que combina la oferta de servicios técnicos con un blog personal (**DIUA** — *Diario de un Informático Universitario y Artista*), reflejando la fusión entre tecnología, arte y la realidad cubana.
+**Soluciones Digitales con Sabor** — sitio web de servicios informáticos en Falcón, Placetas (Villa Clara, Cuba) y desarrollo de software remoto.
 
-✨ **Live Demo**: [bitcriollo.pages.dev](https://bitcriollo.pages.dev)
+[![Sitio](https://img.shields.io/badge/sitio-bitcriollo.pages.dev-1793D1?style=flat-square)](https://bitcriollo.pages.dev)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Licencia](https://img.shields.io/badge/licencia-MIT-green?style=flat-square)
 
----
+</div>
 
-## 🚀 Características
+## ¿Qué es?
 
-### Core del sitio
-- **Landing Page** con terminal interactiva y diseño moderno.
-- **Cotizador de servicios** en CUP (Pesos Cubanos).
-- **Secciones informativas**: Perfil, Servicios, Proceso de trabajo, Stack tecnológico.
-- **Formulario de contacto** integrado con métodos directos (WhatsApp, Telegram, Email).
+Web de BitCriollo: presenta los **servicios** (soporte local, servicio técnico de hardware y desarrollo remoto), un **cotizador** que arma el presupuesto y lo envía por WhatsApp, una **tienda** de PCs, componentes y software, y un **blog** (DIUA). Todo el contacto se canaliza por WhatsApp, Telegram y correo.
 
-### Novedades v1.1 (Actual)
-- 🌗 **Tema claro/oscuro**: Cambio dinámico con persistencia en `localStorage` y respeto por las preferencias del sistema.
-- 🧭 **Enrutamiento completo**: Navegación entre páginas independientes (`/servicios`, `/blog`, `/perfil`, etc.) usando React Router.
-- 📝 **Blog DIUA integrado**: Artículos cargados desde archivos **Markdown** (`src/content/blog/`). Soporte para etiquetas, fechas y vista de lectura optimizada.
-- 🎨 **Diseño consistente**: Interfaz unificada con tipografías `JetBrains Mono` e `Inter`, y animaciones suaves.
+## Características
 
----
+- 🧾 **Catálogo único de servicios** (`src/data/services.ts`): alimenta la página de servicios, el cotizador y la portada. Un solo lugar para cambiar precios.
+- 🧮 **Cotizador** con complejidad, urgencia y horas (para servicios por hora). Genera el mensaje de WhatsApp correctamente codificado.
+- 🛒 **Tienda** con filtros y búsqueda (sin tildes ni mayúsculas) guardados en la URL (`/tienda?categoria=pcs&q=laptop`), galería con *lightbox* accesible y detalle por producto.
+- 📝 **Blog en Markdown**: etiquetas filtrables, tiempo de lectura, borradores (`draft: true`) y llamada a la acción al final de cada entrada.
+- 🌗 **Tema claro/oscuro** que respeta la preferencia del sistema, sin parpadeo al cargar, con colores ajustados para cumplir contraste WCAG AA.
+- 🔎 **SEO**: título, descripción, canonical y Open Graph por página (`usePageMeta`), datos estructurados `LocalBusiness`, `sitemap.xml` generado en cada build, `robots.txt` e imagen para compartir en WhatsApp/Telegram.
+- ♿ **Accesibilidad**: enlace "Saltar al contenido", etiquetas en formularios, navegación por teclado, `aria-*` en menús y botones, respeto de `prefers-reduced-motion`.
+- ⚡ **Rendimiento**: páginas cargadas bajo demanda, tipografías **autoalojadas** (sin Google Fonts) y animaciones con `IntersectionObserver` (sin GSAP).
+- 🖥️ **Terminal animada** en la portada (decorativa, con resumen para lectores de pantalla).
 
-## 🛠️ Stack Tecnológico
+## Stack
 
-| Tecnología | Propósito |
-|------------|-----------|
-| **React 19** | Biblioteca principal para la UI. |
-| **TypeScript** | Tipado estático para un código más robusto. |
-| **Vite** | Bundler ultrarrápido y servidor de desarrollo. |
-| **React Router v6** | Manejo de rutas y navegación SPA. |
-| **Tailwind CSS 3.4** | Estilizado con clases utilitarias y tema personalizado. |
-| **shadcn/ui** | Base para componentes UI accesibles. |
-| **GSAP + ScrollTrigger** | Animaciones avanzadas al hacer scroll. |
-| **react-markdown + remark-gfm** | Renderizado de los posts del blog desde Markdown. |
-| **gray-matter** | Parseo del frontmatter de los archivos .md. |
-| **Lucide React** | Iconografía ligera y consistente. |
-| **Cloudflare Pages** | Alojamiento y despliegue continuo (CI/CD). |
+| Área | Tecnología |
+| --- | --- |
+| UI | React 19 + TypeScript |
+| Rutas | React Router 7 (`createBrowserRouter`) |
+| Estilos | Tailwind CSS 3.4 con variables CSS (`hsl(var(--token))`) |
+| Iconos | lucide-react |
+| Markdown | react-markdown + remark-gfm |
+| Tipografías | Inter y JetBrains Mono (`@fontsource-variable`) |
+| Build | Vite 7 |
+| Hosting | Cloudflare Pages |
 
----
+## Inicio rápido
 
-## 📂 Estructura del Proyecto (v1.1)
-
-```
-src/
-├── components/
-│   ├── Layout.tsx           # Layout principal (Nav + Footer)
-│   ├── Navigation.tsx       # Menú responsive con enlaces y ThemeToggle
-│   ├── Footer.tsx           # Pie de página con enlaces sociales
-│   └── ThemeToggle.tsx      # Botón de cambio de tema
-├── context/
-│   └── ThemeContext.tsx     # Proveedor de tema claro/oscuro
-├── content/
-│   └── blog/                # 📝 Archivos .md del blog DIUA
-│       └── bienvenida.md    # Post de ejemplo
-├── lib/
-│   └── posts.ts             # Utilidades para leer y parsear los posts
-├── pages/                   # 🧭 Páginas independientes
-│   ├── Home.tsx
-│   ├── Servicios.tsx
-│   ├── Proceso.tsx
-│   ├── Stack.tsx
-│   ├── Contacto.tsx
-│   ├── Perfil.tsx
-│   ├── Blog.tsx             # Listado de entradas
-│   └── BlogPost.tsx         # Vista de artículo individual
-├── sections/                # Secciones reutilizables (sin cambios)
-│   ├── Hero.tsx
-│   ├── Perfil.tsx
-│   ├── Servicios.tsx
-│   ├── Cotizador.tsx
-│   ├── Proceso.tsx
-│   ├── Stack.tsx
-│   ├── LaVallita.tsx
-│   └── Contacto.tsx
-├── App.tsx                  # Definición de rutas
-├── main.tsx                 # Punto de entrada con providers
-├── index.css                # Estilos globales y variables CSS
-└── vite-env.d.ts            # Declaraciones de tipos
-```
-
----
-
-## 🏁 Instalación y Desarrollo
-
-Sigue estos pasos para ejecutar el proyecto localmente:
+Requiere **Node.js 20.19+** (recomendado 22).
 
 ```bash
-# 1. Clonar el repositorio
 git clone https://github.com/Dragoland/bitcriollo.git
 cd bitcriollo
-
-# 2. Instalar dependencias (incluye las nuevas de v1.1)
 npm install
-
-# 3. (Opcional) Si usas el script de actualización automática:
-chmod +x setup.sh
-./setup.sh
-
-# 4. Iniciar el servidor de desarrollo
-npm run dev
+npm run dev        # http://localhost:5173
 ```
 
-Abre `http://localhost:5173` para ver el sitio en acción.
+### Scripts
 
+| Comando | Qué hace |
+| --- | --- |
+| `npm run dev` | Servidor de desarrollo (los borradores `draft: true` sí se ven) |
+| `npm run build` | Genera el sitemap (`prebuild`) y compila a `dist/` |
+| `npm run preview` | Sirve el build local |
+| `npm run typecheck` | Revisa los tipos con TypeScript |
+| `npm run lint` | ESLint |
+| `npm run sitemap` | Regenera `public/sitemap.xml` a mano |
+
+## Estructura
+
+```
+bitcriollo/
+├── index.html                 # meta/OG/JSON-LD, script de tema anti-parpadeo
+├── public/
+│   ├── _redirects             # SPA: /* → /index.html (Cloudflare Pages)
+│   ├── _headers               # cabeceras de seguridad y caché
+│   ├── robots.txt · sitemap.xml · favicon.svg · og-image.png
+│   └── images/                # avatar y fotos de productos
+├── scripts/
+│   └── generate-sitemap.mjs   # rutas fijas + posts + productos
+└── src/
+    ├── App.tsx                # rutas (páginas lazy) y 404
+    ├── main.tsx               # fuentes, tema y arranque
+    ├── index.css              # tokens de color, .prose, utilidades
+    ├── components/            # Layout, Navigation, Footer, Logo, Reveal,
+    │                          # SectionHeader, ProductCard, ImageGallery,
+    │                          # Markdown, ThemeToggle, ScrollToTop, icons
+    ├── context/ThemeContext.tsx
+    ├── data/
+    │   ├── services.ts        # ★ catálogo de servicios, categorías y precios
+    │   └── productCategories.ts
+    ├── lib/
+    │   ├── site.ts            # ★ teléfono, correo, enlaces y waLink()
+    │   ├── frontmatter.ts     # parser compartido por blog y tienda
+    │   ├── posts.ts · products.ts
+    │   └── usePageMeta.ts     # SEO por página
+    ├── sections/              # bloques reutilizables (Hero, Servicios,
+    │                          # Cotizador, Proceso, Stack, SoftwareStore…)
+    ├── pages/                 # una por ruta: Home, ServiciosPage, Software,
+    │                          # Proceso, CotizadorPage, Marketplace,
+    │                          # ProductDetail, Blog, BlogPost, SobreMi, NotFound
+    └── content/
+        ├── blog/*.md          # entradas del blog
+        └── products/*.md      # productos de la tienda
+```
+
+### Rutas
+
+| Ruta | Página |
+| --- | --- |
+| `/` | Portada: hero, garantías, servicios destacados, productos destacados |
+| `/servicios` | Catálogo completo (`?categoria=local\|hardware\|dev`) |
+| `/cotizador` | Cotizador (`?servicio=<id>` preselecciona un servicio) |
+| `/proceso` | Cómo trabajo: local, hardware y remoto |
+| `/tienda`, `/tienda/:slug` | Marketplace y detalle de producto |
+| `/software` | Software propio a la venta |
+| `/blog`, `/blog/:slug` | Blog DIUA |
+| `/sobre-mi` | Perfil, contacto, formulario y stack |
+
+## Editar contenido
+
+### Datos de contacto
+Todo (teléfono, correo, Telegram, GitHub, horario, ubicación) está en [`src/lib/site.ts`](src/lib/site.ts). Los enlaces de WhatsApp se generan con `waLink(texto)`, que codifica el mensaje de forma segura.
+
+### Servicios y precios
+Edita [`src/data/services.ts`](src/data/services.ts). Cada servicio tiene `id`, `name`, `description`, `price`, `currency` (`CUP`/`USD`), `category` (`local`/`hardware`/`dev`) e `icon`. Con `unit: 'hora'` el cotizador pide horas, y con `featured: true` aparece en la portada.
+
+### Entradas del blog
+Crea `src/content/blog/mi-entrada.md`:
+
+```md
+---
+title: "Cómo instalar Arch Linux"
+date: 2026-09-01
+tags: [linux, arch]
+excerpt: "Resumen corto que aparece en el listado."
+draft: false
 ---
 
-## 📝 Cómo añadir una entrada al blog (DIUA)
+# Contenido en Markdown…
+```
 
-1. Crea un archivo `.md` dentro de `src/content/blog/`.
-2. Añade el **frontmatter** al inicio del archivo:
-   ```yaml
-   ---
-   title: Título de tu post
-   date: 2026-07-15
-   tags: [linux, tutorial, python]
-   excerpt: Breve descripción del artículo (opcional)
-   ---
+El nombre del archivo es la URL (`/blog/mi-entrada`). Con `draft: true` solo se ve en desarrollo. Las fechas van como `AAAA-MM-DD`.
 
-   Contenido en **Markdown** aquí...
-   ```
-3. El blog lo detectará automáticamente y aparecerá en la lista de `/blog`.
+### Productos de la tienda
+Crea `src/content/products/mi-producto.md`:
 
+```md
+---
+title: "Laptop Dell Latitude"
+price: "$250 USD"
+category: pcs          # pcs | componentes | perifericos | software
+condition: usado       # nuevo | usado
+seller: BitCriollo
+location: "Falcón, Placetas"
+whatsapp: "5356418463" # opcional; por defecto, el de site.ts
+featured: true
+images:
+  - "/images/products/laptop-1.jpg"
+  - "/images/products/laptop-2.jpg"
+description: "Texto corto para la tarjeta."
 ---
 
-## 🤝 Contribuir
+## Detalle en Markdown
+```
 
-Si encuentras algún bug o tienes sugerencias, no dudes en abrir un **Issue** o un **Pull Request**. Toda ayuda es bienvenida.
+> Si no existe ningún `.md` en `content/blog` o `content/products`, el sitio muestra contenido de ejemplo definido en `lib/posts.ts` y `lib/products.ts`. Al crear tus propios archivos, ese contenido de ejemplo deja de usarse.
 
----
+### Imágenes
+Van en `public/images/` y se referencian con ruta absoluta (`/images/...`). Para la portada de *Sobre mí* se usa `public/images/avatar-cartoon.png`.
 
-## 📜 Licencia
+## Temas y colores
 
-Este proyecto es de código abierto bajo la licencia **MIT**.
+Los colores son variables CSS definidas en `src/index.css` para `:root` (claro) y `.dark`. Además de los de shadcn (`primary`, `card`, `muted`…), hay tres semánticos por línea de servicio:
 
----
+| Token | Uso | Clases |
+| --- | --- | --- |
+| `primary` | Soporte local | `text-primary`, `bg-primary/10` |
+| `hardware` | Servicio técnico | `text-hardware`, `border-hardware/30` |
+| `remote` | Desarrollo remoto | `text-remote`, `bg-remote/10` |
+| `store` | Destacados / tienda | `text-store` |
 
-## 📬 Contacto
+No uses colores fijos (`text-emerald-500`, `#1793D1`…): rompen el contraste en el tema claro.
 
-- **Telegram**: [@diario_del_informatico](https://t.me/diario_del_informatico)
-- **GitHub**: [@Dragoland](https://github.com/Dragoland)
-- **Web**: [bitcriollo.pages.dev](https://bitcriollo.pages.dev)
+## Despliegue (Cloudflare Pages)
 
----
+| Ajuste | Valor |
+| --- | --- |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Variable de entorno | `NODE_VERSION` = `22` |
 
-> Hecho con ❤️ y ⌨️ desde Falcón, Placetas, Villa Clara, Cuba.
+`public/_redirects` hace que entrar directo a `/servicios` o `/blog/mi-entrada` no dé 404, y `public/_headers` añade cabeceras de seguridad y caché para `/assets/*`. Cada `git push` a la rama principal despliega automáticamente.
+
+## Novedades v1.2.0
+
+- Catálogo único de servicios (adiós a la triple duplicación y a los precios que no coincidían).
+- Cotizador y formularios envían por WhatsApp con el texto bien codificado; el formulario de *Sobre mí* ya no finge enviar.
+- Navegación y pie por rutas reales; todo el sitio sigue el tema claro/oscuro.
+- Contraste corregido en tema claro y tokens de color por línea de servicio.
+- SEO por página, sitemap automático, `_redirects`, cabeceras, 404 y datos estructurados.
+- Portada más corta y enfocada; tienda y blog con filtros en la URL.
+- Fecha de los posts sin desfase de un día por zona horaria.
+- Fuentes autoalojadas, páginas bajo demanda y eliminación de GSAP, shadcn/Radix y otras dependencias sin uso.
+
+## Licencia
+
+[MIT](LICENSE) © Norland Chávez (Dragoland)

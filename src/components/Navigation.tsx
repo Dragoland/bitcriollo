@@ -1,109 +1,113 @@
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
+import { Menu, X } from 'lucide-react'
+import Logo from './Logo'
 import { ThemeToggle } from './ThemeToggle'
-import { Menu, X, Globe } from 'lucide-react'
-import { useState } from 'react'
+import { WA, waLink } from '../lib/site'
 
-const navItems = [
-  { label: 'Inicio', to: '/' },
+const NAV_ITEMS = [
   { label: 'Servicios', to: '/servicios' },
   { label: 'Tienda', to: '/tienda' },
+  { label: 'Cotizar', to: '/cotizador' },
   { label: 'Proceso', to: '/proceso' },
   { label: 'Blog', to: '/blog' },
   { label: 'Sobre mí', to: '/sobre-mi' },
 ]
 
 export const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const location = useLocation()
+  const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
 
-  const isActive = (to: string) => {
-    if (to === '/') return location.pathname === '/'
-    return location.pathname === to
-  }
+  const isActive = (to: string) => pathname === to || pathname.startsWith(`${to}/`)
+
+  // Cerrar el menú móvil con Escape
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 flex items-center justify-between h-14">
-        <Link to="/" className="font-mono font-bold text-primary text-lg flex items-center gap-2">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-primary">
-            <path d="M11 2C9.5 5 7 8.5 7 12c0 2.5 1.5 4.5 4 6.5C13.5 16.5 15 14.5 15 12c0-3.5-2.5-7-4-10z" fill="currentColor"/>
-            <path d="M8.5 12.5c.3 1.2 1.2 2.8 2.5 4.5 1.3-1.7 2.2-3.3 2.5-4.5H8.5z" fill="#0B0F17" className="dark:fill-[#0B0F17] fill-white"/>
-          </svg>
-          Bit<span className="text-orange-400">Criollo</span>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+      <nav aria-label="Principal" className="site-container flex h-14 items-center justify-between">
+        <Link to="/" aria-label="BitCriollo — inicio" onClick={() => setOpen(false)}>
+          <Logo />
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
-          {navItems.map(item => (
+        <div className="hidden items-center gap-6 lg:flex">
+          {NAV_ITEMS.map((item) => (
             <Link
-              key={item.label}
+              key={item.to}
               to={item.to}
-              className={`text-sm font-medium transition-colors relative group ${
+              aria-current={isActive(item.to) ? 'page' : undefined}
+              className={`group relative text-sm font-medium transition-colors ${
                 isActive(item.to) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {item.label}
-              <span className={`absolute -bottom-1 left-0 h-[2px] bg-primary transition-all duration-200 ${
-                isActive(item.to) ? 'w-full' : 'w-0 group-hover:w-full'
-              }`} />
+              <span
+                className={`absolute -bottom-1 left-0 h-[2px] bg-primary transition-all duration-200 ${
+                  isActive(item.to) ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}
+              />
             </Link>
           ))}
           <a
-            href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
+            href={waLink(WA.equipo)}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-semibold bg-primary text-primary-foreground px-4 py-1.5 rounded-md hover:brightness-110 transition-all"
+            className="rounded-md bg-primary px-4 py-1.5 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110"
           >
             Escríbeme
-          </a>
-          <a
-            href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20me%20interesa%20un%20proyecto%20de%20desarrollo"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-semibold border border-primary text-primary px-4 py-1.5 rounded-md hover:bg-primary/10 transition-all flex items-center gap-1.5"
-          >
-            <Globe className="w-3.5 h-3.5" />
-            Remoto
           </a>
           <ThemeToggle />
         </div>
 
         <button
-          className="md:hidden p-2 text-muted-foreground hover:text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
+          type="button"
+          className="p-2 text-muted-foreground hover:text-foreground lg:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="menu-movil"
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
         >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
+          {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
         </button>
-      </div>
+      </nav>
 
-      {isOpen && (
-        <div className="md:hidden bg-background border-b border-border px-4 py-3 flex flex-col gap-3">
-          {navItems.map(item => (
-            <Link
-              key={item.label}
-              to={item.to}
-              className={`text-sm font-medium transition-colors ${
-                isActive(item.to) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-              }`}
-              onClick={() => setIsOpen(false)}
+      {open && (
+        <div id="menu-movil" className="border-t border-border bg-background lg:hidden">
+          <div className="site-container flex flex-col gap-1 py-3">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                aria-current={isActive(item.to) ? 'page' : undefined}
+                onClick={() => setOpen(false)}
+                className={`rounded-md px-2 py-2.5 text-sm font-medium transition-colors ${
+                  isActive(item.to) ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <a
+              href={waLink(WA.equipo)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="mt-2 rounded-md bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground"
             >
-              {item.label}
-            </Link>
-          ))}
-          <a
-            href="https://wa.me/5356418463?text=Hola%20Dragoland%2C%20tengo%20un%20problema%20con%20mi%20equipo"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-semibold bg-primary text-primary-foreground px-4 py-2 rounded-md text-center"
-            onClick={() => setIsOpen(false)}
-          >
-            Escríbeme por WhatsApp
-          </a>
-          <div className="pt-2 border-t border-border flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">Tema</span>
-            <ThemeToggle />
+              Escríbeme por WhatsApp
+            </a>
+            <div className="mt-2 flex items-center justify-between border-t border-border pt-3">
+              <span className="text-xs text-muted-foreground">Tema</span>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   )
 }
