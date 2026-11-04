@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { label: 'Cotizar', to: '/cotizador' },
   { label: 'Proceso', to: '/proceso' },
   { label: 'Blog', to: '/blog' },
+  { label: 'Proyectos', to: '/proyectos' },  
   { label: 'Sobre mí', to: '/sobre-mi' },
 ]
 
