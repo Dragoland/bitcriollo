@@ -11,6 +11,13 @@ import type { LucideIcon } from 'lucide-react'
 export type Category = 'local' | 'hardware' | 'dev'
 export type Currency = 'CUP' | 'USD'
 
+/**
+ * Fecha de la última actualización de precios, en formato ISO 8601 (YYYY-MM-DD).
+ * Se muestra en el componente <PricesUpdated /> y en el pie de /servicios.
+ * Actualízala manualmente cada vez que cambies un precio en SERVICES.
+ */
+export const PRICES_UPDATED = '2026-11-04'
+
 export const CATEGORY_ORDER: Category[] = ['local', 'hardware', 'dev']
 
 export interface CategoryStyle {
