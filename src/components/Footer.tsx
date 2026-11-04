@@ -41,6 +41,7 @@ export const Footer = () => (
             <Link to="/tienda" className={linkClass}>Tienda</Link>
             <Link to="/cotizador" className={linkClass}>Cotizador</Link>
             <Link to="/proceso" className={linkClass}>Proceso</Link>
+            <Link to="/proyectos" className={linkClass}>Proyectos</Link>
           </div>
         </nav>
 
