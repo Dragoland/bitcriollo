@@ -2,7 +2,7 @@
 
 # 🔥 BitCriollo
 
-![Soluciones Digitales con Sabor — sitio web de servicios informáticos en Villa Clara, Cuba y desarrollo de software remoto.](og-image.png)
+![Soluciones Digitales con Sabor — sitio web de servicios informáticos en Villa Clara, Cuba y desarrollo de software remoto.](/public/og-image.png)
 
 
 
