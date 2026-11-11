@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from 'react-router'
 import { Clock } from 'lucide-react'
 import SectionHeader from '../components/SectionHeader'
-import { formatDate, getAllPosts, getAllTags } from '../lib/posts'
+import { formatDate, getAllPosts, getPopularTags } from '../lib/posts'
 import { usePageMeta } from '../lib/usePageMeta'
 
 export default function Blog() {
@@ -14,7 +14,8 @@ export default function Blog() {
   const [params, setParams] = useSearchParams()
   const tag = params.get('tag')
   const allPosts = getAllPosts()
-  const tags = getAllTags()
+  const tags = getPopularTags()
+  if (tag && !tags.includes(tag)) tags.push(tag) // que el chip activo siempre se vea
   const posts = tag ? allPosts.filter((p) => p.tags.includes(tag)) : allPosts
 
   const chip = (active: boolean) =>

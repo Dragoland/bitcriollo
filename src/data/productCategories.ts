@@ -1,4 +1,4 @@
-import { Code, Cpu, Monitor, Package } from 'lucide-react'
+import { Code, Cpu, Laptop, Monitor, Package } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 export interface ProductCategory {
@@ -12,8 +12,14 @@ export interface ProductCategory {
 
 export const PRODUCT_CATEGORIES: Record<string, ProductCategory> = {
   pcs: {
-    label: 'PCs y Laptops',
+    label: 'PCs',
     icon: Monitor,
+    badge: 'border-primary/30 bg-primary/5 text-primary',
+    active: 'border-primary bg-primary/10 text-primary',
+  },
+  laptops: {
+    label: 'Laptops',
+    icon: Laptop,
     badge: 'border-primary/30 bg-primary/5 text-primary',
     active: 'border-primary bg-primary/10 text-primary',
   },

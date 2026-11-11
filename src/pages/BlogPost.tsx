@@ -49,6 +49,18 @@ export default function BlogPost() {
           </div>
         </header>
 
+        {post.cover && (
+          <img
+            src={post.cover}
+            alt=""
+            loading="lazy"
+            className="mb-8 aspect-[2/1] w-full rounded-xl border border-border object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
+        )}
+
         <Markdown>{post.content}</Markdown>
 
         <aside className="mt-12 rounded-xl border border-border bg-card p-6">

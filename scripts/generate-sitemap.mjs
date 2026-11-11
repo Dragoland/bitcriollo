@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE_URL = "https://bitcriollo.pages.dev";
-const STATIC_ROUTES = ["/", "/servicios", "/tienda", "/software", "/cotizador", "/proceso", "/blog", "/sobre-mi"];
+const STATIC_ROUTES = ["/", "/servicios", "/tienda", "/software", "/cotizador", "/proceso", "/blog", "/proyectos", "/sobre-mi"];
 
 function collect(dir, prefix) {
   const full = join(root, dir);

@@ -16,7 +16,7 @@ function ProductView({ product }: { product: Product }) {
   })
 
   const category = getProductCategory(product.category)
-  const isNew = product.condition === 'nuevo'
+  const isNew = ['nuevo', 'como nuevo'].includes(product.condition)
   const buy = waLink(`Hola Dragoland! Me interesa el producto "${product.title}" (${product.price}). ¿Sigue disponible?`, product.whatsapp)
   const negotiate = waLink(`Hola Dragoland! Vi el producto "${product.title}" (${product.price}). ¿Hay posibilidad de negociar el precio?`, product.whatsapp)
 

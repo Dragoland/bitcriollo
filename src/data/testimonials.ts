@@ -1,6 +1,6 @@
-// Testimonios para la portada. ⚠️ SON DE EJEMPLO: sustitúyelos por citas reales
-// de clientes (con su permiso) en cuanto las tengas. Publicar testimonios
-// inventados resta credibilidad si alguien lo descubre.
+// Testimonios para la portada. Solo se muestran los que tengan `verified: true`.
+// Los de abajo son PLANTILLAS: no se publican hasta que los sustituyas por citas
+// reales de clientes (con su permiso) y los marques como verificados.
 //
 // stars: 1–5 · service: categoría del catálogo (local|hardware|dev) para el color
 
@@ -15,6 +15,8 @@ export interface Testimonial {
   serviceLabel: string
   service: TestimonialService
   stars: 1 | 2 | 3 | 4 | 5
+  /** true = cita real, con permiso del cliente. Sin esto, no se muestra en el sitio. */
+  verified?: boolean
 }
 
 export const TESTIMONIALS: Testimonial[] = [

@@ -5,6 +5,29 @@ Todas las versiones notables de **BitCriollo** serán documentadas en este archi
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
+## [2.1.0] - 2026-11-07
+
+### Añadido
+- Catálogo único de servicios (`src/data/services.ts`) y cotizador con lógica testeada (`lib/quote.ts`).
+- SEO: metadatos por página, prerender de metadatos para compartir enlaces, sitemap y RSS generados en cada build.
+- Portada: garantías, servicios y productos destacados, preguntas frecuentes, botón flotante de WhatsApp.
+- Página de proyectos, fecha de actualización de precios y pruebas con Vitest.
+- Resaltado de código en el blog con paleta propia para tema claro y oscuro.
+
+### Corregido
+- El logo ("Bit") era invisible en el tema claro.
+- El resaltado de código no mostraba colores (el tema nunca se importaba).
+- La categoría `laptops` no existía: aparecía como "Otros" y no salía en los filtros.
+- Los posts mostraban dos títulos principales (`<h1>` repetido) y el blog, unas 50 etiquetas.
+- Las capturas de proyectos inexistentes aparecían como imagen rota.
+- `/proyectos` faltaba en el sitemap; el analytics tenía un token de ejemplo.
+- Los testimonios de ejemplo ya no se publican hasta marcarlos `verified: true`.
+- Import sin usar en el cotizador y erratas en las preguntas frecuentes.
+
+### Eliminado
+- Código sin uso: shadcn/ui, GSAP, cursor personalizado, páginas y secciones antiguas.
+
+---
 ## [2.0.0] - 2026-08-14
 
 ### Navegación

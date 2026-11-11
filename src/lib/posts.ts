@@ -60,6 +60,9 @@ const fallbackPosts: Post[] = [
   },
 ]
 
+/** La página ya muestra el título como <h1>; si el Markdown empieza con "# Título", se quita. */
+const stripLeadingH1 = (md: string) => md.replace(/^\s*# [^\n]*\n+/, '')
+
 function buildPosts(): Post[] {
   const posts: Post[] = []
 
@@ -84,7 +87,7 @@ function buildPosts(): Post[] {
       tags: asList(data.tags),
       excerpt: asString(data.excerpt),
       cover: asString(data.cover),
-      content,
+      content: stripLeadingH1(content),
       readingMinutes: readingMinutes(content),
     })
   }
@@ -98,6 +101,17 @@ const posts = buildPosts()
 export const getAllPosts = (): Post[] => posts
 export const getPostBySlug = (slug: string): Post | undefined => posts.find((p) => p.slug === slug)
 export const getAllTags = (): string[] => [...new Set(posts.flatMap((p) => p.tags))].sort()
+
+/** Etiquetas usadas en 2+ entradas, de más a menos frecuentes (para los chips del blog). */
+export const getPopularTags = (max = 12): string[] => {
+  const counts = new Map<string, number>()
+  for (const tag of posts.flatMap((p) => p.tags)) counts.set(tag, (counts.get(tag) ?? 0) + 1)
+  return [...counts]
+    .filter(([, n]) => n >= 2)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, max)
+    .map(([tag]) => tag)
+}
 
 /** "2026-08-20" → "20 ago 2026" (sin depender de la zona horaria). */
 export function formatDate(dateStr: string): string {

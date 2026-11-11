@@ -28,6 +28,9 @@ export default function ProjectsPage() {
                   alt={`Captura de ${p.name}`}
                   loading="lazy"
                   className="aspect-[2/1] w-full rounded-t-xl border-b border-border object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
                 />
               )}
               <div className="flex flex-1 flex-col p-6">

@@ -46,6 +46,9 @@
     <script type="module" src="/src/main.tsx"></script>
     <!-- Cloudflare Web Analytics: sin cookies. Obtén tu token en el dashboard
          (Web Analytics → Add a site → bitcriollo.pages.dev) y sustituye PON_AQUI_TU_TOKEN. -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token":"PON_AQUI_TU_TOKEN"}'></script>
+    <!-- Desactivado hasta tener el token real (si no, genera una petición fallida en cada visita).
+         Alternativa sin tocar código: Cloudflare Pages → tu proyecto → Metrics → Web Analytics → Enable.
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token":"TU_TOKEN"}'></script>
+    -->
   </body>
 </html>

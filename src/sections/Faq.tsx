@@ -15,11 +15,11 @@ const FAQS = [
   },
   {
     q: '¿Qué formas de pago aceptas?',
-    a: 'En efectivo en CUP para servicios locales. Para trabajos remotos y software, coordino por WhatsApp según lo que te quede más cómodo desde tu país, ya sea CUP en transferencia, USD mediante coordinacion o TropiPay.', // TODO: pon aquí tus medios reales (transferencia, MLC, USD, etc.)
+    a: 'En efectivo en CUP para servicios locales. Para trabajos remotos y software, coordino por WhatsApp según lo que te quede más cómodo desde tu país, ya sea CUP en transferencia, USD coordinado conmigo o TropiPay.',
   },
   {
     q: '¿Cuánto tarda un servicio?',
-    a: 'La mayoría de los trabajos locales se entregan el mismo día o al día siguiente, depende mucho de la dificultad y la disponibilidad electro-energetica. Los proyectos de desarrollo remoto dependen del alcance: te doy una fecha cerrada antes de empezar y aviso si algo la mueve.',
+    a: 'La mayoría de los trabajos locales se entregan el mismo día o al día siguiente, depende mucho de la dificultad y la disponibilidad eléctrica. Los proyectos de desarrollo remoto dependen del alcance: te doy una fecha cerrada antes de empezar y aviso si algo la mueve.',
   },
   {
     q: '¿Qué garantía das?',

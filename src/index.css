@@ -183,3 +183,33 @@
 .prose pre:has(code.hljs) {
   background: hsl(var(--secondary));
 }
+
+/* Resaltado de código (rehype-highlight): paleta propia que sigue el tema claro/oscuro.
+   No usamos CSS de highlight.js para no depender de un tema fijo. */
+:root {
+  --hl-comment: 215 14% 42%;
+  --hl-keyword: 280 60% 42%;
+  --hl-string: 145 70% 27%;
+  --hl-number: 24 85% 36%;
+  --hl-title: 210 80% 38%;
+  --hl-attr: 197 85% 30%;
+  --hl-meta: 340 65% 40%;
+}
+.dark {
+  --hl-comment: 215 12% 60%;
+  --hl-keyword: 290 70% 74%;
+  --hl-string: 140 55% 62%;
+  --hl-number: 27 91% 64%;
+  --hl-title: 210 90% 72%;
+  --hl-attr: 197 80% 62%;
+  --hl-meta: 340 80% 72%;
+}
+.hljs-comment, .hljs-quote { color: hsl(var(--hl-comment)); font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag, .hljs-name { color: hsl(var(--hl-keyword)); }
+.hljs-string, .hljs-regexp, .hljs-addition { color: hsl(var(--hl-string)); }
+.hljs-number, .hljs-symbol, .hljs-bullet { color: hsl(var(--hl-number)); }
+.hljs-title, .hljs-section, .hljs-function .hljs-title { color: hsl(var(--hl-title)); }
+.hljs-built_in, .hljs-attr, .hljs-attribute, .hljs-variable, .hljs-template-variable, .hljs-type, .hljs-selector-class, .hljs-selector-id { color: hsl(var(--hl-attr)); }
+.hljs-meta, .hljs-link, .hljs-deletion { color: hsl(var(--hl-meta)); }
+.hljs-strong { font-weight: 700; }
+.hljs-emphasis { font-style: italic; }

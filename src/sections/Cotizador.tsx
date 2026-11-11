@@ -15,12 +15,12 @@ import {
   getServicesByCategory,
   isCategory,
 } from '../data/services'
-import type { Category, Currency } from '../data/services'
+import type { Category } from '../data/services'
 
 const COMPLEXITY = [
-  { label: 'Simple', hint: 'Caso común', factor: 1 },
-  { label: 'Moderado', hint: 'Requiere más tiempo', factor: 1.5 },
-  { label: 'Complejo', hint: 'Caso difícil o varios equipos', factor: 2 },
+  { label: 'Simple', hint: 'Caso común' },
+  { label: 'Moderado', hint: 'Requiere más tiempo' },
+  { label: 'Complejo', hint: 'Caso difícil o varios equipos' },
 ]
 
 export default function Cotizador() {

@@ -29,6 +29,9 @@ function Stars({ count, label }: { count: number; label: string }) {
 }
 
 export default function Testimonios() {
+  const visible = TESTIMONIALS.filter((t) => t.verified === true)
+  if (visible.length === 0) return null
+
   return (
     <section className="py-20 lg:py-28">
       <div className="site-container">
@@ -38,7 +41,7 @@ export default function Testimonios() {
           description="Opiniones de clientes de soporte local, servicio técnico y desarrollo remoto."
         />
         <div className="grid gap-6 sm:grid-cols-2">
-          {TESTIMONIALS.map((t) => (
+          {visible.map((t) => (
             <figure key={t.author} className="flex flex-col rounded-xl border border-border bg-card p-6">
               <Stars count={t.stars} label={t.serviceLabel} />
               <blockquote className="mb-4 flex-1 font-body text-sm leading-relaxed text-foreground">

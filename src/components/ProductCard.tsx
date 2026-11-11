@@ -10,7 +10,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const Icon = category.icon
   const [imageFailed, setImageFailed] = useState(false)
   const cover = product.images[0]
-  const isNew = product.condition === 'nuevo'
+  const isNew = ['nuevo', 'como nuevo'].includes(product.condition)
   const buyLink = waLink(
     `Hola Dragoland! Me interesa el producto "${product.title}" (${product.price}). ¿Sigue disponible?`,
     product.whatsapp

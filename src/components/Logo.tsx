@@ -21,7 +21,7 @@ export default function Logo({ className = '' }: { className?: string }) {
         />
       </svg>
       <span>
-        <span className="text-white">Bit</span>
+        <span className="text-foreground">Bit</span>
         <span style={{ color: ARCH_BLUE }}>Criollo</span>
       </span>
     </span>
