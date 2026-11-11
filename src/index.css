@@ -213,3 +213,29 @@
 .hljs-meta, .hljs-link, .hljs-deletion { color: hsl(var(--hl-meta)); }
 .hljs-strong { font-weight: 700; }
 .hljs-emphasis { font-style: italic; }
+
+/* ── Lectura cómoda en las entradas del blog ── */
+.prose :is(h2, h3, h4) { scroll-margin-top: 6rem; }
+.prose-reading { font-size: 1.0625rem; line-height: 1.8; }
+.prose-reading p { margin-bottom: 1.25rem; }
+.prose-reading h2 { margin-top: 2.75rem; padding-top: 0.5rem; border-top: 1px solid hsl(var(--border)); }
+.prose-reading h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.prose-reading li { margin-bottom: 0.4rem; }
+.prose-reading blockquote {
+  padding: 0.75rem 1rem;
+  font-style: normal;
+  background: hsl(var(--primary) / 0.06);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.prose-reading blockquote p:last-child { margin-bottom: 0; }
+
+/* Bloque de código con cabecera (ver components/Markdown.tsx) */
+.prose .code-block {
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  background: hsl(var(--card));
+}
+.prose .code-block pre { margin: 0; border: 0; border-radius: 0; background: transparent; }
+.prose .code-block pre code { font-size: 0.875rem; line-height: 1.7; }

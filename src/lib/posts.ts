@@ -1,3 +1,5 @@
+import { getCasoIds, hasCaso } from './casos'
+import { resolveCasoId } from './casoId'
 import { asList, asString, parseFrontmatter } from './frontmatter'
 
 export interface PostMeta {
@@ -14,6 +16,8 @@ export interface PostMeta {
 export interface Post extends PostMeta {
   content: string
   readingMinutes: number
+  /** id del archivo de caso descargable (src/content/casos/<id>.md); null si el post no tiene. */
+  caso: string | null
 }
 
 const modules = import.meta.glob('../content/blog/*.md', {
@@ -57,6 +61,7 @@ const fallbackPosts: Post[] = [
     cover: '',
     content: fallbackContent,
     readingMinutes: readingMinutes(fallbackContent),
+    caso: null,
   },
 ]
 
@@ -89,6 +94,10 @@ function buildPosts(): Post[] {
       cover: asString(data.cover),
       content: stripLeadingH1(content),
       readingMinutes: readingMinutes(content),
+      caso: (() => {
+        const id = resolveCasoId(asString(data.caso), slug)
+        return hasCaso(id) ? id : null
+      })(),
     })
   }
 
@@ -97,6 +106,16 @@ function buildPosts(): Post[] {
 }
 
 const posts = buildPosts()
+
+// Aviso en desarrollo: un archivo de src/content/casos/ que ningún post está usando
+if (import.meta.env.DEV) {
+  const used = new Set(posts.map((p) => p.caso))
+  for (const id of getCasoIds()) {
+    if (!used.has(id)) {
+      console.warn(`[casos] "${id}" no está enlazado a ningún post. Nombra el archivo igual que el post, o añade "caso: ${id}" al frontmatter del post.`)
+    }
+  }
+}
 
 export const getAllPosts = (): Post[] => posts
 export const getPostBySlug = (slug: string): Post | undefined => posts.find((p) => p.slug === slug)

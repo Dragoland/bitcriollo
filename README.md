@@ -2,7 +2,9 @@
 
 # 🔥 BitCriollo
 
-**Soluciones Digitales con Sabor** — sitio web de servicios informáticos en Falcón, Placetas (Villa Clara, Cuba) y desarrollo de software remoto.
+![Soluciones Digitales con Sabor — sitio web de servicios informáticos en Villa Clara, Cuba y desarrollo de software remoto.](og-image.png)
+
+
 
 [![Sitio](https://img.shields.io/badge/sitio-bitcriollo.pages.dev-1793D1?style=flat-square)](https://bitcriollo.pages.dev)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
@@ -22,7 +24,8 @@ Web de BitCriollo: presenta los **servicios** (soporte local, servicio técnico 
 - 🧾 **Catálogo único de servicios** (`src/data/services.ts`): alimenta la página de servicios, el cotizador y la portada. Un solo lugar para cambiar precios.
 - 🧮 **Cotizador** con complejidad, urgencia y horas (para servicios por hora). Genera el mensaje de WhatsApp correctamente codificado.
 - 🛒 **Tienda** con filtros y búsqueda (sin tildes ni mayúsculas) guardados en la URL (`/tienda?categoria=pcs&q=laptop`), galería con *lightbox* accesible y detalle por producto.
-- 📝 **Blog en Markdown**: etiquetas filtrables, tiempo de lectura, borradores (`draft: true`) y llamada a la acción al final de cada entrada.
+- 📝 **Blog en Markdown** con **buscador** (título, etiquetas, resumen y contenido; ignora tildes; atajo `/`), filtros por etiqueta y mes guardados en la URL, última entrada destacada y barra lateral con archivo y suscripción (RSS/Telegram).
+- 📖 **Entradas cómodas de leer**: índice lateral con la sección activa, barra de progreso, botones para compartir, bloques de código con botón "Copiar", anterior/siguiente y entradas relacionadas. Cada entrada incluye datos estructurados `BlogPosting`.
 - 🌗 **Tema claro/oscuro** que respeta la preferencia del sistema, sin parpadeo al cargar, con colores ajustados para cumplir contraste WCAG AA.
 - 🔎 **SEO**: título, descripción, canonical y Open Graph por página (`usePageMeta`), datos estructurados `LocalBusiness`, `sitemap.xml` generado en cada build, `robots.txt` e imagen para compartir en WhatsApp/Telegram.
 - ♿ **Accesibilidad**: enlace "Saltar al contenido", etiquetas en formularios, navegación por teclado, `aria-*` en menús y botones, respeto de `prefers-reduced-motion`.
@@ -91,6 +94,7 @@ bitcriollo/
     ├── lib/
     │   ├── site.ts            # ★ teléfono, correo, enlaces y waLink()
     │   ├── frontmatter.ts     # parser compartido por blog y tienda
+    │   ├── blogSearch.ts      # búsqueda, filtros y relacionados del blog (con pruebas)
     │   ├── posts.ts · products.ts
     │   └── usePageMeta.ts     # SEO por página
     ├── sections/              # bloques reutilizables (Hero, Servicios,
@@ -100,6 +104,7 @@ bitcriollo/
     │                          # ProductDetail, Blog, BlogPost, SobreMi, NotFound
     └── content/
         ├── blog/*.md          # entradas del blog
+        ├── casos/*.md         # expedientes técnicos descargables (uno por post)
         └── products/*.md      # productos de la tienda
 ```
 
@@ -140,6 +145,18 @@ draft: false
 ```
 
 El nombre del archivo es la URL (`/blog/mi-entrada`). Con `draft: true` solo se ve en desarrollo. Las fechas van como `AAAA-MM-DD`.
+
+Opcionalmente puedes añadir `cover: "/images/blog/mi-portada.jpg"` para mostrar una imagen de portada en el post y en las tarjetas. En el cuerpo, usa `##` y `###` para los títulos: con 3 o más se genera el índice lateral automáticamente.
+
+### Casos descargables (expediente técnico de un post)
+Cada post puede ofrecer un botón **"Descargar caso (.md)"** al final de la lectura con la documentación completa del caso (equipo, herramientas, cronología, comandos, problemas y lecciones). El botón **solo aparece si el archivo existe**:
+
+1. Guarda el expediente en `src/content/casos/` con **el mismo nombre que el post**:
+   `src/content/blog/2026-09-13-laptop-guason.md` → `src/content/casos/2026-09-13-laptop-guason.md`
+2. Si el archivo tiene otro nombre, indícalo en el frontmatter del post: `caso: telefono-en-cirugia`.
+3. Listo: el post muestra el botón y su tarjeta en el listado lleva la insignia "Expediente". Para quitarlo, borra el archivo.
+
+Los casos no se incluyen en el JavaScript de la web: se descargan solo cuando alguien pulsa el botón. El archivo descargado se llama `caso-<nombre>.md` (sin la fecha). En desarrollo, la consola avisa de los casos que ningún post está usando.
 
 ### Productos de la tienda
 Crea `src/content/products/mi-producto.md`:
@@ -207,4 +224,4 @@ No uses colores fijos (`text-emerald-500`, `#1793D1`…): rompen el contraste en
 
 ## Licencia
 
-[MIT](LICENSE) © Norland Chávez (Dragoland)
+[MIT](LICENSE) © Dragoland

@@ -5,6 +5,23 @@ Todas las versiones notables de **BitCriollo** serán documentadas en este archi
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
+## [2.3.0] - 2026-11-11
+
+### Añadido
+- Casos descargables: si existe `src/content/casos/<slug-del-post>.md` (o el post indica `caso:` en el frontmatter), la entrada muestra al final un botón para descargar el expediente técnico en Markdown, y la tarjeta del listado una insignia "Expediente".
+- Se incluyen los 7 expedientes actuales (Chromebook 3310, Torre Fantasma, Torre Zombi, Laptop Guasón, Servidor Caído, Torre Epiléptica y Redmi A2). El del Redmi A2 queda listo para cuando se publique su post.
+
+---
+
+## [2.2.0] - 2026-11-08
+
+### Cambiado
+- Blog rediseñado: buscador (título, etiquetas, resumen y contenido, sin importar tildes), última entrada destacada, cuadrícula de dos columnas, "Mostrar más", filtros por etiqueta y por mes con estado en la URL, barra lateral con etiquetas/archivo/suscripción y atajo `/` para buscar.
+- Entradas rediseñadas: texto más grande y cómodo, índice lateral con la sección activa, barra de progreso de lectura, botones para compartir (copiar, WhatsApp, Telegram), anterior/siguiente y entradas relacionadas.
+- Bloques de código con el nombre del lenguaje y botón "Copiar".
+- Datos estructurados `BlogPosting` en cada entrada.
+
+---
 ## [2.1.0] - 2026-11-07
 
 ### Añadido
@@ -17,7 +34,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 ### Corregido
 - El logo ("Bit") era invisible en el tema claro.
 - El resaltado de código no mostraba colores (el tema nunca se importaba).
-- La categoría `laptops` no existía: aparecía como "Otros" y no salía en los filtros.
+- La categoría `laptops` no existía: el ASUS ROG G16 aparecía como "Otros" y no salía en los filtros.
 - Los posts mostraban dos títulos principales (`<h1>` repetido) y el blog, unas 50 etiquetas.
 - Las capturas de proyectos inexistentes aparecían como imagen rota.
 - `/proyectos` faltaba en el sitemap; el analytics tenía un token de ejemplo.
