@@ -2,9 +2,7 @@
 
 # 🔥 BitCriollo
 
-![Soluciones Digitales con Sabor — sitio web de servicios informáticos en Villa Clara, Cuba y desarrollo de software remoto.](/public/og-image.png)
-
-
+**Soluciones Digitales con Sabor** — sitio web de servicios informáticos en Falcón, Placetas (Villa Clara, Cuba) y desarrollo de software remoto.
 
 [![Sitio](https://img.shields.io/badge/sitio-bitcriollo.pages.dev-1793D1?style=flat-square)](https://bitcriollo.pages.dev)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
@@ -79,7 +77,11 @@ bitcriollo/
 │   ├── robots.txt · sitemap.xml · favicon.svg · og-image.png
 │   └── images/                # avatar y fotos de productos
 ├── scripts/
-│   └── generate-sitemap.mjs   # rutas fijas + posts + productos
+│   ├── generate-sitemap.mjs   # rutas fijas + posts + productos
+│   ├── generate-rss.mjs       # feed.xml (RSS 2.0) y feed.json (JSON Feed) con texto completo
+│   ├── prerender.mjs          # Open Graph por ruta para compartir enlaces
+│   ├── lib/feed.mjs           # lógica del feed (funciones puras, con pruebas)
+│   └── feed.test.mjs
 └── src/
     ├── App.tsx                # rutas (páginas lazy) y 404
     ├── main.tsx               # fuentes, tema y arranque
@@ -147,6 +149,24 @@ draft: false
 El nombre del archivo es la URL (`/blog/mi-entrada`). Con `draft: true` solo se ve en desarrollo. Las fechas van como `AAAA-MM-DD`.
 
 Opcionalmente puedes añadir `cover: "/images/blog/mi-portada.jpg"` para mostrar una imagen de portada en el post y en las tarjetas. En el cuerpo, usa `##` y `###` para los títulos: con 3 o más se genera el índice lateral automáticamente.
+
+### Feed del blog (RSS y JSON Feed)
+Cada build genera dos feeds con el **texto completo** de las entradas (no solo el resumen), listos para cualquier lector:
+
+| Formato | Dirección |
+| --- | --- |
+| RSS 2.0 | `/feed.xml` |
+| JSON Feed 1.1 | `/feed.json` |
+
+Qué incluyen: título, enlace permanente, fecha, autor, etiquetas (como categorías), resumen, el artículo en HTML (con enlaces e imágenes absolutos, tablas y bloques de código), la portada como `<enclosure>` si la hay, un pie con enlace de vuelta y WhatsApp, y el logo del canal. La fecha de "última construcción" es la de la entrada más reciente, así que el feed solo cambia cuando publicas algo.
+
+- Los borradores (`draft: true`) y las entradas con fecha inválida no entran. Se publican las 50 más recientes.
+- El Markdown se convierte con [`marked`](https://marked.js.org) (dependencia de desarrollo). Si faltara, se usa un conversor básico y el build sigue.
+- Si algo falla al generar el feed, el build **no se detiene**: avisa en el log y sigue.
+- `public/_headers` sirve cada feed con su tipo correcto (`application/rss+xml` / `application/feed+json`).
+- Los datos de `scripts/lib/feed.mjs` (URL, correo, teléfono) deben coincidir con `src/lib/site.ts`; una prueba lo comprueba.
+
+Para revisar el feed tras publicar, pega `https://bitcriollo.pages.dev/feed.xml` en el [validador del W3C](https://validator.w3.org/feed/).
 
 ### Casos descargables (expediente técnico de un post)
 Cada post puede ofrecer un botón **"Descargar caso (.md)"** al final de la lectura con la documentación completa del caso (equipo, herramientas, cronología, comandos, problemas y lecciones). El botón **solo aparece si el archivo existe**:
@@ -224,4 +244,4 @@ No uses colores fijos (`text-emerald-500`, `#1793D1`…): rompen el contraste en
 
 ## Licencia
 
-[MIT](LICENSE) © Dragoland
+[MIT](LICENSE) © Norland Chávez (Dragoland)

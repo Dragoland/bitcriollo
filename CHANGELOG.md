@@ -5,6 +5,24 @@ Todas las versiones notables de **BitCriollo** serán documentadas en este archi
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
+## [2.4.0] - 2026-11-12
+
+### Cambiado
+- Feed RSS rehecho: ahora publica el **texto completo** de cada entrada (`content:encoded`), con autor, etiquetas como categorías, portada (`enclosure`), enlaces e imágenes absolutos, `atom:link rel="self"`, `lastBuildDate`, copyright, editor y logo del canal.
+- La fecha de última construcción es la de la entrada más reciente (el feed ya no cambia en cada build sin motivo).
+
+### Añadido
+- JSON Feed 1.1 en `/feed.json` (con enlace de descubrimiento en `index.html`).
+- Cabeceras correctas para ambos feeds en `public/_headers` y caché de una hora.
+- Logos `rss-logo.png` (144 px) y `feed-icon.png` (512 px).
+- Pruebas del feed (`scripts/feed.test.mjs`) y `marked` como dependencia de desarrollo.
+
+### Corregido
+- Caracteres de control o `]]>` en un texto ya no pueden dejar el feed inválido.
+- Un fallo al generar el feed ya no detiene el build.
+
+---
+
 ## [2.3.0] - 2026-11-11
 
 ### Añadido
