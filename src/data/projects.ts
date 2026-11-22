@@ -22,6 +22,14 @@ export const PROJECTS: Project[] = [
     featured: true,
   },
   {
+    name: 'FireDownload',
+    description:
+      'Gestor de descargas de contenido multimedia de plataformas web mediante el motor yt-dlp',
+    tech: ['Python', 'Web', 'OpenSource'],
+    image: 'githubusercontent.com/dragoland/firedownload/blob/main/assets/Logo.png',
+    featured: true
+  },
+  {
     name: 'DragoHub',
     description:
       'Asistente de IA local avanzado que funciona completamente en tu computadora: productividad, creatividad y automatización con control total.',
