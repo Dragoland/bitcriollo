@@ -1,7 +1,7 @@
 ---
 title: "🔥 FIREDOWNLOAD 1.0.0: Rescatando un Proyecto Abandonado con Python, PySide6 y Azul Arch"
 date: 2026-11-22
-tags: \[python, pyside6, ytdlp, software, linux, archlinux, opensource, desarrollo, cuba\]
+tags: [python, pyside6, ytdlp, software, linux, archlinux, opensource, desarrollo, cuba]
 excerpt: "Había dejado este gestor de descargas cogiendo polvo en el disco. Hoy lo rescato con una interfaz fluida en PySide6, manejo real de colas, soporte para el nuevo runtime de YouTube y estética Arch Linux."
 ---
 
