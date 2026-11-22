@@ -26,6 +26,7 @@ export const PROJECTS: Project[] = [
     description:
       'Gestor de descargas de contenido multimedia de plataformas web mediante el motor yt-dlp',
     tech: ['Python', 'Web', 'OpenSource'],
+    repo: 'github.com/Dragoland/firedownload',
     image: 'githubusercontent.com/dragoland/firedownload/blob/main/assets/Logo.png',
     featured: true
   },
